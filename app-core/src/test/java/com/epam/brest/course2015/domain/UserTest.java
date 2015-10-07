@@ -3,8 +3,6 @@ package com.epam.brest.course2015.domain;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Date;
-
 import static org.junit.Assert.*;
 
 public class UserTest {
@@ -24,11 +22,9 @@ public class UserTest {
 
     @Test
     public void testSetUserId() throws Exception {
-    Integer a=5;
-       if(a>0) {
-           user.setUserId(a);
-           assertEquals(a,user.getUserId());
-       }
+    Integer id = user.getUserId();
+           user.setUserId(id);
+           assertEquals(id,user.getUserId());
     }
 
     @Test
@@ -40,7 +36,6 @@ public class UserTest {
     @Test
     public void testSetLogin() throws Exception {
         String login = user.getLogin();
-        assertNull(login);
         user.setLogin(login);
         assertEquals(login,user.getLogin());
     }
@@ -53,7 +48,7 @@ public class UserTest {
 
     @Test
     public void testSetPassword() throws Exception {
-       String password = new String();
+       String password = user.getPassword();
         user.setPassword(password);
         assertEquals(password,user.getPassword());
 
@@ -61,12 +56,15 @@ public class UserTest {
 
     @Test
     public void testGetCreatedDate() throws Exception {
-    // user.setCreatedDate(Date.valueOf("12.02.2014"));
-      //  assertEquals(Date.valueOf("12.02.2014"),user.getCreatedDate());
+        java.util.Date date = new java.util.Date();
+    user.setCreatedDate(date);
+     assertEquals(date,user.getCreatedDate());
     }
 
     @Test
     public void testSetCreatedDate() throws Exception {
-
+        java.util.Date date = user.getCreatedDate();
+        user.setCreatedDate(date);
+        assertEquals(date,user.getCreatedDate());
     }
 }
