@@ -16,8 +16,8 @@ public class UserTest {
 
     @Test
     public void testGetUserId() throws Exception {
-    user.setUserId((Integer)10);
-        assertEquals((Integer)10,user.getUserId());
+    user.setUserId(10);
+        assertEquals(user.getUserId(), (Integer)10);
     }
 
     @Test
