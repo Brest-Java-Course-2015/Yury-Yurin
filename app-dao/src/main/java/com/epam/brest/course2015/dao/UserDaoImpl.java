@@ -15,27 +15,30 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     private JdbcTemplate jdbcTemplate;
-
-    public List<User> UserDaoImpl(DataSource dataSource) {
-        return jdbcTemplate.query("select * from user", new RowMapper<User>() {
-            @Override
-            public User mapRow(ResultSet resultSet, int i) throws SQLException {
-                User user = new User();
-                user.setUserId(resultSet.getInt("userId"));
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("password"));
-                return user;
-            }
-        });
+    public UserDaoImpl(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        return jdbcTemplate.query("select * from user", new RowMapper<User>() {
+            @Override
+            public User mapRow(ResultSet resultSet, int i) throws SQLException {
+                    User user = new User();
+                    user.setUserId(resultSet.getInt("userId"));
+                    user.setLogin(resultSet.getString("login"));
+                    user.setPassword(resultSet.getString("password"));
+                    return user;
+                }
+        });
     }
 
     @Override
-    public User getUserById() {
+    public User getUserById(Integer id) {
+     List<User> users = getAllUsers();
+        for(User user:users) {
+            if(user.getUserId()==id) return user;
+        }
         return null;
     }
 }

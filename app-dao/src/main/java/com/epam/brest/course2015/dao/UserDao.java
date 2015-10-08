@@ -7,5 +7,5 @@ import java.util.List;
  */
 public interface UserDao {
     public List<User> getAllUsers();
-    public User getUserById();
+    public User getUserById(Integer id);
 }

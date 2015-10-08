@@ -23,11 +23,12 @@ public class UserDaoImplTest {
     @Test
     public void testGetAllUsers() throws Exception {
         List<User> users = userDao.getAllUsers();
-
+        assertNotNull(users);
     }
 
     @Test
     public void testGetUserById() throws Exception {
-
+        User user = userDao.getUserById(4);
+        assertNotNull(user.getLogin());
     }
 }

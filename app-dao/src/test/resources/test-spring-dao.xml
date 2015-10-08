@@ -23,7 +23,7 @@
 
     <jdbc:initialize-database data-source="dataSource">
         <jdbc:script location="create-tables.sql"/>
-        <!--<jdbc:script location="data-script.sql"/>-->
+        <jdbc:script location="data-script.sql"/>
     </jdbc:initialize-database>
 
     <bean id="userDao" class="com.epam.brest.course2015.dao.UserDaoImpl">
