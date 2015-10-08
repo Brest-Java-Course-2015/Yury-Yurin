@@ -1,44 +1,32 @@
 package com.epam.brest.course2015.dao;
 
+import com.epam.brest.course2015.dao.rowmappers.UserMapper;
 import com.epam.brest.course2015.domain.User;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by blondeks on 7.10.15.
  */
 public class UserDaoImpl implements UserDao {
-
-    private JdbcTemplate jdbcTemplate;
+    private UserMapper userMapper = new UserMapper();
+    private NamedParameterJdbcTemplate jdbcTemplate;
     public UserDaoImpl(DataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return jdbcTemplate.query("select * from user", new RowMapper<User>() {
-            @Override
-            public User mapRow(ResultSet resultSet, int i) throws SQLException {
-                    User user = new User();
-                    user.setUserId(resultSet.getInt("userId"));
-                    user.setLogin(resultSet.getString("login"));
-                    user.setPassword(resultSet.getString("password"));
-                    return user;
-                }
-        });
+        return jdbcTemplate.query("select * from user", userMapper);
     }
 
     @Override
     public User getUserById(Integer id) {
-     List<User> users = getAllUsers();
-        for(User user:users) {
-            if(user.getUserId()==id) return user;
-        }
-        return null;
+        HashMap hashMap = new HashMap();
+        hashMap.put("id",id);
+        return jdbcTemplate.queryForObject("select * from user where userid=:id",hashMap,userMapper);
     }
 }

@@ -28,7 +28,7 @@ public class UserDaoImplTest {
 
     @Test
     public void testGetUserById() throws Exception {
-        User user = userDao.getUserById(4);
+        User user = userDao.getUserById(2);
         assertNotNull(user.getLogin());
     }
 }
