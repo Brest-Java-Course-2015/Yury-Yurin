@@ -26,6 +26,7 @@
         <jdbc:script location="data-script.sql"/>
     </jdbc:initialize-database>
 
+
     <bean id="userDao" class="com.epam.brest.course2015.dao.UserDaoImpl">
         <constructor-arg ref="dataSource"/>
     </bean>

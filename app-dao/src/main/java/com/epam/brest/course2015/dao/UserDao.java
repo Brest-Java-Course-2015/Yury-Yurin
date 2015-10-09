@@ -8,4 +8,6 @@ import java.util.List;
 public interface UserDao {
     public List<User> getAllUsers();
     public User getUserById(Integer id);
+    public void deleteUser(String login);
+    public void addUser(Integer id,String login, String password);
 }

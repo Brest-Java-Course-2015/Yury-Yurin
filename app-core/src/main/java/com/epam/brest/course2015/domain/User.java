@@ -2,9 +2,6 @@ package com.epam.brest.course2015.domain;
 
 import java.util.Date;
 
-/**
- * Created by blondeks on 5.10.15.
- */
 public class User {
     private Integer userId;
 
