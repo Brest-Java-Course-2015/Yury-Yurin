@@ -1,10 +1,12 @@
 package com.epam.brest.course2015.dao;
 
-import com.epam.brest.course2015.dao.rowmappers.UserMapper;
+import com.epam.brest.course2015.api.UserDao;
 import com.epam.brest.course2015.domain.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
@@ -14,7 +16,7 @@ import java.util.Map;
 
 public class UserDaoImpl implements UserDao {
 
-    private UserMapper userMapper = new UserMapper();
+    private RowMapper<User> userMapper = new BeanPropertyRowMapper<User>(User.class);
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -50,8 +52,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void deleteUser(String login) {
-        Map<String, String> hashMap = new HashMap<String, String>();
+    public void deleteUser(String login) {        Map<String, String> hashMap = new HashMap<String, String>();
         hashMap.put("login", login);
         jdbcTemplate.update(deleteUser, hashMap);
     }
