@@ -4,6 +4,7 @@ import com.epam.brest.course2015.api.UserDao;
 import com.epam.brest.course2015.domain.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -20,7 +21,8 @@ public class UserDaoImpl implements UserDao {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
+
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Value("${user.select}")
     private String userSelect;
@@ -35,26 +37,29 @@ public class UserDaoImpl implements UserDao {
     private String deleteUser;
 
     public UserDaoImpl(DataSource dataSource) {
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-    }
+       namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+   }
 
     @Override
     public List<User> getAllUsers() {
-        return jdbcTemplate.query(userSelect, userMapper);
+        return namedParameterJdbcTemplate.query(userSelect, userMapper);
     }
 
     @Override
     public User getUserById(Integer id) {
-        LOGGER.info("id: {}", id);
+        LOGGER.info("Try: get user by id = : {}", id);
         Map<String, Object> hashMap = new HashMap<String, Object>();
         hashMap.put("id", id);
-        return jdbcTemplate.queryForObject(userSelectById, hashMap, userMapper);
+        return namedParameterJdbcTemplate.queryForObject(userSelectById, hashMap, userMapper);
     }
 
     @Override
-    public void deleteUser(String login) {        Map<String, String> hashMap = new HashMap<String, String>();
+    public void deleteUser(String login) {
+        LOGGER.info("Try: delete user whith login: :{}",login);
+        Map<String, String> hashMap = new HashMap<String, String>();
         hashMap.put("login", login);
-        jdbcTemplate.update(deleteUser, hashMap);
+        namedParameterJdbcTemplate.update(deleteUser, hashMap);
+        LOGGER.info("User :{} was delete",login);
     }
 
     @Override
@@ -63,6 +68,6 @@ public class UserDaoImpl implements UserDao {
         hashMap.put("id",id);
         hashMap.put("login",login);
         hashMap.put("password",password);
-        jdbcTemplate.update(addUser,hashMap);
+        namedParameterJdbcTemplate.update(addUser,hashMap);
     }
 }

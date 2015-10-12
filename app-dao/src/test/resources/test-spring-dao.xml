@@ -31,8 +31,5 @@
     <bean id="userDao" class="com.epam.brest.course2015.dao.UserDaoImpl">
         <constructor-arg ref="dataSource"/>
     </bean>
-<!--
-    <bean id="userMapper" class="org.springframework.jdbc.core.BeanPropertyRowMapper"/>
-    -->
 
 </beans>
