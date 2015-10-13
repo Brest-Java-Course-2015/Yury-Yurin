@@ -22,6 +22,7 @@ public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = LogManager.getLogger();
 
 
+    @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Value("${user.select}")
@@ -35,10 +36,6 @@ public class UserDaoImpl implements UserDao {
 
     @Value("${user.deleteUser}")
     private String deleteUser;
-
-    public UserDaoImpl(DataSource dataSource) {
-       namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-   }
 
     @Override
     public List<User> getAllUsers() {
