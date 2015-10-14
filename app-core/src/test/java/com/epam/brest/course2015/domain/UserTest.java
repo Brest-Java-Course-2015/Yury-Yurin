@@ -3,6 +3,8 @@ package com.epam.brest.course2015.domain;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 public class UserTest {
@@ -56,14 +58,14 @@ public class UserTest {
 
     @Test
     public void testGetCreatedDate() throws Exception {
-        java.util.Date date = new java.util.Date();
+        Date date = new Date();
     user.setCreatedDate(date);
      assertEquals(date,user.getCreatedDate());
     }
 
     @Test
     public void testSetCreatedDate() throws Exception {
-        java.util.Date date = user.getCreatedDate();
+        Date date = user.getCreatedDate();
         user.setCreatedDate(date);
         assertEquals(date,user.getCreatedDate());
     }

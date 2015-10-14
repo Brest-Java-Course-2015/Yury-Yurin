@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertNotEquals;
@@ -43,7 +44,7 @@ public class UserDaoImplTest {
     @Test
     public void testAddUser() {
         int size = userDao.getAllUsers().size();
-        userDao.addUser(4,"userLogin4","54321");
+        userDao.addUser(4,"userLogin4","54321",new Date());
         assertNotEquals(userDao.getAllUsers().size(), size);
     }
 }

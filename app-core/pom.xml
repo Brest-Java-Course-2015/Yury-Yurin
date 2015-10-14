@@ -2,6 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>app-core</artifactId>
+    <name>app-core</name>
     <packaging>jar</packaging>
 
 

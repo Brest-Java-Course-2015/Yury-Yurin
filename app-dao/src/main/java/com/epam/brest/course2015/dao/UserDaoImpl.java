@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,11 +61,19 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void addUser(Integer id,String login, String password) {
+    public void addUser(Integer id,String login, String password,Date createdDate) {
         Map<String, Object> hashMap = new HashMap<String, Object>();
         hashMap.put("id",id);
         hashMap.put("login",login);
         hashMap.put("password",password);
+        namedParameterJdbcTemplate.update(addUser,hashMap);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        Map<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("id",user.getUserId());
+        hashMap.put("login",user.getLogin());
         namedParameterJdbcTemplate.update(addUser,hashMap);
     }
 }
