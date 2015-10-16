@@ -12,7 +12,6 @@
             </list>
         </property>
     </bean>
-    <context:component-scan base-package="com.epam.brest.course2015"/>
     <import resource="classpath*:db-context.xml"/>
     <import resource="classpath*:bean-context.xml"/>
 

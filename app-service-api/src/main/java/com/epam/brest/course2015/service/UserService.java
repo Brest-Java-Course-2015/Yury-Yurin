@@ -4,7 +4,7 @@ import com.epam.brest.course2015.domain.User;
 
 import java.util.List;
 
-public interface UserSrvice {
+public interface UserService {
     public List<User> getAllUsers();
     public void addUser(User user);
 }
