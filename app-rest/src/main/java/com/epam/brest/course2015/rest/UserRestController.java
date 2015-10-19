@@ -8,12 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by juga on 16.10.15.
- */
 @RestController
 public class UserRestController {
-
     @Autowired
     private UserService userService;
 
@@ -23,10 +19,10 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/user/{login}/{password}", method = RequestMethod.POST)
-    public @ResponseBody Integer addUser(@PathVariable(value = "1") Integer id,
-            @PathVariable(value = "login") String login,
+    public @ResponseBody Integer addUser(@PathVariable(value = "login") String login,
                                          @PathVariable(value = "password") String password) {
         Date date = new Date();
+        Integer id=5;
         return userService.addUser(new User(id,login,password,date));
     }
 }
