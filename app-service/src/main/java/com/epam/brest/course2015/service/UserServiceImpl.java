@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
-        Assert.notNull(user,"user can't be NULL");
+    public Integer addUser(User user) {
+        Assert.notNull(user, "user can't be NULL");
         Assert.isNull(user.getUserId(), "userId should be null");
         Assert.notNull(user.getLogin(), "userLogin can't be null");
         if (user.getLogin().equals("admin")) {
@@ -37,5 +37,6 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("user login can't be 'admin' ");
         }
         userDao.addUser(user.getUserId(), user.getLogin(), user.getPassword(), user.getCreatedDate());
+        return 0;
     }
 }
