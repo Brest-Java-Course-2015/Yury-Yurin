@@ -36,7 +36,12 @@ public class UserServiceImpl implements UserService {
             LOGGER.error("user login can't be 'admin' ");
             throw new IllegalArgumentException("user login can't be 'admin' ");
         }
-        userDao.addUser(user.getUserId(), user.getLogin(), user.getPassword(), user.getCreatedDate());
-        return 0;
+        return userDao.addUser(user.getUserId(), user.getLogin(), user.getPassword(), user.getCreatedDate());
+
+    }
+
+    @Override
+    public void logUser(User User) {
+
     }
 }

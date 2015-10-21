@@ -3,6 +3,7 @@ package com.epam.brest.course2015.rest;
 import com.epam.brest.course2015.domain.User;
 import com.epam.brest.course2015.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -19,6 +20,7 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/user/{login}/{password}", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
     public @ResponseBody Integer addUser(@PathVariable(value = "login") String login,
                                          @PathVariable(value = "password") String password) {
         Date date = new Date();

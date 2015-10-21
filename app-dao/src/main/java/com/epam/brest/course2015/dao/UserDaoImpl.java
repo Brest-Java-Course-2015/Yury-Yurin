@@ -53,16 +53,17 @@ public class UserDaoImpl implements UserDao {
         Map<String, String> hashMap = new HashMap<String, String>();
         hashMap.put("login", login);
         namedParameterJdbcTemplate.update(deleteUser, hashMap);
-        LOGGER.info("User :{} was delete",login);
+        LOGGER.info("User :{} was delete", login);
     }
 
     @Override
-    public void addUser(Integer id,String login, String password,Date createdDate) {
+    public Integer addUser(Integer id,String login, String password,Date createdDate) {
         Map<String, Object> hashMap = new HashMap<String, Object>();
         hashMap.put("id",id);
         hashMap.put("login",login);
-        hashMap.put("password",password);
-        namedParameterJdbcTemplate.update(addUser,hashMap);
+        hashMap.put("password", password);
+        namedParameterJdbcTemplate.update(addUser, hashMap);
+        return id;
     }
 
     @Override
@@ -72,4 +73,14 @@ public class UserDaoImpl implements UserDao {
         hashMap.put("login",user.getLogin());
         namedParameterJdbcTemplate.update(addUser,hashMap);
     }
+    @Override
+    public Integer addUser(User user) {
+        Map<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("id",user.getUserId());
+        hashMap.put("login",user.getLogin());
+        hashMap.put("password",user.getPassword());
+        namedParameterJdbcTemplate.update(addUser,hashMap);
+        return user.getUserId();
+    }
+
 }

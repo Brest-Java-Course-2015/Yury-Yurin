@@ -7,4 +7,5 @@ import java.util.List;
 public interface UserService {
     public List<User> getAllUsers();
     public Integer addUser(User user);
+    public void logUser(User User);
 }
