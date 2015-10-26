@@ -1,7 +1,8 @@
 package com.epam.brest.course2015.service;
 
-import com.epam.brest.course2015.api.UserDao;
+import com.epam.brest.course2015.dao.UserDao;
 import com.epam.brest.course2015.domain.User;
+import com.epam.brest.course2015.dto.UserDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,18 @@ public class UserServiceImpl implements UserService {
             LOGGER.error("user login can't be 'admin' ");
             throw new IllegalArgumentException("user login can't be 'admin' ");
         }
-        return userDao.addUser(user.getUserId(), user.getLogin(), user.getPassword(), user.getCreatedDate());
+        userDao.addUser(user.getUserId(), user.getLogin(), user.getPassword(), user.getCreatedDate());
+        return user.getUserId();
 
     }
 
     @Override
     public void logUser(User User) {
+        LOGGER.debug("logUser(): user id = {} ", new User().getUserId());
+    }
 
+    @Override
+    public UserDto getUserDto() {
+        return null;
     }
 }

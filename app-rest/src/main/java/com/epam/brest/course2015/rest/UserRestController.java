@@ -1,16 +1,17 @@
 package com.epam.brest.course2015.rest;
 
 import com.epam.brest.course2015.domain.User;
+import com.epam.brest.course2015.dto.UserDto;
 import com.epam.brest.course2015.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
 public class UserRestController {
+
+    private UserDto userDto = new UserDto();
     @Autowired
     private UserService userService;
 
@@ -20,11 +21,12 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/user/{login}/{password}", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody Integer addUser(@PathVariable(value = "login") String login,
-                                         @PathVariable(value = "password") String password) {
-        Date date = new Date();
-        Integer id=5;
-        return userService.addUser(new User(id,login,password,date));
+    public @ResponseBody Integer addUser(@RequestBody User user) {
+        return userService.addUser(user);
+    }
+
+    @RequestMapping(value = "/userdto", method = RequestMethod.GET)
+    public @ResponseBody UserDto getUserDto() {
+        return userService.getUserDto();
     }
 }

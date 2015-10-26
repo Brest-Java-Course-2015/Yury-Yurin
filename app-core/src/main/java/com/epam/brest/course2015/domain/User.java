@@ -1,23 +1,53 @@
 package com.epam.brest.course2015.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
+/**
+ * Created by juga on 5.10.15.
+ */
 public class User {
+
     private Integer userId;
 
     private String login;
 
+    @JsonIgnore
     private String password;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private Date createdDate;
-    public User() {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    private Date updatedDate = new Date();
+
+    public User() {
     }
-    public User(Integer userId,String login, String password, Date createdDate) {
+
+    public User(Integer userId, String password) {
+        this.userId = userId;
+        this.password = password;
+    }
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public User(Integer userId, String login, String password) {
+        this.userId = userId;
+        this.login = login;
+        this.password = password;
+    }
+
+    public User(Integer userId, String login, String password, Date createdDate, Date updatedDate) {
         this.userId = userId;
         this.login = login;
         this.password = password;
         this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
     }
 
     public Integer getUserId() {
@@ -52,8 +82,12 @@ public class User {
         this.createdDate = createdDate;
     }
 
-    public Date getUpdateDate() {
-        return createdDate;
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
     public static enum UserFields {
@@ -61,7 +95,8 @@ public class User {
         USER_ID ("userId"),
         LOGIN ("login"),
         PASSWORD ("password"),
-        CREATED_DATE ("createdDate");
+        CREATED_DATE ("createdDate"),
+        UPDATED_DATE ("updatedDate");
 
         private UserFields(String value){
             this.value = value;
@@ -70,5 +105,10 @@ public class User {
         private final String value;
 
         public String getValue(){return value;}
+
+    }
+
+    public boolean equals(Object obj) {
+        return login.equals(((User) obj).getLogin());
     }
 }

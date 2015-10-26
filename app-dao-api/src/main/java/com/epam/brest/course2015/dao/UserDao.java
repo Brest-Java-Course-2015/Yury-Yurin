@@ -1,4 +1,4 @@
-package com.epam.brest.course2015.api;
+package com.epam.brest.course2015.dao;
 
 import com.epam.brest.course2015.domain.User;
 

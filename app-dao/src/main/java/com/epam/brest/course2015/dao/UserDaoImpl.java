@@ -1,15 +1,15 @@
 package com.epam.brest.course2015.dao;
 
-import com.epam.brest.course2015.api.UserDao;
 import com.epam.brest.course2015.domain.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import javax.sql.DataSource;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +19,10 @@ public class UserDaoImpl implements UserDao {
     private RowMapper<User> userMapper = new BeanPropertyRowMapper<User>(User.class);
 
     private static final Logger LOGGER = LogManager.getLogger();
-    @Autowired
+
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    private JdbcTemplate jdbcTemplate;
 
     @Value("${user.select}")
     private String userSelect;
@@ -34,6 +36,10 @@ public class UserDaoImpl implements UserDao {
     @Value("${user.deleteUser}")
     private String deleteUser;
 
+    public UserDaoImpl(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
+        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    }
     @Override
     public List<User> getAllUsers() {
         return namedParameterJdbcTemplate.query(userSelect, userMapper);

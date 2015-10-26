@@ -1,6 +1,5 @@
 package com.epam.brest.course2015.dao;
 
-import com.epam.brest.course2015.api.UserDao;
 import com.epam.brest.course2015.domain.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
