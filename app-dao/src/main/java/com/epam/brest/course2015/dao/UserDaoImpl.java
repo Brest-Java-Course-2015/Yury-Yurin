@@ -24,11 +24,16 @@ public class UserDaoImpl implements UserDao {
 
     private JdbcTemplate jdbcTemplate;
 
+    @Value("${user.getUserByLogin")
+    private String selectUserByLogin;
+
     @Value("${user.select}")
     private String userSelect;
 
     @Value("${user.selectById}")
     private String userSelectById;
+
+    private String getTotalUsers = "select count(*) from user";
 
     @Value("${user.addUser}")
     private String addUser;
@@ -40,6 +45,12 @@ public class UserDaoImpl implements UserDao {
         jdbcTemplate = new JdbcTemplate(dataSource);
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
+
+    public Integer getTotalUsersCount() {
+        LOGGER.debug("getTotalUsersCount()");
+        return jdbcTemplate.queryForObject(getTotalUsers, Integer.class);
+    }
+
     @Override
     public List<User> getAllUsers() {
         return namedParameterJdbcTemplate.query(userSelect, userMapper);
@@ -87,6 +98,13 @@ public class UserDaoImpl implements UserDao {
         hashMap.put("password",user.getPassword());
         namedParameterJdbcTemplate.update(addUser,hashMap);
         return user.getUserId();
+    }
+
+    @Override
+    public User getUserByLogin(String login) {
+        Map<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("login", login);
+        return namedParameterJdbcTemplate.queryForObject(selectUserByLogin, hashMap, userMapper);
     }
 
 }

@@ -44,6 +44,7 @@ public class UserRestControllerMockTest {
 
     @After
     public void tearDown() {
+        verify(userService);
         reset(userService);
     }
 
@@ -56,7 +57,7 @@ public class UserRestControllerMockTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(user))
                 .andDo(print())
-                .andExpect(status().isOk()).andExpect(content().string("3"));
+                .andExpect(status().isCreated()).andExpect(content().string("3"));
     }
 
     @Test

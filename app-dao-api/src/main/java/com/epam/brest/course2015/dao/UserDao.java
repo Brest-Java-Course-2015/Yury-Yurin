@@ -11,5 +11,7 @@ public interface UserDao {
     public Integer addUser(Integer id,String login, String password, Date createDate);
     public void updateUser(User user);
     public Integer addUser(User user);
+    public User getUserByLogin(String login);
+    public Integer getTotalUsersCount();
 
 }

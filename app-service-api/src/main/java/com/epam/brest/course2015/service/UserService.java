@@ -9,5 +9,6 @@ public interface UserService {
     public List<User> getAllUsers();
     public Integer addUser(User user);
     public void logUser(User User);
+    public User getUserByLogin(String login);
     public UserDto getUserDto();
 }
