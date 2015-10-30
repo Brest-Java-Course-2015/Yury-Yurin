@@ -13,11 +13,16 @@ $('#btnSave').click(function () {
     return false;
 });
 
+$('#btnDel').click(function () {
+   deleteUser(user);
+});
+
 function findAll() {
     console.log('findAll');
     $.ajax({
         type: 'GET',
         url: USERS_DTO_URL,
+        Origin : 'http://localhost:63342/usermanagement/javascript-client/',
         dataType: "json",// data type of response
         success: renderList,
         error: function(jqXHR, textStatus, errorThrown) {
@@ -32,6 +37,7 @@ function drawRow(user) {
     $("#userList").append(row);
     row.append($("<td>" + '<a href="#" data-identity="' + user.userId + '">' + user.login + '</a></td>'));
     row.append($("<td>" + user.createdDate + "</td>"));
+    row.append($('<td id="'+user.login + '">' + '<button id=' + '"btnDel">' +'Delete' + "</button>" + "</td>"));
 }
 
 function renderList(data) {
@@ -47,7 +53,8 @@ function addUser() {
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        url: USER_URL,
+        url: USER_URL + "/" +$('#login').val() + "/" + $('#password').val(),
+        Origin : 'http://localhost:63342/usermanagement/javascript-client/',
         dataType: "json",
         data: formToJSON(),
         success: function (data, textStatus, jqXHR) {
@@ -57,16 +64,36 @@ function addUser() {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert('addUser error: ' + textStatus);
+            findAll();
         }
     });
 }
+
+function deleteUser(user) {
+    console.log('deleteUser');
+    $.ajax({
+        type: 'DELETE',
+        url: USER_URL + "/" +$('#login').val() + "/delete",
+        Origin : 'http://localhost:63342/usermanagement/javascript-client/',
+        success: function (data, textStatus, jqXHR) {
+            alert('User delete successfully');
+            $('#login').val(data.login);
+            findAll();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('addUser error: ' + textStatus);
+            findAll();
+        }
+    });
+}
+
 
 function updateUser() {
     console.log('updateUser');
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
-        url: USER_URL,
+        url: USER_URL + "/" +$('#userId').val() + "/" + $('#password').val(),
         data: formToJSON(),
         success: function (data, textStatus, jqXHR) {
             alert('User updated successfully');

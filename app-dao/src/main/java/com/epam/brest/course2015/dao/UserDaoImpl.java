@@ -24,11 +24,14 @@ public class UserDaoImpl implements UserDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    @Value("${user.getUserByLogin")
+    @Value("${user.selectByLogin}")
     private String selectUserByLogin;
 
     @Value("${user.select}")
     private String userSelect;
+
+    @Value("${user.updateUser}")
+    private String userUpdate;
 
     @Value("${user.selectById}")
     private String userSelectById;
@@ -86,9 +89,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void updateUser(User user) {
         Map<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("id",user.getUserId());
-        hashMap.put("login",user.getLogin());
-        namedParameterJdbcTemplate.update(addUser,hashMap);
+        hashMap.put("userId",user.getUserId());
+        hashMap.put("password",user.getPassword());
+        namedParameterJdbcTemplate.update(userUpdate,hashMap);
     }
     @Override
     public Integer addUser(User user) {

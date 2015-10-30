@@ -53,6 +53,16 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserByLogin(login);
     }
 
+
+    @Override
+    public void updateUser(User user) {
+        Assert.notNull(user, "User should not be null.");
+        LOGGER.debug("updateUser(): user login = {} ", user.getLogin());
+        Assert.notNull(user.getUserId(), "User Id should not be null.");
+        Assert.hasText(user.getPassword(), "User password should not be null.");
+        userDao.updateUser(user);
+    }
+
     @Override
     public UserDto getUserDto() {
         UserDto userDto = new UserDto();
@@ -63,5 +73,12 @@ public class UserServiceImpl implements UserService {
             userDto.setUsers(Collections.<User>emptyList());
         }
         return userDto;
+    }
+
+    @Override
+    public void deleteUser(String login) {
+        LOGGER.debug("deleteUser(): user login = {} ", login);
+        Assert.notNull(login, "User LOGIN should not be null.");
+        userDao.deleteUser(login);
     }
 }

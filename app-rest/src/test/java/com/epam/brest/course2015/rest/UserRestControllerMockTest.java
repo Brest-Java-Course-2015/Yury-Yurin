@@ -57,7 +57,7 @@ public class UserRestControllerMockTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(user))
                 .andDo(print())
-                .andExpect(status().isCreated()).andExpect(content().string("3"));
+                .andExpect(status().isOk()).andExpect(content().string("3"));
     }
 
     @Test

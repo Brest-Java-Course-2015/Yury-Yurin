@@ -30,7 +30,7 @@ public class Main {
         int sw = 0;
         System.out.println("1.Get all users");
         System.out.println("2.Get user by login");
-        System.out.println("31.Exit");
+        System.out.println("3.Exit");
         while (sw != 3) {
             System.out.println("Select option: ");
             if (sc.hasNextInt()) {

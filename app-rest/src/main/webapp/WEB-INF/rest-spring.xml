@@ -20,8 +20,8 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:app.properties</value>
                 <value>classpath:database.properties</value>
+                <value>classpath:app.properties</value>
             </list>
         </property>
     </bean>
@@ -54,5 +54,7 @@
     <bean id="userService" class="com.epam.brest.course2015.service.UserServiceImpl">
         <property name="userDao" ref="userDao"/>
     </bean>
-
+    <mvc:cors>
+        <mvc:mapping path="/**" />
+    </mvc:cors>
 </beans>

@@ -16,6 +16,7 @@
         <module>app-test</module>
         <module>app-rest</module>
         <module>app-termclient</module>
+        <module>app-web</module>
     </modules>
 
     <distributionManagement>
@@ -137,7 +138,11 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>3.1.0</version>
-                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jstl</artifactId>
+                <version>1.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
