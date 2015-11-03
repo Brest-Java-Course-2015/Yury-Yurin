@@ -7,18 +7,6 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>app-core</module>
-        <module>app-dao-api</module>
-        <module>app-dao</module>
-        <module>app-service-api</module>
-        <module>app-service</module>
-        <module>app-test</module>
-        <module>app-rest</module>
-        <module>app-termclient</module>
-        <module>app-web</module>
-    </modules>
-
     <distributionManagement>
         <site>
             <id>${project.artifactId}</id>
