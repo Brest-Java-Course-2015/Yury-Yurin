@@ -4,11 +4,20 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class Application {
     private Integer applicationId;
-    private String userName;
-    private Malfunction malfunction;
+
+    public List<Malfunction> getMalfunctionList() {
+        return malfunctionList;
+    }
+
+    public void setMalfunctionList(List<Malfunction> malfunctionList) {
+        this.malfunctionList = malfunctionList;
+    }
+
+    private List<Malfunction> malfunctionList;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private Date createdDate;
@@ -26,21 +35,6 @@ public class Application {
         this.applicationId = applicationId;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Malfunction getMalfunction() {
-        return malfunction;
-    }
-
-    public void setMalfunction(Malfunction malfunction) {
-        this.malfunction = malfunction;
-    }
 
     public Date getCreatedDate() {
         return createdDate;

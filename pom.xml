@@ -9,6 +9,7 @@
         <module>app-core</module>
         <module>app-dao-api</module>
         <module>app-dao</module>
+        <module>app-test</module>
     </modules>
     <packaging>pom</packaging>
 

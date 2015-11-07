@@ -5,7 +5,34 @@ public class Malfunction {
     private String name;
     private String auto;
     private String description;
-    private Integer cost;
+
+    public Integer getCostRepair() {
+        return costRepair;
+    }
+
+    public void setCostRepair(Integer costRepair) {
+        this.costRepair = costRepair;
+    }
+
+    public Integer getCostService() {
+        return costService;
+    }
+
+    public void setCostService(Integer costService) {
+        this.costService = costService;
+    }
+
+    public Integer getAdditionalExpenses() {
+        return additionalExpenses;
+    }
+
+    public void setAdditionalExpenses(Integer additionalExpenses) {
+        this.additionalExpenses = additionalExpenses;
+    }
+
+    private Integer costRepair;
+    private Integer costService;
+    private Integer additionalExpenses;
 
 
     public Integer getMalfunctionId() {
@@ -40,27 +67,25 @@ public class Malfunction {
         this.description = description;
     }
 
-    public Integer getCost() {
-        return cost;
-    }
 
-    public void setCost(Integer cost) {
-        this.cost = cost;
+    public Malfunction() {
     }
-
-    public void Malfunction() {
-    }
-    public void Malfunction(Malfunction malfunction) {
+    public Malfunction(Malfunction malfunction) {
         this.malfunctionId = malfunction.malfunctionId;
         this.name = malfunction.name;
         this.auto = malfunction.auto;
-        this.cost = malfunction.cost;
+        this.costRepair = malfunction.costRepair;
+        this.costService = malfunction.costService;
+        this.additionalExpenses = malfunction.additionalExpenses;
         this.description = malfunction.description;
     }
-    public void Malfunction(Integer cost) {
-        this.cost = cost;
+    public Malfunction(Integer costRepair, Integer costService, Integer additionalExpenses)
+    {
+        this.costRepair = costRepair;
+        this.costService = costService;
+        this.additionalExpenses = additionalExpenses;
     }
-    public void Malfunction(Integer malfunctionId, String name, String auto, String description) {
+    public Malfunction(Integer malfunctionId, String name, String auto, String description) {
         this.malfunctionId = malfunctionId;
         this.name = name;
         this.auto = auto;
