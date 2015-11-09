@@ -11,9 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:spring-dao.xml"})
 @Transactional
@@ -26,7 +23,7 @@ public class MalfunctionDaoImplTest {
 
     @Test
     public void TestGetAllMalfunctions() {
-        List<Malfunction> malfunctions = malfunctionDao.getAllMalfunctions();
+        List<Integer> malfunctions = malfunctionDao.getAllMalfunctionsByIdApplication(1);
         Assert.assertTrue(malfunctions.size() == 2);
     }
 
@@ -40,16 +37,16 @@ public class MalfunctionDaoImplTest {
 
     @Test
     public void TestAddMalfunction() {
-        int size = malfunctionDao.getAllMalfunctions().size();
+        int size = malfunctionDao.getAllMalfunctionsByIdApplication(1).size();
         malfunctionDao.addMalfunction(malfunction);
-        Assert.assertNotEquals(size,malfunctionDao.getAllMalfunctions().size());
+        Assert.assertNotEquals(size,malfunctionDao.getAllMalfunctionsByIdApplication(1).size());
     }
 
     @Test
     public void TestDeleteMalfunction() {
-        int size = malfunctionDao.getAllMalfunctions().size();
+        int size = malfunctionDao.getAllMalfunctionsByIdApplication(1).size();
         malfunctionDao.deleteMalfunction(1);
-        Assert.assertNotEquals(size,malfunctionDao.getAllMalfunctions().size());
+        Assert.assertNotEquals(size,malfunctionDao.getAllMalfunctionsByIdApplication(1).size());
     }
 
     @Test

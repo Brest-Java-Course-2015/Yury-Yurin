@@ -16,6 +16,8 @@
 
     <jdbc:initialize-database data-source="dataSource">
         <jdbc:script location="create-table-mailfunctions.sql"/>
+        <jdbc:script location="create-table-applications.sql"/>
+        <jdbc:script location="create-table-app-malf.sql"/>
         <jdbc:script location="data-script.sql"/>
     </jdbc:initialize-database>
 
