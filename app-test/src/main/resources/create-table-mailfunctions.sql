@@ -7,5 +7,6 @@ auto VARCHAR(255) NOT NULL,
 description VARCHAR(255) NOT NULL,
 costRepair INTEGER,
 costService INTEGER,
-additionalExpenses INTEGER
+additionalExpenses INTEGER,
+applicationId INTEGER NOT NULL
 );

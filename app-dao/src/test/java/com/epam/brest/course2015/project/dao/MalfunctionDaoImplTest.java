@@ -13,34 +13,35 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:spring-dao.xml"})
-@Transactional
+@Transactional()
 public class MalfunctionDaoImplTest {
 
-    private Malfunction malfunction = new Malfunction(null,"malfunction1","auto1","description1");
+    private Malfunction malfunction = new Malfunction(null,"malfunction1","auto1","description1",1);
 
     @Autowired
     private MalfunctionDao malfunctionDao;
 
     @Test
     public void TestGetAllMalfunctions() {
-        List<Integer> malfunctions = malfunctionDao.getAllMalfunctionsByIdApplication(1);
+        List<Malfunction> malfunctions = malfunctionDao.getAllMalfunctionsByIdApplication(1);
         Assert.assertTrue(malfunctions.size() == 2);
-    }
-
-    @Test
-    public void TestGetMalfunctionById() {
-        malfunction.setMalfunctionId(3);
-        malfunctionDao.addMalfunction(malfunction);
-        Malfunction newMalfunction = malfunctionDao.getMalfunctionById(3);
-        Assert.assertTrue(malfunction.getMalfunctionId().equals(newMalfunction.getMalfunctionId()));
     }
 
     @Test
     public void TestAddMalfunction() {
         int size = malfunctionDao.getAllMalfunctionsByIdApplication(1).size();
         malfunctionDao.addMalfunction(malfunction);
-        Assert.assertNotEquals(size,malfunctionDao.getAllMalfunctionsByIdApplication(1).size());
+        Assert.assertNotEquals(size, malfunctionDao.getAllMalfunctionsByIdApplication(1).size());
     }
+
+    @Test
+    public void TestGetMalfunctionById() {
+        malfunctionDao.addMalfunction(malfunction);
+        Malfunction newMalfunction = malfunctionDao.getMalfunctionById(3);
+        Assert.assertTrue(malfunction.getMalfunctionId().equals(newMalfunction.getMalfunctionId()));
+    }
+
+
 
     @Test
     public void TestDeleteMalfunction() {

@@ -17,13 +17,6 @@ import java.util.List;
 
 public class MalfunctionDaoImpl implements MalfunctionDao {
     private RowMapper<Malfunction> malfunctionMapper = new BeanPropertyRowMapper<Malfunction>(Malfunction.class);
-    private RowMapper<Integer> malfunctionIntMapper = new RowMapper<Integer>(){
-
-        @Override
-        public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
-            return resultSet.getInt("malfunctionId");
-        }
-    };
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Value("${malfunction.insertMalfunction}")
@@ -77,10 +70,10 @@ public class MalfunctionDaoImpl implements MalfunctionDao {
     }
 
     @Override
-    public List<Integer> getAllMalfunctionsByIdApplication(Integer applicationId) {
+    public List<Malfunction> getAllMalfunctionsByIdApplication(Integer applicationId) {
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
         hashMap.put("applicationId",applicationId);
-        return namedParameterJdbcTemplate.query(getMalfunctions,hashMap,malfunctionIntMapper);
+        return namedParameterJdbcTemplate.query(getMalfunctions,hashMap,malfunctionMapper);
     }
 
     private MapSqlParameterSource getParametersMap(Malfunction malfunction) {
@@ -89,6 +82,7 @@ public class MalfunctionDaoImpl implements MalfunctionDao {
         parameterSource.addValue("name", malfunction.getName());
         parameterSource.addValue("auto", malfunction.getAuto());
         parameterSource.addValue("description", malfunction.getDescription());
+        parameterSource.addValue("applicationId", malfunction.getApplicationId());
         return parameterSource;
     }
 }

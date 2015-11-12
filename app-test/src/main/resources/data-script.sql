@@ -1,4 +1,4 @@
-INSERT INTO MALFUNCTION (malfunctionId, name, auto, description) VALUES (1, 'name1', 'auto1', 'descriptoin1' )
-INSERT INTO MALFUNCTION (malfunctionId, name, auto, description) VALUES (2, 'name2', 'auto2', 'descriptoin2' )
-INSERT INTO APP_MALF (applicationId, malfunctionId) VALUES (1,1)
-INSERT INTO APP_MALF (applicationId, malfunctionId) VALUES (1,2)
+INSERT INTO MALFUNCTION (malfunctionId, name, auto, description, applicationId) VALUES (1, 'name1', 'auto1', 'descriptoin1',1 )
+INSERT INTO MALFUNCTION (malfunctionId, name, auto, description, applicationId) VALUES (2, 'name2', 'auto2', 'descriptoin2',1 )
+INSERT INTO APPLICATION (applicationId, createdDate, updatedDate) VALUES (1, TO_TIMESTAMP('14/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'), TO_TIMESTAMP('14/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'))
+INSERT INTO APPLICATION (applicationId, createdDate, updatedDate) VALUES (2, TO_TIMESTAMP('14/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'), TO_TIMESTAMP('14/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'))

@@ -6,6 +6,16 @@ public class Malfunction {
     private String auto;
     private String description;
 
+    public Integer getApplicationId() {
+        return applicationId;
+    }
+
+    public void setApplicationId(Integer applicationId) {
+        this.applicationId = applicationId;
+    }
+
+    private Integer applicationId;
+
     public Integer getCostRepair() {
         return costRepair;
     }
@@ -85,10 +95,11 @@ public class Malfunction {
         this.costService = costService;
         this.additionalExpenses = additionalExpenses;
     }
-    public Malfunction(Integer malfunctionId, String name, String auto, String description) {
+    public Malfunction(Integer malfunctionId, String name, String auto, String description,Integer applicationId) {
         this.malfunctionId = malfunctionId;
         this.name = name;
         this.auto = auto;
         this.description = description;
+        this.applicationId = applicationId;
     }
 }

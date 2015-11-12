@@ -8,19 +8,10 @@ import java.util.List;
 
 public class Application {
     private Integer applicationId;
-    private List<Integer> malfunctionListId;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private Date createdDate;
+    private Date createdDate = new Date();
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private Date updatedDate = new Date();
-
-    public List<Integer> getMalfunctionList() {
-        return malfunctionListId;
-    }
-
-    public void setMalfunctionList(List<Integer> malfunctionListId) {
-        this.malfunctionListId = malfunctionListId;
-    }
+    private Date updatedDate;
 
     public Integer getApplicationId() {
         return applicationId;
@@ -47,10 +38,15 @@ public class Application {
         this.updatedDate = updatedDate;
     }
 
-    public Application(Integer applicationId, List<Malfunction> malfunctionList,Date createdDate, Date updatedDate) {
+    public Application(Integer applicationId,Date createdDate, Date updatedDate) {
         this.applicationId = applicationId;
-        this.malfunctionListId = malfunctionListId;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
+    }
+
+    public Application(Application application) {
+        this.applicationId = application.applicationId;
+        this.createdDate = application.createdDate;
+        this.updatedDate = application.updatedDate;
     }
 }
