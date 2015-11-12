@@ -47,14 +47,6 @@ public class ApplicationDaoImplTest {
     }
 
     @Test
-    public void TestGetApplicationByIdNew() {
-        List<Application> list = applicationDao.getAllApplications();
-        Integer index = applicationDao.addApplication(application);
-        Application newApplication = applicationDao.getApplicationById(index);
-        Assert.assertEquals(null, newApplication.getApplicationId());
-    }
-
-    @Test
     public void TestUpdateApplicationById() {
         Application newApplication1 = applicationDao.getApplicationById(1);
         newApplication1.setUpdatedDate(new Date());
