@@ -5,17 +5,17 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:spring-dao.xml"})
 @Transactional
+@Sql(scripts = "/alter-application-script.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class ApplicationDaoImplTest {
 
     @Autowired
@@ -31,19 +31,19 @@ public class ApplicationDaoImplTest {
         Assert.assertTrue(size == 2);
     }
 
-//    @Test
-//    public void TestDeleteApplicationById() {
-//        int size = applicationDao.getAllApplications().size();
-//        applicationDao.deleteApplication(2);
-//        Assert.assertNotEquals(size, applicationDao.getAllApplications().size());
-//    }
+    @Test
+    public void TestDeleteApplicationById() {
+        int size = applicationDao.getAllApplications().size();
+        applicationDao.deleteApplication(2);
+        Assert.assertNotEquals(size, applicationDao.getAllApplications().size());
+    }
 
     @Test
     public void TestGetApplicationById() {
         List<Application> list = applicationDao.getAllApplications();
         Integer index = applicationDao.addApplication(application);
         Application newApplication = applicationDao.getApplicationById(index);
-        Assert.assertEquals(null, newApplication.getApplicationId());
+        Assert.assertEquals(index, newApplication.getApplicationId());
     }
 
     @Test

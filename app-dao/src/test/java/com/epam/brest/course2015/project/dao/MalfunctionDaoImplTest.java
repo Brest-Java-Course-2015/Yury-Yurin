@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,8 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:spring-dao.xml"})
-@Transactional()
+@Transactional
+@Sql(scripts = "/alter-malfunction-script.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class MalfunctionDaoImplTest {
 
     private Malfunction malfunction = new Malfunction(null,"malfunction1","auto1","description1",1);
@@ -36,9 +38,9 @@ public class MalfunctionDaoImplTest {
 
     @Test
     public void TestGetMalfunctionById() {
-        malfunctionDao.addMalfunction(malfunction);
+        int index = malfunctionDao.addMalfunction(malfunction);
         Malfunction newMalfunction = malfunctionDao.getMalfunctionById(3);
-        Assert.assertTrue(malfunction.getMalfunctionId().equals(newMalfunction.getMalfunctionId()));
+        Assert.assertTrue(newMalfunction.getMalfunctionId().equals(index));
     }
 
 
