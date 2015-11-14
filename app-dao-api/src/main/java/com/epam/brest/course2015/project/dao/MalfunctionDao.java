@@ -9,5 +9,6 @@ public interface MalfunctionDao {
     void deleteMalfunction(Integer malfunctionId);
     void updateMalfunction(Malfunction malfunction);
     Malfunction getMalfunctionById(Integer malfunctionId);
+    void addCostsToMalfunction(Integer malfunctionId, Integer costRepair, Integer costService, Integer additionalExpenses);
     List<Malfunction> getAllMalfunctionsByIdApplication(Integer applicationId);
 }

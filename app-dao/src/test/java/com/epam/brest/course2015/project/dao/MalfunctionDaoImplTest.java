@@ -49,7 +49,7 @@ public class MalfunctionDaoImplTest {
     public void TestDeleteMalfunction() {
         int size = malfunctionDao.getAllMalfunctionsByIdApplication(1).size();
         malfunctionDao.deleteMalfunction(1);
-        Assert.assertNotEquals(size,malfunctionDao.getAllMalfunctionsByIdApplication(1).size());
+        Assert.assertNotEquals(size, malfunctionDao.getAllMalfunctionsByIdApplication(1).size());
     }
 
     @Test
@@ -61,5 +61,14 @@ public class MalfunctionDaoImplTest {
         Assert.assertTrue(newMalfunction1.getName().equals(newMalfunction2.getName()));
         Assert.assertTrue(newMalfunction1.getAuto().equals(newMalfunction2.getAuto()));
         Assert.assertTrue(newMalfunction1.getDescription().equals(newMalfunction2.getDescription()));
+    }
+
+    @Test
+    public void TestAddCostsToMalfunction() {
+        malfunctionDao.addCostsToMalfunction(2,1000,2000,3000);
+        Malfunction malfunction = malfunctionDao.getMalfunctionById(2);
+        Assert.assertNotNull(malfunction.getCostRepair());
+        Assert.assertNotNull(malfunction.getCostService());
+        Assert.assertNotNull(malfunction.getAdditionalExpenses());
     }
 }

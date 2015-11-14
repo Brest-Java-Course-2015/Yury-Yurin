@@ -1,3 +1,4 @@
+package com.epam.brest.course2015.project.service;
 import com.epam.brest.course2015.project.core.Malfunction;
 
 import java.util.List;

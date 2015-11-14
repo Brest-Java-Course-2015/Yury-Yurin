@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="malfunctionDao" class="org.easymock.EasyMock" factory-method="createMock">
+        <constructor-arg value="com.epam.brest.course2015.project.dao.MalfunctionDao"/>
+    </bean>
+
+    <bean id="mulfunctionService" class="com.epam.brest.course2015.project.service.MalfunctionServiceImpl">
+        <property name="malfunctionDao" ref="malfunctionDao"/>
+    </bean>
+
+</beans>

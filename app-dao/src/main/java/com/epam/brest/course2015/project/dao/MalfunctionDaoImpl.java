@@ -34,10 +34,23 @@ public class MalfunctionDaoImpl implements MalfunctionDao {
     @Value("${malfunction.updateMalfunctionById}")
     private String updateMalfunctionById;
 
+    @Value("${malfunction.addCosts}")
+    private String addCosts;
+
     public MalfunctionDaoImpl(DataSource dataSource) {
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
+
+    @Override
+    public void addCostsToMalfunction(Integer malfunctionId, Integer costRepair, Integer costService, Integer additionalExpenses) {
+        HashMap<String,Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("malfunctionId",malfunctionId);
+        hashMap.put("costRepair",costRepair);
+        hashMap.put("costService",costService);
+        hashMap.put("additionalExpenses",additionalExpenses);
+        namedParameterJdbcTemplate.update(addCosts,hashMap);
+    }
     @Override
     public Integer addMalfunction(Malfunction malfunction) {
         KeyHolder key = new GeneratedKeyHolder();
