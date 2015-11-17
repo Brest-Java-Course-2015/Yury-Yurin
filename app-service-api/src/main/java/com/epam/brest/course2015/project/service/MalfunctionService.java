@@ -10,6 +10,6 @@ public interface MalfunctionService {
     Integer addMalfunction(Malfunction malfunction);
     void deleteMalfunction(Integer malfunctionId);
     void updateMalfunction(Malfunction malfunction);
-    Malfunction getMalfunctionById(Integer malfunctionId);
+    public Malfunction getMalfunctionById(Integer malfunctionId);
     List<Malfunction> getAllMalfunctionsByIdApplication(Integer applicationId);
 }

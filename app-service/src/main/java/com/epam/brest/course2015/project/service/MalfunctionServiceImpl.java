@@ -26,7 +26,7 @@ public class MalfunctionServiceImpl implements MalfunctionService {
 
     @Override
     public void deleteMalfunction(Integer malfunctionId) {
-        Assert.notNull(malfunctionId,"Id should not be null!");
+        Assert.notNull(malfunctionId, "Id should not be null!");
         Assert.isTrue(malfunctionId > 0);
         malfunctionDao.deleteMalfunction(malfunctionId);
     }
@@ -35,14 +35,15 @@ public class MalfunctionServiceImpl implements MalfunctionService {
     public void updateMalfunction(Malfunction malfunction) {
         Assert.notNull(malfunction.getMalfunctionId(),"Id should not be null!");
         Assert.hasText(malfunction.getName(), "Name should not be null!");
-        Assert.isNull(malfunction.getMalfunctionId(), "Id should be null!");
-        Assert.hasText(malfunction.getDescription(),"Description should not be empty!");
+        Assert.hasText(malfunction.getAuto(), "Auto should not be empty!");
+        Assert.hasText(malfunction.getDescription(), "Description should not be empty!");
         malfunctionDao.updateMalfunction(malfunction);
     }
 
     @Override
     public Malfunction getMalfunctionById(Integer malfunctionId) {
-        return null;
+        Assert.notNull(malfunctionId,"Id should not be null!");
+        return malfunctionDao.getMalfunctionById(malfunctionId);
     }
 
     @Override
