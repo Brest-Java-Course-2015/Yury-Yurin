@@ -12,6 +12,7 @@
         <module>app-test</module>
         <module>app-service-api</module>
         <module>app-service</module>
+        <module>app-rest</module>
     </modules>
     <packaging>pom</packaging>
 
