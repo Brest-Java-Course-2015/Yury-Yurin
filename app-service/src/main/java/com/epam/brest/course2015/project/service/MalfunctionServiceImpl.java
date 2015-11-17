@@ -6,9 +6,6 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-/**
- * Created by blondeks on 11/12/15.
- */
 public class MalfunctionServiceImpl implements MalfunctionService {
 
     private MalfunctionDao malfunctionDao;

@@ -4,11 +4,9 @@ package com.epam.brest.course2015.project.service;
 import com.epam.brest.course2015.project.core.Malfunction;
 import com.epam.brest.course2015.project.dao.MalfunctionDao;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
@@ -37,7 +35,7 @@ public class MockMalfunctionServiceImplTest {
     }
 
     @Test
-    public void TestAddMulfunction() {
+    public void TestAddMalfunction() {
         expect(mockMalfunctionDao.addMalfunction(malfunction)).andReturn(3);
         replay(mockMalfunctionDao);
         Assert.isTrue(malfunctionService.addMalfunction(malfunction).equals(3));

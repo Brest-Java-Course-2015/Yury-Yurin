@@ -8,8 +8,17 @@
         <constructor-arg value="com.epam.brest.course2015.project.dao.MalfunctionDao"/>
     </bean>
 
-    <bean id="mulfunctionService" class="com.epam.brest.course2015.project.service.MalfunctionServiceImpl">
+    <bean id="malfunctionService" class="com.epam.brest.course2015.project.service.MalfunctionServiceImpl">
         <property name="malfunctionDao" ref="malfunctionDao"/>
+    </bean>
+
+
+    <bean id="applicationDao" class="org.easymock.EasyMock" factory-method="createMock">
+        <constructor-arg value="com.epam.brest.course2015.project.dao.ApplicationDao"/>
+    </bean>
+
+    <bean id="applicationService" class="com.epam.brest.course2015.project.service.ApplicationServiceImpl">
+        <property name="applicationDao" ref="applicationDao"/>
     </bean>
 
 </beans>

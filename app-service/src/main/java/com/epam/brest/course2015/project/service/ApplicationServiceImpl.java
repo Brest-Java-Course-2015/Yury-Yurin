@@ -6,9 +6,6 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-/**
- * Created by blondeks on 11/17/15.
- */
 public class ApplicationServiceImpl implements ApplicationService {
 
     private ApplicationDao applicationDao;
@@ -24,7 +21,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void deleteApplication(Integer applicationId) {
-        Assert.isNull(applicationId,"Id should not be null!");
+        Assert.notNull(applicationId,"Id should not be null!");
         applicationDao.deleteApplication(applicationId);
     }
 
@@ -36,7 +33,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public Application getApplicationById(Integer applicationId) {
-        Assert.isNull(applicationId,"Id should not be null!");
+        Assert.notNull(applicationId,"Id should not be null!");
         return applicationDao.getApplicationById(applicationId);
     }
 
