@@ -71,7 +71,6 @@ public class ApplicationDaoImpl implements ApplicationDao {
     public void updateApplication(Application application) {
             HashMap<String,Object> hashMap = new HashMap<String, Object>();
             hashMap.put("applicationId",application.getApplicationId());
-            hashMap.put("createdDate",application.getCreatedDate());
             hashMap.put("updatedDate",application.getUpdatedDate());
             namedParameterJdbcTemplate.update(updateApplicationById, hashMap);
     }

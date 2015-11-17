@@ -77,4 +77,12 @@ public class MockMalfunctionServiceImplTest {
         replay(mockMalfunctionDao);
         Assert.isTrue(malfunctionService.getMalfunctionById(2).equals(newMalfunction));
     }
+
+    @Test
+    public void TestAddCosts() {
+        mockMalfunctionDao.addCostsToMalfunction(1,1000,2000,3000);
+        expectLastCall();
+        replay(mockMalfunctionDao);
+        malfunctionService.addCostsToMalfunction(1,1000,2000,3000);
+    }
 }

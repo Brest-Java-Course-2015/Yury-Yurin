@@ -52,4 +52,14 @@ public class MalfunctionServiceImpl implements MalfunctionService {
         Assert.isTrue(applicationId>0);
         return malfunctionDao.getAllMalfunctionsByIdApplication(applicationId);
     }
+
+    @Override
+    public void addCostsToMalfunction(Integer malfunctionId, Integer costRepair, Integer costService, Integer additionalExpenses) {
+        Assert.notNull(malfunctionId,"Id should not be null");
+        Assert.notNull(costRepair,"Cost should not be null");
+        Assert.notNull(costService,"Cost should not be null");
+        Assert.notNull(additionalExpenses,"Cost should not be null");
+        malfunctionDao.addCostsToMalfunction(malfunctionId,costRepair,costService,additionalExpenses);
+    }
+
 }
