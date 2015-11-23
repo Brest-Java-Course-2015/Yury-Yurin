@@ -70,18 +70,16 @@ public class MockTestMalfunctionRestController {
 
     @Test
     public void TestUpdateMalfunction() throws Exception {
-        malfunction.setMalfunctionId(1);
-        malfunctionService.updateMalfunction(malfunction);
+        //malfunction.setMalfunctionId(1);
+        malfunctionService.updateMalfunction(anyObject(Malfunction.class));
         expectLastCall();
-        String newMalfunction = new ObjectMapper().writeValueAsString(malfunction);
+       String newMalfunction = new ObjectMapper().writeValueAsString(malfunction);
         replay(malfunctionService);
-        mockMvc.perform(
-                post("/update")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(newMalfunction))
+        mockMvc.perform(post("/update").accept(MediaType.APPLICATION_JSON)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(newMalfunction))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isAccepted())
                 .andExpect(content().string(""));
     }
 
@@ -122,4 +120,14 @@ public class MockTestMalfunctionRestController {
 
     }
 
+    @Test
+    public void TestAddCosts() throws Exception {
+        malfunctionService.addCostsToMalfunction(1,1000,2000,3000);
+        expectLastCall();
+        replay(malfunctionService);
+        mockMvc.perform(post("/malfunction/1/1000/2000/3000"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+    }
 }

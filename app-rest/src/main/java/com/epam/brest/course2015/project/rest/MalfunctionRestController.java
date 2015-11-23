@@ -32,6 +32,7 @@ public class MalfunctionRestController {
         return malfunctionService.addMalfunction(malfunction);
     }
     @RequestMapping(value = "/malfunction/{id}/{costRepair}/{costService}/{additionalExpenses}", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
     public void addCosts(@PathVariable(value = "id") Integer id,
             @PathVariable(value = "costRepair") Integer costRepair,
                          @PathVariable(value = "costService") Integer costService,
@@ -40,7 +41,7 @@ public class MalfunctionRestController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateMalfunction(@RequestBody Malfunction malfunction) {
         malfunctionService.updateMalfunction(malfunction);
     }
