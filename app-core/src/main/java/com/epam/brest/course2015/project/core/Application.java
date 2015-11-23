@@ -38,6 +38,10 @@ public class Application {
         this.updatedDate = updatedDate;
     }
 
+    public Application() {
+
+    }
+
     public Application(Integer applicationId,Date createdDate, Date updatedDate) {
         this.applicationId = applicationId;
         this.createdDate = createdDate;

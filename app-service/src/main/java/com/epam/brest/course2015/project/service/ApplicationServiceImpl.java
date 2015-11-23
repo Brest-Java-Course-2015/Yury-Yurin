@@ -2,10 +2,13 @@ package com.epam.brest.course2015.project.service;
 
 import com.epam.brest.course2015.project.core.Application;
 import com.epam.brest.course2015.project.dao.ApplicationDao;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import javax.annotation.Resource;
 import java.util.List;
 
+@Service(value = "applicationService")
 public class ApplicationServiceImpl implements ApplicationService {
 
     private ApplicationDao applicationDao;

@@ -51,6 +51,14 @@
         <property name="malfunctionDao" ref="malfunctionDao"/>
     </bean>
 
+    <bean id="applicationDao" class="com.epam.brest.course2015.project.dao.ApplicationDaoImpl">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <bean id="applicationService" class="com.epam.brest.course2015.project.service.ApplicationServiceImpl">
+        <property name="applicationDao" ref="applicationDao"/>
+    </bean>
+
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <list>

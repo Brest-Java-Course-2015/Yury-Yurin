@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(value = "classpath*:mock-test-spring-rest.xml")
-public class MockTestMalfunctionRestController {
+public class MockMalfunctionRestControllerTest {
 
     @Autowired
     private MalfunctionService malfunctionService;
@@ -75,7 +75,7 @@ public class MockTestMalfunctionRestController {
         expectLastCall();
        String newMalfunction = new ObjectMapper().writeValueAsString(malfunction);
         replay(malfunctionService);
-        mockMvc.perform(post("/update").accept(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/malfunction/update").accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
         .content(newMalfunction))
                 .andDo(print())

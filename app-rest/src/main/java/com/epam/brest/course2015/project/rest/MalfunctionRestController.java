@@ -40,7 +40,7 @@ public class MalfunctionRestController {
         malfunctionService.addCostsToMalfunction(id,costRepair,costService,additionalExpenses);
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/malfunction/update", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateMalfunction(@RequestBody Malfunction malfunction) {
         malfunctionService.updateMalfunction(malfunction);
