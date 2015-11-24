@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.List;
 
 public class Application {
+
+    SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+
     private Integer applicationId;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private Date createdDate = new Date();
@@ -52,5 +55,12 @@ public class Application {
         this.applicationId = application.applicationId;
         this.createdDate = application.createdDate;
         this.updatedDate = application.updatedDate;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Application : {applicationId:" + applicationId + ", createdDate: " +
+                DATE_FORMAT.format(createdDate) + ", updatedDate: " +
+                DATE_FORMAT.format(updatedDate) + "}");
     }
 }

@@ -71,5 +71,8 @@
         <property name="supportedMediaTypes" value="application/json" />
         <property name="prettyPrint" value="true" />
     </bean>
+    <mvc:cors>
+        <mvc:mapping path="/**" />
+    </mvc:cors>
 
 </beans>
