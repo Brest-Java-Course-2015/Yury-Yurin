@@ -61,10 +61,10 @@ public class MockApplicationServiceImplTest {
     public void TestUpdateApplication() {
         application.setUpdatedDate(new Date());
         application.setApplicationId(3);
-        mockApplicationDao.updateApplication(application);
+        mockApplicationDao.updateApplication(3,application.getUpdatedDate());
         expectLastCall();
         replay(mockApplicationDao);
-        applicationService.updateApplication(application);
+        applicationService.updateApplication(3,application.getUpdatedDate());
     }
 
     @Test

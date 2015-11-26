@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.RowMapper;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import static com.epam.brest.course2015.project.core.Application.ApplicationFields.*;
@@ -74,11 +75,11 @@ public class ApplicationDaoImpl implements ApplicationDao {
     }
 
     @Override
-    public void updateApplication(Application application) {
-        LOGGER.info("DAO:Update application by id=",application.getApplicationId().toString());
+    public void updateApplication(Integer applicationId,Date updatedDate) {
+        LOGGER.info("DAO:Update application by id=",applicationId.toString());
             HashMap<String,Object> hashMap = new HashMap<String, Object>();
-            hashMap.put(APPLICATION_ID.getValue(),application.getApplicationId());
-            hashMap.put(UPDATED_DATE.getValue(),application.getUpdatedDate());
+            hashMap.put(APPLICATION_ID.getValue(),applicationId);
+            hashMap.put(UPDATED_DATE.getValue(),updatedDate);
             namedParameterJdbcTemplate.update(updateApplicationById, hashMap);
     }
 

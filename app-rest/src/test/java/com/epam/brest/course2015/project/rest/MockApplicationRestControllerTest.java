@@ -65,23 +65,9 @@ public class MockApplicationRestControllerTest {
 
     }
 
-    @Test
-    public void TestUpdateApplication() throws Exception {
-        applicationService.updateApplication(anyObject(Application.class));
-        expectLastCall();
-        String newApplication = new ObjectMapper().writeValueAsString(application);
-        replay(applicationService);
-        mockMvc.perform(post("/application/update").accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(newApplication))
-                .andDo(print())
-                .andExpect(status().isAccepted())
-                .andExpect(content().string(""));
-    }
-
 
     @Test
-    public void TestDeleteMalfunction() throws Exception {
+    public void TestDeleteApplication() throws Exception {
         applicationService.deleteApplication(1);
         expectLastCall();
         replay(applicationService);
@@ -92,7 +78,7 @@ public class MockApplicationRestControllerTest {
     }
 
     @Test
-    public void TestGetMalfunctionById() throws Exception {
+    public void TestGetApplicationById() throws Exception {
         application.setApplicationId(1);
         expect(applicationService.getApplicationById(1)).andReturn(application);
         expectLastCall();

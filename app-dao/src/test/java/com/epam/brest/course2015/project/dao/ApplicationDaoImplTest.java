@@ -48,12 +48,10 @@ public class ApplicationDaoImplTest {
 
     @Test
     public void TestUpdateApplicationById() {
-        Application newApplication1 = applicationDao.getApplicationById(1);
-        newApplication1.setUpdatedDate(new Date());
-        applicationDao.updateApplication(newApplication1);
-        Application newApplication2 = applicationDao.getApplicationById(newApplication1.getApplicationId());
-        Assert.assertTrue(newApplication1.getCreatedDate().equals(newApplication2.getCreatedDate()));
-        Assert.assertTrue(newApplication1.getUpdatedDate().equals(newApplication2.getUpdatedDate()));
+        applicationDao.updateApplication(1,new Date());
+        Application newApplication = applicationDao.getApplicationById(1);
+        Assert.assertTrue(newApplication.getCreatedDate().equals(newApplication.getCreatedDate()));
+        Assert.assertTrue(newApplication.getUpdatedDate().equals(newApplication.getUpdatedDate()));
     }
 
     @Test

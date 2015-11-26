@@ -103,6 +103,7 @@ public class Malfunction {
         this.applicationId = applicationId;
     }
 
+
     public static enum MalfunctionFields {
 
         MALFUNCTION_ID ("malfunctionId"),

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Service(value = "applicationService")
@@ -33,9 +34,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public void updateApplication(Application application) {
-        Assert.notNull(application.getApplicationId(),"Id should not be null");
-        applicationDao.updateApplication(application);
+    public void updateApplication(Integer applicationId, Date updatedDate) {
+        Assert.notNull(applicationId,"Id should not be null");
+        applicationDao.updateApplication(applicationId,updatedDate);
     }
 
     @Override

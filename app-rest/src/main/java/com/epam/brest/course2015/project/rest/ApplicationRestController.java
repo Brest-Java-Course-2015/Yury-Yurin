@@ -47,10 +47,9 @@ public class ApplicationRestController {
         applicationService.deleteApplication(id);
     }
 
-    @RequestMapping(value =  "/application/update", method = RequestMethod.POST)
+    @RequestMapping(value =  "/application/update/{id}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateApplication(@RequestBody Application application) {
-        application.setUpdatedDate(new Date());
-        applicationService.updateApplication(application);
+    public void updateApplication(@PathVariable(value = "id") Integer id) {
+        applicationService.updateApplication(id,new Date());
     }
 }
