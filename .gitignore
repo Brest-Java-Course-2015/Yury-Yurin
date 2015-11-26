@@ -6,6 +6,8 @@
 **/*.class
 **/*.log
 **/target/
+**/bootstrap-3.3.5-dist/css
+**/bootstrap-3.3.5-dist/fonts
 
 # Package Files #
 *.jar

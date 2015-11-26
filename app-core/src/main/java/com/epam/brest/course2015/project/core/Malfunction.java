@@ -102,4 +102,25 @@ public class Malfunction {
         this.description = description;
         this.applicationId = applicationId;
     }
+
+    public static enum MalfunctionFields {
+
+        MALFUNCTION_ID ("malfunctionId"),
+        NAME ("name"),
+        AUTO ("auto"),
+        DESCRIPTION ("description"),
+        APPLICATION_ID ("applicationId"),
+        COST_REPAIR ("costRepair"),
+        COST_SERVICE ("costService"),
+        ADDITIONAL_EXPENSES ("additionalExpenses");
+
+        private MalfunctionFields(String value){
+            this.value = value;
+        }
+
+        private final String value;
+
+        public String getValue(){return value;}
+
+    }
 }

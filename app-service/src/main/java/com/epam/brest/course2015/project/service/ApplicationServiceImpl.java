@@ -2,6 +2,8 @@ package com.epam.brest.course2015.project.service;
 
 import com.epam.brest.course2015.project.core.Application;
 import com.epam.brest.course2015.project.dao.ApplicationDao;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Service(value = "applicationService")
 public class ApplicationServiceImpl implements ApplicationService {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private ApplicationDao applicationDao;
 

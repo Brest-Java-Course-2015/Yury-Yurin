@@ -63,4 +63,20 @@ public class Application {
                 DATE_FORMAT.format(createdDate) + ", updatedDate: " +
                 DATE_FORMAT.format(updatedDate) + "}");
     }
+
+    public static enum ApplicationFields {
+
+        APPLICATION_ID ("applicationId"),
+        CREATED_DATE ("createdDate"),
+        UPDATED_DATE ("updatedDate");
+
+        private ApplicationFields(String value){
+            this.value = value;
+        }
+
+        private final String value;
+
+        public String getValue(){return value;}
+
+    }
 }

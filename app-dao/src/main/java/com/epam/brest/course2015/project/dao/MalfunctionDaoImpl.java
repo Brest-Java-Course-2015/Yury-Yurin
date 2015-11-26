@@ -1,6 +1,8 @@
 package com.epam.brest.course2015.project.dao;
 
 import com.epam.brest.course2015.project.core.Malfunction;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,10 +16,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import static com.epam.brest.course2015.project.core.Malfunction.MalfunctionFields.*;
 
 public class MalfunctionDaoImpl implements MalfunctionDao {
     private RowMapper<Malfunction> malfunctionMapper = new BeanPropertyRowMapper<Malfunction>(Malfunction.class);
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Value("${malfunction.insertMalfunction}")
     private String addMalfunction;
@@ -44,15 +49,17 @@ public class MalfunctionDaoImpl implements MalfunctionDao {
 
     @Override
     public void addCostsToMalfunction(Integer malfunctionId, Integer costRepair, Integer costService, Integer additionalExpenses) {
+        LOGGER.info("DAO:Add all costs for malfunction with id=" + malfunctionId.toString());
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("malfunctionId",malfunctionId);
-        hashMap.put("costRepair",costRepair);
-        hashMap.put("costService",costService);
-        hashMap.put("additionalExpenses",additionalExpenses);
-        namedParameterJdbcTemplate.update(addCosts,hashMap);
+        hashMap.put(MALFUNCTION_ID.getValue(),malfunctionId);
+        hashMap.put(COST_REPAIR.getValue(),costRepair);
+        hashMap.put(COST_SERVICE.getValue(),costService);
+        hashMap.put(ADDITIONAL_EXPENSES.getValue(),additionalExpenses);
+        namedParameterJdbcTemplate.update(addCosts, hashMap);
     }
     @Override
     public Integer addMalfunction(Malfunction malfunction) {
+        LOGGER.info("DAO:Add new malfunction");
         KeyHolder key = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(addMalfunction,getParametersMap(malfunction),key);
         return key.getKey().intValue();
@@ -60,42 +67,46 @@ public class MalfunctionDaoImpl implements MalfunctionDao {
 
     @Override
     public void deleteMalfunction(Integer malfunctionId) {
+        LOGGER.info("DAO:Delete malfunction by id="+malfunctionId.toString());
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("malfunctionId",malfunctionId);
+        hashMap.put(MALFUNCTION_ID.getValue(),malfunctionId);
         namedParameterJdbcTemplate.update(deleteMalfunctionById,hashMap);
     }
 
     @Override
     public Malfunction getMalfunctionById(Integer malfunctionId) {
+        LOGGER.info("DAO:Get malfunction by id="+malfunctionId.toString());
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("malfunctionId", malfunctionId);
+        hashMap.put(MALFUNCTION_ID.getValue(), malfunctionId);
         return namedParameterJdbcTemplate.queryForObject(getMalfunction, hashMap, malfunctionMapper);
     }
 
     @Override
     public void updateMalfunction(Malfunction malfunction) {
+        LOGGER.info("DAO:Update malfunction by id="+malfunction.getMalfunctionId().toString());
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("malfunctionId",malfunction.getMalfunctionId());
-        hashMap.put("name",malfunction.getName());
-        hashMap.put("auto",malfunction.getAuto());
-        hashMap.put("description",malfunction.getDescription());
+        hashMap.put(MALFUNCTION_ID.getValue(),malfunction.getMalfunctionId());
+        hashMap.put(NAME.getValue(),malfunction.getName());
+        hashMap.put(AUTO.getValue(),malfunction.getAuto());
+        hashMap.put(DESCRIPTION.getValue(),malfunction.getDescription());
         namedParameterJdbcTemplate.update(updateMalfunctionById, hashMap);
     }
 
     @Override
     public List<Malfunction> getAllMalfunctionsByIdApplication(Integer applicationId) {
+        LOGGER.info("DAO:Get list of malfunction by application id="+applicationId.toString());
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("applicationId",applicationId);
+        hashMap.put(APPLICATION_ID.getValue(),applicationId);
         return namedParameterJdbcTemplate.query(getMalfunctions,hashMap,malfunctionMapper);
     }
 
     private MapSqlParameterSource getParametersMap(Malfunction malfunction) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("malfunctionId", malfunction.getMalfunctionId());
-        parameterSource.addValue("name", malfunction.getName());
-        parameterSource.addValue("auto", malfunction.getAuto());
-        parameterSource.addValue("description", malfunction.getDescription());
-        parameterSource.addValue("applicationId", malfunction.getApplicationId());
+        parameterSource.addValue(MALFUNCTION_ID.getValue(), malfunction.getMalfunctionId());
+        parameterSource.addValue(NAME.getValue(), malfunction.getName());
+        parameterSource.addValue(AUTO.getValue(), malfunction.getAuto());
+        parameterSource.addValue(DESCRIPTION.getValue(), malfunction.getDescription());
+        parameterSource.addValue(APPLICATION_ID.getValue(), malfunction.getApplicationId());
         return parameterSource;
     }
 }

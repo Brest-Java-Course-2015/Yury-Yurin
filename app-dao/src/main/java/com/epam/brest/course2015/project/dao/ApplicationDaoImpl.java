@@ -2,6 +2,8 @@ package com.epam.brest.course2015.project.dao;
 
 import com.epam.brest.course2015.project.core.Application;
 import com.epam.brest.course2015.project.core.Malfunction;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -15,7 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
-
+import static com.epam.brest.course2015.project.core.Application.ApplicationFields.*;
 public class ApplicationDaoImpl implements ApplicationDao {
 
     private RowMapper<Application> applicationMapper = new BeanPropertyRowMapper<Application>() {
@@ -28,6 +30,8 @@ public class ApplicationDaoImpl implements ApplicationDao {
             return application;
         }
     };
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -54,6 +58,7 @@ public class ApplicationDaoImpl implements ApplicationDao {
 
     @Override
     public Integer addApplication(Application application) {
+        LOGGER.info("DAO:Add new application");
         KeyHolder key = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(addApplication, getParametersMap(application), key);
         return key.getKey().intValue();
@@ -61,37 +66,41 @@ public class ApplicationDaoImpl implements ApplicationDao {
 
     @Override
     public void deleteApplication(Integer applicationId) {
+        LOGGER.info("DAO:Delete application by id="+applicationId.toString());
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("applicationId", applicationId);
+        hashMap.put(APPLICATION_ID.getValue(), applicationId);
         namedParameterJdbcTemplate.update(deleteApplicationById, hashMap);
         namedParameterJdbcTemplate.update(deleteAllMalfunctionByIdApplication, hashMap);
     }
 
     @Override
     public void updateApplication(Application application) {
+        LOGGER.info("DAO:Update application by id=",application.getApplicationId().toString());
             HashMap<String,Object> hashMap = new HashMap<String, Object>();
-            hashMap.put("applicationId",application.getApplicationId());
-            hashMap.put("updatedDate",application.getUpdatedDate());
+            hashMap.put(APPLICATION_ID.getValue(),application.getApplicationId());
+            hashMap.put(UPDATED_DATE.getValue(),application.getUpdatedDate());
             namedParameterJdbcTemplate.update(updateApplicationById, hashMap);
     }
 
     @Override
     public Application getApplicationById(Integer applicationId) {
+        LOGGER.info("DAO:Get application by id=",applicationId);
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("applicationId", applicationId);
+        hashMap.put(APPLICATION_ID.getValue(), applicationId);
         return namedParameterJdbcTemplate.queryForObject(getApplicationById,hashMap,applicationMapper);
     }
 
     @Override
     public List<Application> getAllApplications() {
+        LOGGER.info("DAO:Get list of applications");
         return namedParameterJdbcTemplate.query(getApplications, applicationMapper);
     }
 
     private MapSqlParameterSource getParametersMap(Application application) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("applicationId", application.getApplicationId());
-        parameterSource.addValue("createdDate", application.getCreatedDate());
-        parameterSource.addValue("updatedDate", application.getUpdatedDate());
+        parameterSource.addValue(APPLICATION_ID.getValue(), application.getApplicationId());
+        parameterSource.addValue(CREATED_DATE.getValue(), application.getCreatedDate());
+        parameterSource.addValue(UPDATED_DATE.getValue(), application.getUpdatedDate());
         return parameterSource;
     }
 }

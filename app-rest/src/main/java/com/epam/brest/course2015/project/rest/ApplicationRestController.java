@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -49,6 +50,7 @@ public class ApplicationRestController {
     @RequestMapping(value =  "/application/update", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateApplication(@RequestBody Application application) {
+        application.setUpdatedDate(new Date());
         applicationService.updateApplication(application);
     }
 }
