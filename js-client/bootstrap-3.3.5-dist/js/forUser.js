@@ -5,6 +5,8 @@ var MALFUNCTION_DELETE = "http://localhost:8080/rest/malfunction/delete/";
 var MALFUNCTION_ADD = "http://localhost:8080/rest/malfunction";
 var MALFUNCTION_UPDATE = "http://localhost:8080/rest/malfunction/update";
 var APPLICATION_UPDATE = "http://localhost:8080/rest/application/update/";
+var APPLICATION_DELETE = "http://localhost:8080/rest/application/delete/";
+var APPLICATION_ADD = "http://localhost:8080/rest/application";
 
 getAllApplications();
 
@@ -14,7 +16,6 @@ function deleteMalfunction(malfunctionId,applicationId) {
     $.ajax({
         type: 'DELETE',
         url: MALFUNCTION_DELETE + malfunctionId,
-        Origin: 'http://localhost:63342/usermanagement/js-client/',
         success: function(data) {
             alert('Malfunction succesfully deleted!');
             updateApplication(applicationId);
@@ -34,34 +35,48 @@ function deleteMalfunction(malfunctionId,applicationId) {
             Origin: 'http://localhost:63342/usermanagement/js-client/',
             dataType: 'json',// data type of response
             success: function (data) {
-                if (data.length > 1) {
-                    $('#applicationList tr').remove();
-                    for (var i = 0; i < data.length; i++)
-                        getAllMalfunctionsByApplicationId(data[i], data[i].applicationId);
-                }
-                else getAllMalfunctionsByApplicationId(data, data.applicationId);
+                $('#applicationList tr').remove();
+                for (var i = 0; i < data.length; i++)
+                    getAllMalfunctionsByApplicationId(data[i], data[i].applicationId, data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR, textStatus, errorThrown);
-                alert('findAll: ' + textStatus);
+                alert('getAllapplications: ' + textStatus);
             }
         });
     }
 
-    function getAllMalfunctionsByApplicationId(dataApp, id) {
+    function getAllMalfunctionsByApplicationId(dataApp, id,data) {
         console.log('findAll');
         $.ajax({
             type: 'GET',
             url: MALFUNCTIONS_URL + id.toString(),
             dataType: 'json',// data type of response
             success: function (data) {
+                if(data.length == null) deleteApplication(dataApp.applicationId);
                 drawRow(dataApp, data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR, textStatus, errorThrown);
-                alert('findAll: ' + textStatus);
+                alert('getAllMalfunctionsById: ' + textStatus);
             }
         });
+    }
+
+    function deleteApplication(applicationId) {
+    console.log('deleteApplication');
+    $.ajax({
+        type: 'DELETE',
+        url: APPLICATION_DELETE + applicationId,
+        success: function(data) {
+          alert("List of malfunction by id=" + applicationId + " is empty, application deleted!")
+            getAllApplications();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR, textStatus, errorThrown);
+            alert('deleteApplication: ' + textStatus);
+        }
+    });
     }
 
     function drawRow(dataApp, dataMal) {
@@ -73,13 +88,13 @@ function deleteMalfunction(malfunctionId,applicationId) {
         row.append($('<td id=\"updatedDate' + dataApp.applicationId + '\">' + dataApp.updatedDate + "</td>"));
         row.append($("<td></td>"));
         row.append($("<td>" + '<button onclick="drawFormFOrNewMalfunction(' + dataApp.applicationId + ')">Add</button>' + "</td>"));
-        row.append($("<td></td>"));
+        row.append($("<td>" + '<button onclick="deleteApplication(' + dataApp.applicationId + ')">Delete</button>' + "</td>"))
         $("#applicationList").append(rowForTh);
         rowForTh.append($("<td></td>"));
         rowForTh.append($("<td><b>Наименование</b></td>"));
         rowForTh.append($("<td><b>Автомобиль</b></td>"));
         rowForTh.append($("<td><b>Описание</b></td>"));
-        rowForTh.append($("<td><b>" + 'Стоимость' + "</b></td>"));
+        rowForTh.append($("<td><b>Стоимость</b></td>"));
         rowForTh.append($("<td></td>"));
         for (var j = 0; j < dataMal.length; j++) {
             var rowM = $("<tr />");
@@ -88,8 +103,8 @@ function deleteMalfunction(malfunctionId,applicationId) {
             rowM.append($('<td id=\"name' + dataMal[j].malfunctionId + '\">' + dataMal[j].name + "</td>"));
             rowM.append($('<td id=\"auto' + dataMal[j].malfunctionId + '\">' + dataMal[j].auto + "</td>"));
             rowM.append($('<td id=\"description' + dataMal[j].malfunctionId + '\">' + dataMal[j].description + "</td>"));
-            //rowM.append($("<td>" +dataMal[j].cost + "</td>"));
-            rowM.append($("<td></td>"));
+            rowM.append($("<td>" +dataMal[j].costRepair + dataMal[j].costService + dataMal[j].add + + "</td>"));
+            //rowM.append($("<td></td>"));
             rowM.append($("<td>" + '<button onclick="deleteMalfunction('
             + dataMal[j].malfunctionId + ','
             +  dataApp.applicationId + ')">Delete</button>'
@@ -116,7 +131,12 @@ function drawFormFOrNewMalfunction(applicationId) {
     rowDescription.append($("<td>" + '<input id="description" type="text">' + "</td>"));
     $("#addMalfunction").append(rowButton);
     rowButton.append($("<td></td>"));
-    rowButton.append($("<td>" + '<button onclick="addMalfunction(' + applicationId +')">Add</button>'+"</td>"));
+    if(applicationId==null)
+    rowButton.append($("<td>" + '<button onclick="createApplication(' + applicationId +')">Add</button>'+
+    '<button onclick="clearForm()">Cancel</button>' + "</td>"));
+    else rowButton.append($("<td>" + '<button onclick="addMalfunction(' + applicationId +')">Add</button>'+
+    '<button onclick="clearForm()">Cancel</button>' + "</td>"));
+
 }
 
 function drawFormFOrUpdateMalfunction(applicationId,malfunctionId) {
@@ -156,12 +176,28 @@ function addMalfunction(applicationId) {
             $('#addMalfunction tr').remove();
         },
         error: function (jqXHR, textStatus, errorThrown) {
+            alert('addMulfunction error: ' + textStatus);
+        }
+    });
+   if(applicationId!=null) updateApplication(applicationId);
+}
+
+function createApplication(applicationId) {
+    $.ajax({
+        type: 'PUT',
+        contentType: 'application/json',
+        url: APPLICATION_ADD,
+        data: addApplicationFormToJSON(applicationId),
+        success: function (data) {
+            alert("Application created success");
+            addMalfunction(data)
+            $('#addMalfunction tr').remove();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('addUser error: ' + textStatus);
         }
     });
-    updateApplication(applicationId);
 }
-
 function updateApplication(applicationId) {
     console.log('updateApplication');
     $.ajax({
@@ -192,7 +228,7 @@ function updateMalfunction(malfunctionId,applicationId) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR, textStatus, errorThrown);
-            alert('addUser error: ' + textStatus);
+            alert('Update malfunction error: ' + textStatus);
         }
     });
 }
@@ -214,4 +250,13 @@ function addMalfunctionFormToJSON(id) {
             "applicationId": id
         });
     }
+
+function addApplicationFormToJSON(id) {
+    var datee = Date.now();
+    return JSON.stringify({
+        "applicationId": null,
+        "createdDate" : datee,
+        "updatedDate" : datee
+    });
+}
 

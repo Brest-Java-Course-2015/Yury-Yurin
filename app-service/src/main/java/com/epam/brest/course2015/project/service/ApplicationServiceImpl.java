@@ -48,7 +48,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public List<Application> getAllApplications() {
         List<Application> applicationList = applicationDao.getAllApplications();
-        Assert.notEmpty(applicationList,"Empty list of applications");
         return applicationList;
     }
 }
