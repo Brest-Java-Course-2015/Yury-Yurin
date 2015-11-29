@@ -122,7 +122,7 @@ function getAllMalfunctionsByApplicationId(dataApp, id) {
                     rowM.append($('<td id=\"name' + dataMal[j].malfunctionId + '\">' + dataMal[j].name + "</td>"));
                     rowM.append($('<td id=\"auto' + dataMal[j].malfunctionId + '\">' + dataMal[j].auto + "</td>"));
                     rowM.append($('<td id=\"description' + dataMal[j].malfunctionId + '\">' + dataMal[j].description + "</td>"));
-                    rowM.append($("<td>" + dataMal[j].costRepair + dataMal[j].costService + dataMal[j].add + +"</td>"));
+                    rowM.append($("<td>" + dataMal[j].costRepair + dataMal[j].costService + dataMal[j].additionalExpenses +"</td>"));
                     //rowM.append($("<td></td>"));
                     rowM.append($("<td>" + '<button onclick="deleteMalfunction('
                     + dataMal[j].malfunctionId + ','

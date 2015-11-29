@@ -75,6 +75,22 @@ public class MalfunctionDaoImplTest {
     @Test
     public void TestGetAllMalfunctions() {
         int size = malfunctionDao.getAllMalfunctions().size();
-        Assert.assertTrue(size==2);
+        Assert.assertTrue(size == 2);
+    }
+
+    @Test
+    public void TestGetCostById() {
+        malfunctionDao.addCostsToMalfunction(2, 1000, 2000, 3000);
+        Malfunction malfunction = malfunctionDao.getMalfunctionById(2);
+        Integer sum = malfunctionDao.getCostForMalfunctionById(2);
+        Assert.assertTrue(sum == 6000);
+    }
+
+    @Test
+    public void TestGetCostByApplicationId() {
+        malfunctionDao.addCostsToMalfunction(2, 1000, 2000, 3000);
+        malfunctionDao.addCostsToMalfunction(1, 1000, 2000, 3000);
+        Integer sum = malfunctionDao.getCostForMalfunctionsByApplicationId(1);
+        Assert.assertTrue(sum == 12000);
     }
 }

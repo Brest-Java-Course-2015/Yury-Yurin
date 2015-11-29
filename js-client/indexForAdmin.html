@@ -13,11 +13,12 @@
 </head>
 
 <h1>Список неисправностей</h1>
-
-<form>
-    <input id="datasSetFrom" type="date">
-    <input id="datasSetTo" type="date">
-</form>
+<div align="center">
+    <input id="dateSetFrom" type="date">
+    <input id="dateSetTo" type="date">
+    <button id="btnSortDate" onclick="getAllApplications()">Set</button>
+    <button id="btnClear" onclick="clearDate()">Clear</button>
+</div>
 <div id="addApp" align="right">
     <button id="btnAddApp" onclick="drawFormFOrNewMalfunction(null)">Add application</button>
 </div>
@@ -48,7 +49,7 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="bootstrap-3.3.5-dist/js/bootstrap.js"></script>
 
-<script src="bootstrap-3.3.5-dist/js/forUser.js"></script>
+<script src="bootstrap-3.3.5-dist/js/forAdmin.js"></script>
 
 
 </body>

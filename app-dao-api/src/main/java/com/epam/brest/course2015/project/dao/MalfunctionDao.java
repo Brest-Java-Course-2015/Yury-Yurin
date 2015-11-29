@@ -12,4 +12,6 @@ public interface MalfunctionDao {
     void addCostsToMalfunction(Integer malfunctionId, Integer costRepair, Integer costService, Integer additionalExpenses);
     List<Malfunction> getAllMalfunctionsByIdApplication(Integer applicationId);
     List<Malfunction> getAllMalfunctions();
+    Integer getCostForMalfunctionById(Integer malfunctionId);
+    Integer getCostForMalfunctionsByApplicationId(Integer applicationId);
 }
