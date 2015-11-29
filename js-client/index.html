@@ -13,7 +13,12 @@
 </head>
 
 <h1>Список неисправностей</h1>
-
+<div align="center">
+    <input id="dateSetFrom" type="date">
+    <input id="dateSetTo" type="date">
+    <button id="btnSortDate" onclick="getAllApplications()">Set</button>
+    <button id="btnClear" onclick="clearDate()">Set</button>
+    </div>
 <div id="addApp" align="right">
     <button id="btnAddApp" onclick="drawFormFOrNewMalfunction(null)">Add application</button>
 </div>

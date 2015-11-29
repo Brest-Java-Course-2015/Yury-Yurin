@@ -9,5 +9,6 @@ public interface MalfunctionService {
     void updateMalfunction(Malfunction malfunction);
     Malfunction getMalfunctionById(Integer malfunctionId);
     List<Malfunction> getAllMalfunctionsByIdApplication(Integer applicationId);
+    List<Malfunction> getAllMalfunctions();
     void addCostsToMalfunction(Integer malfunctionId, Integer costRepair, Integer costService, Integer additionalExpenses);
 }

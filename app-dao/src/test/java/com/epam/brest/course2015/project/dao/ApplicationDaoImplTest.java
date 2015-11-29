@@ -10,6 +10,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.peer.ListPeer;
 import java.util.Date;
 import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -38,6 +39,17 @@ public class ApplicationDaoImplTest {
         Assert.assertNotEquals(size, applicationDao.getAllApplications().size());
     }
 
+    @Test
+    public void TestGetApplicationsByDate() {
+        Date minDate = new Date();
+        Date maxDate = new Date();
+        applicationDao.addApplication(new Application(null,minDate,maxDate));
+        minDate.setMonth(minDate.getMonth()-1);
+        maxDate.setMonth(maxDate.getMonth()+1);
+        List<Application> applicationList = applicationDao.getApplicationsBySetDate(minDate,maxDate);
+        Assert.assertTrue(applicationList.size()==1);
+
+    }
     @Test
     public void TestGetApplicationById() {
         List<Application> list = applicationDao.getAllApplications();

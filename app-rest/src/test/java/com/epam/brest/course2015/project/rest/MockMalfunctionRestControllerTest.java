@@ -121,6 +121,18 @@ public class MockMalfunctionRestControllerTest {
     }
 
     @Test
+    public void TestGetAllMalfunctions() throws Exception {
+        malfunction.setApplicationId(1);
+        List<Malfunction> malfunctionList = new ArrayList<Malfunction>();
+        malfunctionList.add(malfunction);
+        expect(malfunctionService.getAllMalfunctions()).andReturn(malfunctionList);
+        replay(malfunctionService);
+        mockMvc.perform(get("/malfunctions").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void TestAddCosts() throws Exception {
         malfunctionService.addCostsToMalfunction(1,1000,2000,3000);
         expectLastCall();

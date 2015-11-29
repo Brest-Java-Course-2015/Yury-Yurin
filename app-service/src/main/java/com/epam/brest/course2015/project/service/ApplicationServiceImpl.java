@@ -47,7 +47,12 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public List<Application> getAllApplications() {
-        List<Application> applicationList = applicationDao.getAllApplications();
-        return applicationList;
+       return applicationDao.getAllApplications();
+    }
+
+    @Override
+    public List<Application> getAllApplicationsByDate(Date minDate, Date maxDate) {
+        LOGGER.info("getAllApplicationsBydate from: " + minDate.toString() + " To: " + maxDate.toString());
+        return applicationDao.getApplicationsBySetDate(minDate,maxDate);
     }
 }

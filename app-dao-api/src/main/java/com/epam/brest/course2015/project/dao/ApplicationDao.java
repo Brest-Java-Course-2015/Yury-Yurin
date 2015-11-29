@@ -12,4 +12,5 @@ public interface ApplicationDao {
     void updateApplication(Integer applicationId,Date updatedDate);
     Application getApplicationById(Integer applicationId);
     List<Application> getAllApplications();
+    List<Application> getApplicationsBySetDate(Date minDate, Date maxDate);
 }

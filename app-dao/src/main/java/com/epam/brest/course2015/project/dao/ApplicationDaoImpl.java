@@ -53,6 +53,10 @@ public class ApplicationDaoImpl implements ApplicationDao {
 
     @Value("${application.getApplicationById}")
     private String getApplicationById;
+
+    @Value("${application.getApplicationsByDate}")
+    private String getApplicationsByDate;
+
     public ApplicationDaoImpl(DataSource dataSource) {
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
@@ -95,6 +99,15 @@ public class ApplicationDaoImpl implements ApplicationDao {
     public List<Application> getAllApplications() {
         LOGGER.info("DAO:Get list of applications");
         return namedParameterJdbcTemplate.query(getApplications, applicationMapper);
+    }
+
+    @Override
+    public List<Application> getApplicationsBySetDate(Date minDate, Date maxDate) {
+        LOGGER.info("DAO:Get list of applications by set Date" + minDate.toString() + " To " + maxDate.toString());
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("minDate", minDate);
+        hashMap.put("maxDate", maxDate);
+        return namedParameterJdbcTemplate.query(getApplicationsByDate, hashMap,applicationMapper);
     }
 
     private MapSqlParameterSource getParametersMap(Application application) {

@@ -20,6 +20,13 @@ public class MalfunctionRestController {
         return malfunctionService.getAllMalfunctionsByIdApplication(id);
     }
 
+    @RequestMapping(value = "/malfunctions", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody List<Malfunction> getAllMalfunctions() {
+        return malfunctionService.getAllMalfunctions();
+    }
+
+
     @RequestMapping(value = "/malfunction/{id}", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody Malfunction getMalfunctionById(@PathVariable(value = "id") Integer id) {

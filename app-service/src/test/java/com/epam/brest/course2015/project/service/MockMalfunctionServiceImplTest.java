@@ -52,10 +52,19 @@ public class MockMalfunctionServiceImplTest {
     @Test
     public void TestGetAllMalfunctionsByIdApplication() {
         malfunctions.add(malfunction);
+        mockMalfunctionDao.getAllMalfunctions();
+        expectLastCall().andReturn(malfunctions);
+        replay(mockMalfunctionDao);
+         malfunctionService.getAllMalfunctions();
+    }
+
+    @Test
+    public void TestGetAllMalfunctions() {
+        malfunctions.add(malfunction);
         mockMalfunctionDao.getAllMalfunctionsByIdApplication(1);
         expectLastCall().andReturn(malfunctions);
         replay(mockMalfunctionDao);
-         malfunctionService.getAllMalfunctionsByIdApplication(1);
+        malfunctionService.getAllMalfunctionsByIdApplication(1);
     }
 
     @Test

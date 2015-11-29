@@ -11,4 +11,5 @@ public interface ApplicationService {
     void updateApplication(Integer applicationId,Date updatedDate);
     Application getApplicationById(Integer applicationId);
     List<Application> getAllApplications();
+    List<Application> getAllApplicationsByDate(Date minDate,Date maxDate);
 }

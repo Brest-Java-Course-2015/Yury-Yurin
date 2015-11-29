@@ -55,6 +55,11 @@ public class MalfunctionServiceImpl implements MalfunctionService {
     }
 
     @Override
+    public List<Malfunction> getAllMalfunctions() {
+        return malfunctionDao.getAllMalfunctions();
+    }
+
+    @Override
     public void addCostsToMalfunction(Integer malfunctionId, Integer costRepair, Integer costService, Integer additionalExpenses) {
         Assert.notNull(malfunctionId,"Id should not be null");
         Assert.notNull(costRepair,"Cost should not be null");

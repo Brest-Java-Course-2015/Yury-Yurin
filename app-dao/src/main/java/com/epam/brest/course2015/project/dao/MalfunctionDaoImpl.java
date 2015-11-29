@@ -42,6 +42,9 @@ public class MalfunctionDaoImpl implements MalfunctionDao {
     @Value("${malfunction.addCosts}")
     private String addCosts;
 
+    @Value("${malfunction.getAllMalfunctions}")
+    private String getAllMalfunctions;
+
     public MalfunctionDaoImpl(DataSource dataSource) {
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
@@ -98,6 +101,12 @@ public class MalfunctionDaoImpl implements MalfunctionDao {
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
         hashMap.put(APPLICATION_ID.getValue(),applicationId);
         return namedParameterJdbcTemplate.query(getMalfunctions,hashMap,malfunctionMapper);
+    }
+
+    @Override
+    public List<Malfunction> getAllMalfunctions() {
+        LOGGER.info("DAO: get all malfunctions");
+        return namedParameterJdbcTemplate.query(getAllMalfunctions,malfunctionMapper);
     }
 
     private MapSqlParameterSource getParametersMap(Malfunction malfunction) {
