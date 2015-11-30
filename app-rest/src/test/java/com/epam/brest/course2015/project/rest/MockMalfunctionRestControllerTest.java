@@ -134,10 +134,30 @@ public class MockMalfunctionRestControllerTest {
 
     @Test
     public void TestAddCosts() throws Exception {
-        malfunctionService.addCostsToMalfunction(1,1000,2000,3000);
+        malfunctionService.addCostsToMalfunction(1, 1000, 2000, 3000);
         expectLastCall();
         replay(malfunctionService);
         mockMvc.perform(post("/malfunction/1/1000/2000/3000"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    public void testGetCostMalfunction() throws Exception {
+        expect(malfunctionService.getCostByMalfunctionId(1)).andReturn(6000);
+        replay(malfunctionService);
+        mockMvc.perform(get("/malfunction/getCost/1"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    public void testGetCostForMalfunctionByApplicationId() throws Exception {
+        expect(malfunctionService.getCostsForMalfunctionByApplicationId(1)).andReturn(12000);
+        replay(malfunctionService);
+        mockMvc.perform(get("/malfunction/getCostApplication/1"))
                 .andDo(print())
                 .andExpect(status().isOk());
 

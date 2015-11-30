@@ -60,6 +60,16 @@ public class MalfunctionServiceImpl implements MalfunctionService {
     }
 
     @Override
+    public Integer getCostByMalfunctionId(Integer malfunctionId) {
+        return malfunctionDao.getCostForMalfunctionById(malfunctionId);
+    }
+
+    @Override
+    public Integer getCostsForMalfunctionByApplicationId(Integer applicationId) {
+        return malfunctionDao.getCostForMalfunctionsByApplicationId(applicationId);
+    }
+
+    @Override
     public void addCostsToMalfunction(Integer malfunctionId, Integer costRepair, Integer costService, Integer additionalExpenses) {
         Assert.notNull(malfunctionId,"Id should not be null");
         Assert.notNull(costRepair,"Cost should not be null");

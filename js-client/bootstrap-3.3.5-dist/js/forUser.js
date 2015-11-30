@@ -9,6 +9,7 @@ var APPLICATION_DELETE = "http://localhost:8080/rest/application/delete/";
 var APPLICATION_ADD = "http://localhost:8080/rest/application";
 var APPLICATIONS_BY_DATE = "http://localhost:8080/rest/applications/byDate/";
 var ALL_MALFUNCTIONS_URL = "http://localhost:8080/rest/malfunctions";
+var MALFUNCTION_COST = "http://localhost:8080/rest/malfunction/getCost/";
 getAllApplications();
 // Register listeners
 function deleteMalfunction(malfunctionId,applicationId) {
@@ -122,7 +123,7 @@ function getAllMalfunctionsByApplicationId(dataApp, id) {
                     rowM.append($('<td id=\"name' + dataMal[j].malfunctionId + '\">' + dataMal[j].name + "</td>"));
                     rowM.append($('<td id=\"auto' + dataMal[j].malfunctionId + '\">' + dataMal[j].auto + "</td>"));
                     rowM.append($('<td id=\"description' + dataMal[j].malfunctionId + '\">' + dataMal[j].description + "</td>"));
-                    rowM.append($("<td>" + dataMal[j].costRepair + dataMal[j].costService + dataMal[j].additionalExpenses +"</td>"));
+                rowM.append($("<td><output id=\"cost" + dataMal[j].malfunctionId + '\"></td>'));
                     //rowM.append($("<td></td>"));
                     rowM.append($("<td>" + '<button onclick="deleteMalfunction('
                     + dataMal[j].malfunctionId + ','
@@ -131,7 +132,24 @@ function getAllMalfunctionsByApplicationId(dataApp, id) {
                     + dataApp.applicationId + ','
                     + dataMal[j].malfunctionId + ')">Update</button>' + "</td>"));
         }
+        for (var j = 0; j < dataMal.length; j++)
+            getCostForMalfunction(dataMal[j].malfunctionId);
     }
+
+function getCostForMalfunction(id) {
+        console.log('get cost ');
+        $.ajax({
+            type: 'GET',
+            url: MALFUNCTION_COST + id,
+            success: function (data) {
+                $("#cost"+id).val(data.toString());
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown);
+                alert('getAllMalfunctionsById: ' + textStatus);
+            }
+        });
+}
 
 function drawFormFOrNewMalfunction(applicationId) {
     var rowName = $("<tr />");

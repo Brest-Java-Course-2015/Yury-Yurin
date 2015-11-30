@@ -25,8 +25,8 @@ public class MockMalfunctionServiceImplTest {
 
     @Autowired
     private MalfunctionDao mockMalfunctionDao;
-    private List<Malfunction> malfunctions  = new ArrayList<Malfunction>();
-    private static final Malfunction malfunction = new Malfunction(null,"name1","auto1","description1",1);
+    private List<Malfunction> malfunctions = new ArrayList<Malfunction>();
+    private static final Malfunction malfunction = new Malfunction(null, "name1", "auto1", "description1", 1);
 
     @After
     public void setUp() {
@@ -55,7 +55,7 @@ public class MockMalfunctionServiceImplTest {
         mockMalfunctionDao.getAllMalfunctions();
         expectLastCall().andReturn(malfunctions);
         replay(mockMalfunctionDao);
-         malfunctionService.getAllMalfunctions();
+        malfunctionService.getAllMalfunctions();
     }
 
     @Test
@@ -69,7 +69,7 @@ public class MockMalfunctionServiceImplTest {
 
     @Test
     public void TestUpdateMalfunction() {
-        Malfunction newMalfunction = new Malfunction(2,"name3","auto4","description5",1);
+        Malfunction newMalfunction = new Malfunction(2, "name3", "auto4", "description5", 1);
         expect(mockMalfunctionDao.getMalfunctionById(newMalfunction.getMalfunctionId())).andReturn(newMalfunction);
         mockMalfunctionDao.updateMalfunction(newMalfunction);
         expectLastCall();
@@ -79,17 +79,32 @@ public class MockMalfunctionServiceImplTest {
 
     @Test
     public void TestGetMalfunctionById() {
-        Malfunction newMalfunction = new Malfunction(2,"name3","auto4","description5",1);
+        Malfunction newMalfunction = new Malfunction(2, "name3", "auto4", "description5", 1);
         expect(mockMalfunctionDao.getMalfunctionById(2)).andReturn(newMalfunction);
         replay(mockMalfunctionDao);
         Assert.isTrue(malfunctionService.getMalfunctionById(2).equals(newMalfunction));
     }
 
+
+    @Test
+    public void TestGetCostByMalfunctionId() {
+        expect(mockMalfunctionDao.getCostForMalfunctionById(2)).andReturn(6000);
+        replay(mockMalfunctionDao);
+        Assert.isTrue(malfunctionService.getCostByMalfunctionId(2) == 6000);
+    }
+
+    @Test
+    public void TestGetCostsMalfunctionByApplicationId() {
+        expect(mockMalfunctionDao.getCostForMalfunctionsByApplicationId(1)).andReturn(12000);
+        replay(mockMalfunctionDao);
+        Assert.isTrue(malfunctionService.getCostsForMalfunctionByApplicationId(1) == 12000);
+    }
+
     @Test
     public void TestAddCosts() {
-        mockMalfunctionDao.addCostsToMalfunction(1,1000,2000,3000);
+        mockMalfunctionDao.addCostsToMalfunction(1, 1000, 2000, 3000);
         expectLastCall();
         replay(mockMalfunctionDao);
-        malfunctionService.addCostsToMalfunction(1,1000,2000,3000);
+        malfunctionService.addCostsToMalfunction(1, 1000, 2000, 3000);
     }
 }

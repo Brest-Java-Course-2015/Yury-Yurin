@@ -59,6 +59,18 @@ public class MalfunctionRestController {
         malfunctionService.deleteMalfunction(id);
     }
 
+    @RequestMapping(value = "/malfunction/getCost/{id}", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody Integer getCostMalfunctionById(@PathVariable(value = "id") Integer id) {
+        return malfunctionService.getCostByMalfunctionId(id);
+    }
+
+    @RequestMapping(value = "/malfunction/getCostApplication/{id}", method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody Integer getCostMalfunctionsByApplicationId(@PathVariable(value = "id") Integer id) {
+        return malfunctionService.getCostsForMalfunctionByApplicationId(id);
+    }
+
 
 
 }
