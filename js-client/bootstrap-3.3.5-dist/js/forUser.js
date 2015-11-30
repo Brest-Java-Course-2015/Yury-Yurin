@@ -10,6 +10,7 @@ var APPLICATION_ADD = "http://localhost:8080/rest/application";
 var APPLICATIONS_BY_DATE = "http://localhost:8080/rest/applications/byDate/";
 var ALL_MALFUNCTIONS_URL = "http://localhost:8080/rest/malfunctions";
 var MALFUNCTION_COST = "http://localhost:8080/rest/malfunction/getCost/";
+var APPLICATION_COST = "http://localhost:8080/rest/malfunction/getCostApplication/"
 getAllApplications();
 // Register listeners
 function deleteMalfunction(malfunctionId,applicationId) {
@@ -51,8 +52,9 @@ function getAllApplications() {
             },
             complete: function() {
                 $('#applicationList tr').remove();
-                for (var i = 0; i < newData.length; i++)
-                    getAllMalfunctionsByApplicationId(newData[i], newData[i].applicationId);
+                $.each(newData, function(index,value) {
+                    getAllMalfunctionsByApplicationId(value, value.applicationId);
+                })
             }
         });
 }
@@ -106,7 +108,7 @@ function getAllMalfunctionsByApplicationId(dataApp, id) {
             row.append($('<td id=\"applicationId' + dataApp.applicationId + '\">' + dataApp.applicationId + "</td>"));
             row.append($('<td id=\"createdDate' + dataApp.applicationId + '\">' + dataApp.createdDate + "</td>"));
             row.append($('<td id=\"updatedDate' + dataApp.applicationId + '\">' + dataApp.updatedDate + "</td>"));
-            row.append($("<td></td>"));
+            row.append($("<td><output id=\"costApp" + dataApp.applicationId + '\"></td>'));
             row.append($("<td>" + '<button onclick="drawFormFOrNewMalfunction(' + dataApp.applicationId + ')">Add</button>' + "</td>"));
             row.append($("<td>" + '<button onclick="deleteApplication(' + dataApp.applicationId + ')">Delete</button>' + "</td>"))
             $("#applicationList").append(rowForTh);
@@ -134,10 +136,11 @@ function getAllMalfunctionsByApplicationId(dataApp, id) {
         }
         for (var j = 0; j < dataMal.length; j++)
             getCostForMalfunction(dataMal[j].malfunctionId);
+        getCostForApplication(dataApp.applicationId);
     }
 
 function getCostForMalfunction(id) {
-        console.log('get cost ');
+        console.log('get cost Malfunction ');
         $.ajax({
             type: 'GET',
             url: MALFUNCTION_COST + id,
@@ -149,6 +152,21 @@ function getCostForMalfunction(id) {
                 alert('getAllMalfunctionsById: ' + textStatus);
             }
         });
+}
+
+function getCostForApplication(id) {
+    console.log('get cost Application');
+    $.ajax({
+        type: 'GET',
+        url: APPLICATION_COST + id,
+        success: function (data) {
+            $("#costApp"+id).val(data.toString());
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR, textStatus, errorThrown);
+            alert('getAllMalfunctionsById: ' + textStatus);
+        }
+    });
 }
 
 function drawFormFOrNewMalfunction(applicationId) {
@@ -290,11 +308,11 @@ function addMalfunctionFormToJSON(id) {
     }
 
 function addApplicationFormToJSON(id) {
-    var datee = Date.now();
+    var date = Date.now();
     return JSON.stringify({
         "applicationId": null,
-        "createdDate" : datee,
-        "updatedDate" : datee
+        "createdDate" : date,
+        "updatedDate" : date
     });
 }
 

@@ -60,13 +60,13 @@ public class MalfunctionServiceImpl implements MalfunctionService {
     }
 
     @Override
-    public Integer getCostByMalfunctionId(Integer malfunctionId) {
-        return malfunctionDao.getCostForMalfunctionById(malfunctionId);
+    public Integer getCostForMalfunctionById(Integer malfunctionId) {
+      return malfunctionDao.getCostForMalfunctionById(malfunctionId);
     }
 
     @Override
     public Integer getCostsForMalfunctionByApplicationId(Integer applicationId) {
-        return malfunctionDao.getCostForMalfunctionsByApplicationId(applicationId);
+       return malfunctionDao.getCostForMalfunctionsByApplicationId(applicationId);
     }
 
     @Override

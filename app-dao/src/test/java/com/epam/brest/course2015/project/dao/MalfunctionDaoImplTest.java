@@ -81,7 +81,6 @@ public class MalfunctionDaoImplTest {
     @Test
     public void TestGetCostById() {
         malfunctionDao.addCostsToMalfunction(2, 1000, 2000, 3000);
-        Malfunction malfunction = malfunctionDao.getMalfunctionById(2);
         Integer sum = malfunctionDao.getCostForMalfunctionById(2);
         Assert.assertTrue(sum == 6000);
     }
@@ -92,5 +91,11 @@ public class MalfunctionDaoImplTest {
         malfunctionDao.addCostsToMalfunction(1, 1000, 2000, 3000);
         Integer sum = malfunctionDao.getCostForMalfunctionsByApplicationId(1);
         Assert.assertTrue(sum == 12000);
+    }
+
+    @Test
+    public void TestGetCostByApplicationIdNull() {
+        Integer sum = malfunctionDao.getCostForMalfunctionsByApplicationId(1);
+        Assert.assertTrue(sum == 0);
     }
 }

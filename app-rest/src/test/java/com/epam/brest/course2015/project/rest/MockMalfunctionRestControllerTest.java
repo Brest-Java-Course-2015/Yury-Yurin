@@ -2,7 +2,6 @@ package com.epam.brest.course2015.project.rest;
 
 import com.epam.brest.course2015.project.core.Malfunction;
 import com.epam.brest.course2015.project.service.MalfunctionService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
@@ -145,7 +144,7 @@ public class MockMalfunctionRestControllerTest {
 
     @Test
     public void testGetCostMalfunction() throws Exception {
-        expect(malfunctionService.getCostByMalfunctionId(1)).andReturn(6000);
+        expect(malfunctionService.getCostForMalfunctionById(1)).andReturn(6000);
         replay(malfunctionService);
         mockMvc.perform(get("/malfunction/getCost/1"))
                 .andDo(print())

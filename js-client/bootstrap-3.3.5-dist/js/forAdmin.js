@@ -17,7 +17,7 @@ function deleteMalfunction(malfunctionId,applicationId) {
         type: 'DELETE',
         url: MALFUNCTION_DELETE + malfunctionId,
         success: function(data) {
-            alert('Malfunction succesfully deleted!');
+            alert('Malfunction successfully deleted!');
             updateApplication(applicationId);
         },
         error:function (jqXHR, textStatus, errorThrown) {
@@ -122,16 +122,24 @@ function drawRow(dataApp,dataMal) {
         rowM.append($('<td id=\"name' + dataMal[j].malfunctionId + '\">' + dataMal[j].name + "</td>"));
         rowM.append($('<td id=\"auto' + dataMal[j].malfunctionId + '\">' + dataMal[j].auto + "</td>"));
         rowM.append($('<td id=\"description' + dataMal[j].malfunctionId + '\">' + dataMal[j].description + "</td>"));
-        rowM.append($('<td><input id=\"costRepair' + dataMal[j].malfunctionId +'\" type="number" size="5">' +
-        '<input id=\"costService' + dataMal[j].malfunctionId +'\" type="number" size="5">' +
-        '<input id=\"additionalExpenses' + dataMal[j].malfunctionId +'\" type="number" size="5">' + '</td>'));
-        //rowM.append($("<td></td>"));
+        rowM.append($('<td><input id=\"costRepair' + dataMal[j].malfunctionId +'\" type="number" style="width: 100px;">' +
+        '<input id=\"costService' + dataMal[j].malfunctionId +'\" type="number" style="width: 100px;">' +
+        '<input id=\"additionalExpenses' + dataMal[j].malfunctionId +'\" type="number" style="width: 100px;">' + '</td>'));
         rowM.append($("<td>" + '<button onclick="deleteMalfunction('
         + dataMal[j].malfunctionId + ','
         + dataApp.applicationId + ')">Delete</button>'
         + '  <button onclick="addCosts('
         + dataMal[j].malfunctionId + ')">Set costs</button>' + "</td>"));
+       setCosts(dataMal[j]);
+       // $.("#costService"+dataMal.malfunctionId).val(dataMal.costService);
+       // $.("#additionalExpenses"+dataMal.malfunctionId).val(dataMal.additionalExpenses);
     }
+}
+
+function setCosts(dataMal) {
+    document.getElementById('costRepair'+dataMal.malfunctionId).setAttribute('value',dataMal.costRepair.toString());
+    document.getElementById('costService'+dataMal.malfunctionId).setAttribute('value',dataMal.costService.toString());
+    document.getElementById('additionalExpenses'+dataMal.malfunctionId).setAttribute('value',dataMal.additionalExpenses.toString());
 }
 
 function drawFormFOrNewMalfunction(applicationId) {

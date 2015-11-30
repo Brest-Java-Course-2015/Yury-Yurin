@@ -90,7 +90,7 @@ public class MockMalfunctionServiceImplTest {
     public void TestGetCostByMalfunctionId() {
         expect(mockMalfunctionDao.getCostForMalfunctionById(2)).andReturn(6000);
         replay(mockMalfunctionDao);
-        Assert.isTrue(malfunctionService.getCostByMalfunctionId(2) == 6000);
+        Assert.isTrue(malfunctionService.getCostForMalfunctionById(2).equals(6000));
     }
 
     @Test
