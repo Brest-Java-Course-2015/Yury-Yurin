@@ -11,6 +11,7 @@ var APPLICATIONS_BY_DATE = "http://localhost:8080/rest/applications/byDate/";
 var ADD_COSTS_TO_MALFUNCTIONS = "http://localhost:8080/rest/malfunction/";
 getAllApplications();
 // Register listeners
+
 function deleteMalfunction(malfunctionId,applicationId) {
     console.log('deleteMalfunctionById');
     $.ajax({
@@ -137,9 +138,9 @@ function drawRow(dataApp,dataMal) {
 }
 
 function setCosts(dataMal) {
-    document.getElementById('costRepair'+dataMal.malfunctionId).setAttribute('value',dataMal.costRepair.toString());
-    document.getElementById('costService'+dataMal.malfunctionId).setAttribute('value',dataMal.costService.toString());
-    document.getElementById('additionalExpenses'+dataMal.malfunctionId).setAttribute('value',dataMal.additionalExpenses.toString());
+    document.getElementById('costRepair'+dataMal.malfunctionId).setAttribute('value',dataMal.costRepair);
+    document.getElementById('costService'+dataMal.malfunctionId).setAttribute('value',dataMal.costService);
+    document.getElementById('additionalExpenses'+dataMal.malfunctionId).setAttribute('value',dataMal.additionalExpenses);
 }
 
 function drawFormFOrNewMalfunction(applicationId) {
@@ -195,7 +196,7 @@ function clearForm() {
 
 function addMalfunction(applicationId) {
     $.ajax({
-        type: 'PUT',
+        type: 'POST',
         contentType: 'application/json',
         url: MALFUNCTION_ADD,
         dataType: "json",
@@ -211,9 +212,26 @@ function addMalfunction(applicationId) {
     if(applicationId!=null) updateApplication(applicationId);
 }
 
-function createApplication(applicationId) {
+function updateApplication(applicationId) {
+    console.log('updateApplication');
     $.ajax({
         type: 'PUT',
+        contentType: 'application/json',
+        url: APPLICATION_UPDATE + applicationId.toString(),
+        success: function () {
+            alert("Application update success!");
+            getAllApplications();
+            $('#addMalfunction tr').remove();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('Application update error: ' + textStatus);
+        }
+    });
+}
+
+function createApplication(applicationId) {
+    $.ajax({
+        type: 'POST',
         contentType: 'application/json',
         url: APPLICATION_ADD,
         data: addApplicationFormToJSON(applicationId),
@@ -234,7 +252,7 @@ function addCosts(malfunctionId) {
         $("#additionalExpenses"+malfunctionId).val();
     console.log('updateApplication');
     $.ajax({
-        type: 'POST',
+        type: 'PUT',
         contentType: 'application/json',
         url:str,
         success: function () {
@@ -250,7 +268,7 @@ function addCosts(malfunctionId) {
 function updateMalfunction(malfunctionId,applicationId) {
     console.log('updateMalfunction');
     $.ajax({
-        type: 'POST',
+        type: 'PUT',
         contentType: 'application/json',
         url: MALFUNCTION_UPDATE,
         data: updateMalfunctionFormToJSON(malfunctionId,applicationId),

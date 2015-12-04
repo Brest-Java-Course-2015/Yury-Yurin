@@ -1,6 +1,7 @@
 package com.epam.brest.course2015.project.rest;
 
 import com.epam.brest.course2015.project.core.Malfunction;
+import com.epam.brest.course2015.project.rest2.MalfunctionRestController2;
 import com.epam.brest.course2015.project.service.MalfunctionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
@@ -28,14 +29,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(value = "classpath*:mock-test-spring-rest.xml")
+@ContextConfiguration(value = "classpath*:mock-test-spring-rest2.xml")
 public class MockMalfunctionRestControllerTest {
 
     @Autowired
     private MalfunctionService malfunctionService;
 
     @Resource
-    private MalfunctionRestController malfunctionRestController;
+    private MalfunctionRestController2 malfunctionRestController;
 
     private Malfunction malfunction = new Malfunction(null,"name","auto","description",1);
 
@@ -136,7 +137,7 @@ public class MockMalfunctionRestControllerTest {
         malfunctionService.addCostsToMalfunction(1, 1000, 2000, 3000);
         expectLastCall();
         replay(malfunctionService);
-        mockMvc.perform(put("/malfunction/1/1000/2000/3000"))
+        mockMvc.perform(post("/malfunction/1/1000/2000/3000"))
                 .andDo(print())
                 .andExpect(status().isOk());
 

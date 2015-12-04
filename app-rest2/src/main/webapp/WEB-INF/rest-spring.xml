@@ -74,4 +74,5 @@
     <mvc:cors>
         <mvc:mapping path="/**" />
     </mvc:cors>
+
 </beans>

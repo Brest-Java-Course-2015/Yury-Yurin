@@ -1,4 +1,4 @@
-package com.epam.brest.course2015.project.rest;
+package com.epam.brest.course2015.project.rest2;
 
 import com.epam.brest.course2015.project.core.Application;
 import com.epam.brest.course2015.project.service.ApplicationService;
@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-public class ApplicationRestController {
+public class ApplicationRestController2 {
 
     @Autowired
     private ApplicationService applicationService;

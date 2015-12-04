@@ -1,6 +1,7 @@
 package com.epam.brest.course2015.project.rest;
 
 import com.epam.brest.course2015.project.core.Application;
+import com.epam.brest.course2015.project.rest2.ApplicationRestController2;
 import com.epam.brest.course2015.project.service.ApplicationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
@@ -27,13 +28,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(value = "classpath*:mock-test-spring-rest.xml")
+@ContextConfiguration(value = "classpath*:mock-test-spring-rest2.xml")
 public class MockApplicationRestControllerTest {
     @Autowired
     private ApplicationService applicationService;
 
     @Resource
-    private ApplicationRestController applicationRestController;
+    private ApplicationRestController2 applicationRestController;
 
     private Application application = new Application(null, new Date(), new Date());
 

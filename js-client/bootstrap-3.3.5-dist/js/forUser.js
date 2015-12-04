@@ -222,7 +222,7 @@ function clearForm() {
 
 function addMalfunction(applicationId) {
     $.ajax({
-        type: 'PUT',
+        type: 'POST',
         contentType: 'application/json',
         url: MALFUNCTION_ADD,
         dataType: "json",
@@ -240,7 +240,7 @@ function addMalfunction(applicationId) {
 
 function createApplication(applicationId) {
     $.ajax({
-        type: 'PUT',
+        type: 'POST',
         contentType: 'application/json',
         url: APPLICATION_ADD,
         data: addApplicationFormToJSON(applicationId),
@@ -257,7 +257,7 @@ function createApplication(applicationId) {
 function updateApplication(applicationId) {
     console.log('updateApplication');
     $.ajax({
-        type: 'POST',
+        type: 'PUT',
         contentType: 'application/json',
         url: APPLICATION_UPDATE + applicationId.toString(),
         success: function () {
@@ -274,7 +274,7 @@ function updateApplication(applicationId) {
 function updateMalfunction(malfunctionId,applicationId) {
     console.log('updateMalfunction');
     $.ajax({
-        type: 'POST',
+        type: 'PUT',
         contentType: 'application/json',
         url: MALFUNCTION_UPDATE,
         data: updateMalfunctionFormToJSON(malfunctionId,applicationId),

@@ -1,4 +1,4 @@
-package com.epam.brest.course2015.project.rest;
+package com.epam.brest.course2015.project.rest2;
 
 import com.epam.brest.course2015.project.core.Malfunction;
 import com.epam.brest.course2015.project.service.MalfunctionService;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class MalfunctionRestController {
+public class MalfunctionRestController2 {
 
     @Autowired
     private MalfunctionService malfunctionService;
@@ -38,7 +38,7 @@ public class MalfunctionRestController {
     public @ResponseBody Integer addMalfunction(@RequestBody Malfunction malfunction) {
         return malfunctionService.addMalfunction(malfunction);
     }
-    @RequestMapping(value = "/malfunction/{id}/{costRepair}/{costService}/{additionalExpenses}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/malfunction/{id}/{costRepair}/{costService}/{additionalExpenses}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void addCosts(@PathVariable(value = "id") Integer id,
             @PathVariable(value = "costRepair") Integer costRepair,
