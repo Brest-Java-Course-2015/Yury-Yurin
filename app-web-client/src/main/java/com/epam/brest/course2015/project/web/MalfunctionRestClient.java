@@ -43,26 +43,32 @@ public class MalfunctionRestClient implements MalfunctionDao{
 
     @Override
     public void addCostsToMalfunction(Integer malfunctionId, Integer costRepair, Integer costService, Integer additionalExpenses) {
-        restTemplate.put(REST_URL+"/{id}/{costRepair}/{costService}/{additionalExpenses}",malfunctionId,costRepair,costService,additionalExpenses);
+        LOGGER.info("client request for add costs: {} , {} , {}, by id={}",costRepair,costService,additionalExpenses,malfunctionId);
+        restTemplate.put(REST_URL + "/{id}/{costRepair}/{costService}/{additionalExpenses}", malfunctionId, costRepair, costService, additionalExpenses);
     }
 
     @Override
-    public List<Malfunction> getAllMalfunctionsByIdApplication(Integer applicationId) {
-        return null;
+    public List<Malfunction> getAllMalfunctionsByIdApplication(Integer applicationId)
+    {
+        LOGGER.info("client request for all malfunction by application id=" + applicationId);
+        return restTemplate.getForObject(REST_URL+"/malfunctions/{id}",List.class,applicationId);
     }
 
     @Override
     public List<Malfunction> getAllMalfunctions() {
-        return null;
+        LOGGER.info("client request for all malfunctions");
+        return restTemplate.getForObject(REST_URL+"/malfunctions",List.class);
     }
 
     @Override
     public Integer getCostForMalfunctionById(Integer malfunctionId) {
-        return null;
+        LOGGER.info("client request for cost of malfunction, by id=" + malfunctionId);
+        return restTemplate.getForObject(REST_URL+"getCost/{id}",Integer.class,malfunctionId);
     }
 
     @Override
     public Integer getCostForMalfunctionsByApplicationId(Integer applicationId) {
-        return null;
+        LOGGER.info("client request for cost of malfunctions, by application id=" + applicationId);
+        return restTemplate.getForObject(REST_URL+"getCostApplication/{id}",Integer.class,applicationId);
     }
 }
