@@ -1,4 +1,4 @@
-package com.epam.brest.course2015.project.rest;
+package com.epam.brest.course2015.project.rest2;
 
 import com.epam.brest.course2015.project.core.Application;
 import com.epam.brest.course2015.project.service.ApplicationService;
@@ -20,14 +20,14 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-public class ApplicationRestController {
+public class ApplicationRestController2 {
 
     @Autowired
     private ApplicationService applicationService;
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @RequestMapping(value = "/application", method = RequestMethod.POST)
+    @RequestMapping(value = "/application2", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public
     @ResponseBody
@@ -35,7 +35,7 @@ public class ApplicationRestController {
         return applicationService.addApplication(application);
     }
 
-    @RequestMapping(value = "/application/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/application2/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public
     @ResponseBody
@@ -43,7 +43,7 @@ public class ApplicationRestController {
         return applicationService.getApplicationById(id);
     }
 
-    @RequestMapping(value = "/applications", method = RequestMethod.GET)
+    @RequestMapping(value = "/applications2", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public
     @ResponseBody
@@ -51,21 +51,21 @@ public class ApplicationRestController {
         return applicationService.getAllApplications();
     }
 
-    @RequestMapping(value = "/application/delete/{id}" , method = RequestMethod.DELETE)
+    @RequestMapping(value = "/application2/delete/{id}" , method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteApplication(@PathVariable(value = "id") Integer id) {
         applicationService.deleteApplication(id);
     }
 
-    @RequestMapping(value =  "/application/update", method = RequestMethod.PUT)
+    @RequestMapping(value =  "/application2/update", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateApplication(@RequestParam(value = "id") Integer id,
                                   @RequestParam(value = "time") String time) {
-        LOGGER.info("date = " + time);
+        LOGGER.info("date = "+time);
         applicationService.updateApplication(id, getDate(time));
     }
 
-    @RequestMapping(value = "/applications/byDate", method = RequestMethod.GET)
+    @RequestMapping(value = "/applications2/byDate", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody List<Application> getAllApplicationsByDate(@RequestParam(value = "minDateTime") String minDateTime,
                                                                     @RequestParam(value = "maxDateTime") String maxDateTime) {

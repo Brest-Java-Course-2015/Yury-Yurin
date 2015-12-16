@@ -1,16 +1,16 @@
 // The root URL for the RESTful services
-var APPLICATIONS_URL = "http://localhost:8080/rest/applications";
-var MALFUNCTIONS_URL = "http://localhost:8080/rest/malfunctions/";
-var MALFUNCTION_DELETE = "http://localhost:8080/rest/malfunction/delete/";
-var MALFUNCTION_ADD = "http://localhost:8080/rest/malfunction";
-var MALFUNCTION_UPDATE = "http://localhost:8080/rest/malfunction/update";
-var APPLICATION_UPDATE = "http://localhost:8080/rest/application/update/";
-var APPLICATION_DELETE = "http://localhost:8080/rest/application/delete/";
-var APPLICATION_ADD = "http://localhost:8080/rest/application";
-var APPLICATIONS_BY_DATE = "http://localhost:8080/rest/applications/byDate/";
-var ALL_MALFUNCTIONS_URL = "http://localhost:8080/rest/malfunctions";
-var MALFUNCTION_COST = "http://localhost:8080/rest/malfunction/getCost/";
-var APPLICATION_COST = "http://localhost:8080/rest/malfunction/getCostApplication/"
+var APPLICATIONS_URL = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/applications2";
+var MALFUNCTIONS_URL = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunctions2/";
+var MALFUNCTION_DELETE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/delete/";
+var MALFUNCTION_ADD = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2";
+var MALFUNCTION_UPDATE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/update";
+var APPLICATION_UPDATE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/application2/update/";
+var APPLICATION_DELETE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/application2/delete/";
+var APPLICATION_ADD = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/application2";
+var APPLICATIONS_BY_DATE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/applications2/byDate";
+var ALL_MALFUNCTIONS_URL = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunctions2";
+var MALFUNCTION_COST = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/getCost/";
+var APPLICATION_COST = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/getCostApplication/"
 getAllApplications();
 // Register listeners
 function deleteMalfunction(malfunctionId,applicationId) {
@@ -37,7 +37,7 @@ function getAllApplications() {
     var dateTo = Date.parse(b);
     var str;
     if(a=="" || b=="")  str = APPLICATIONS_URL;
-        else str = APPLICATIONS_BY_DATE + dateFrom + '/' + dateTo;
+        else str = APPLICATIONS_BY_DATE + '?minDateTime=' + dateFrom + '&maxDateTime=' + dateTo;
         console.log('get all applications');
         $.ajax({
             type: 'GET',
@@ -79,7 +79,7 @@ function getAllMalfunctionsByApplicationId(dataApp, id) {
             alert('getAllMalfunctionsById: ' + textStatus);
         },
         complete: function() {
-            if (newData.length == null) deleteApplication(dataApp.applicationId);
+            if (newData == null) deleteApplication(dataApp.applicationId);
             drawRow(dataApp,newData);
         }
     });
@@ -255,11 +255,12 @@ function createApplication(applicationId) {
     });
 }
 function updateApplication(applicationId) {
+    var time = Date.now();
     console.log('updateApplication');
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
-        url: APPLICATION_UPDATE + applicationId.toString(),
+        url: APPLICATION_UPDATE + '?id=' + applicationId.toString() + '&time=' + time ,
         success: function () {
             alert("Application update success!");
             getAllApplications();

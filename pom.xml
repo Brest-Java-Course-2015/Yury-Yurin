@@ -13,8 +13,8 @@
         <module>app-service-api</module>
         <module>app-service</module>
         <module>app-rest</module>
-        <module>app-web-client</module>
-        <module>app-rest2</module>
+        <module>app-rest-client</module>
+        <module>app-rest-for-rest-client</module>
     </modules>
     <packaging>pom</packaging>
 

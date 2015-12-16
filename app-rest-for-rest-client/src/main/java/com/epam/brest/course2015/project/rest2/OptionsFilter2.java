@@ -1,4 +1,4 @@
-package com.epam.brest.course2015.project.rest;
+package com.epam.brest.course2015.project.rest2;
 
 import org.springframework.http.HttpMethod;
 
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class OptionsFilter implements Filter {
+public class OptionsFilter2 implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

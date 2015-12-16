@@ -122,6 +122,7 @@ public class MalfunctionDaoImpl implements MalfunctionDao {
 
     @Override
     public Integer getCostForMalfunctionsByApplicationId(Integer applicationId) {
+        LOGGER.info("DAO:Get cost for malfunction by application id="+applicationId.toString());
         List<Malfunction> malfunctionList = getAllMalfunctionsByIdApplication(applicationId);
         Integer sum = 0;
         for(Malfunction malfunction:malfunctionList) {

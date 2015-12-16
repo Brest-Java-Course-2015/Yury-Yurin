@@ -1,6 +1,7 @@
 package com.epam.brest.course2015.project.rest;
 
 import com.epam.brest.course2015.project.core.Malfunction;
+import com.epam.brest.course2015.project.rest2.MalfunctionRestController2;
 import com.epam.brest.course2015.project.service.MalfunctionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
@@ -28,14 +29,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(value = "classpath*:mock-test-spring-rest.xml")
+@ContextConfiguration(value = "classpath*:mock-test-spring-rest2.xml")
 public class MockMalfunctionRestControllerTest {
 
     @Autowired
     private MalfunctionService malfunctionService;
 
     @Resource
-    private MalfunctionRestController malfunctionRestController;
+    private MalfunctionRestController2 malfunctionRestController;
 
     private Malfunction malfunction = new Malfunction(null,"name","auto","description",1);
 
@@ -59,7 +60,7 @@ public class MockMalfunctionRestControllerTest {
         expect(malfunctionService.addMalfunction(anyObject(Malfunction.class))).andReturn(1);
         replay(malfunctionService);
         String newMalfunction = new ObjectMapper().writeValueAsString(malfunction);
-        mockMvc.perform(post("/malfunction").accept(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/malfunction2").accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(newMalfunction))
                 .andDo(print())
@@ -74,7 +75,7 @@ public class MockMalfunctionRestControllerTest {
         expectLastCall();
        String newMalfunction = new ObjectMapper().writeValueAsString(malfunction);
         replay(malfunctionService);
-        mockMvc.perform(put("/malfunction/update").accept(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/malfunction2/update").accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
         .content(newMalfunction))
                 .andDo(print())
@@ -88,7 +89,7 @@ public class MockMalfunctionRestControllerTest {
         malfunctionService.deleteMalfunction(1);
         expectLastCall();
         replay(malfunctionService);
-        mockMvc.perform(delete("/malfunction/delete/1"))
+        mockMvc.perform(delete("/malfunction2/delete/1"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -100,7 +101,7 @@ public class MockMalfunctionRestControllerTest {
         expect(malfunctionService.getMalfunctionById(1)).andReturn(malfunction);
         expectLastCall();
         replay(malfunctionService);
-        mockMvc.perform(get("/malfunction/1").accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/malfunction2/1").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -113,7 +114,7 @@ public class MockMalfunctionRestControllerTest {
         malfunctionList.add(malfunction);
         expect(malfunctionService.getAllMalfunctionsByIdApplication(1)).andReturn(malfunctionList);
         replay(malfunctionService);
-        mockMvc.perform(get("/malfunctions/1").accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/malfunctions2/1").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -126,7 +127,7 @@ public class MockMalfunctionRestControllerTest {
         malfunctionList.add(malfunction);
         expect(malfunctionService.getAllMalfunctions()).andReturn(malfunctionList);
         replay(malfunctionService);
-        mockMvc.perform(get("/malfunctions").accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/malfunctions2").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -136,7 +137,7 @@ public class MockMalfunctionRestControllerTest {
         malfunctionService.addCostsToMalfunction(1, 1000, 2000, 3000);
         expectLastCall();
         replay(malfunctionService);
-        mockMvc.perform(put("/malfunction/setCosts?id=1&costRepair=1000&costService=2000&additionalExpenses=3000"))
+        mockMvc.perform(post("/malfunction2/setCosts?id=1&costRepair=1000&costService=2000&additionalExpenses=3000"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -146,7 +147,7 @@ public class MockMalfunctionRestControllerTest {
     public void testGetCostMalfunction() throws Exception {
         expect(malfunctionService.getCostForMalfunctionById(1)).andReturn(6000);
         replay(malfunctionService);
-        mockMvc.perform(get("/malfunction/getCost/1"))
+        mockMvc.perform(get("/malfunction2/getCost/1"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -156,7 +157,7 @@ public class MockMalfunctionRestControllerTest {
     public void testGetCostForMalfunctionByApplicationId() throws Exception {
         expect(malfunctionService.getCostsForMalfunctionByApplicationId(1)).andReturn(12000);
         replay(malfunctionService);
-        mockMvc.perform(get("/malfunction/getCostApplication/1"))
+        mockMvc.perform(get("/malfunction2/getCostApplication/1"))
                 .andDo(print())
                 .andExpect(status().isOk());
 

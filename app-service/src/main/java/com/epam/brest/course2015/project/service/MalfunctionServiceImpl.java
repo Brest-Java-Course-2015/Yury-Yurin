@@ -19,6 +19,7 @@ public class MalfunctionServiceImpl implements MalfunctionService {
     }
     @Override
     public Integer addMalfunction(Malfunction malfunction) {
+        LOGGER.info("SERVICE: addMalfunction");
         Assert.hasText(malfunction.getName(), "Name should not be empty!");
         Assert.isNull(malfunction.getMalfunctionId(), "Id should be null!");
         Assert.hasText(malfunction.getDescription(),"Description should not be empty!");
@@ -27,6 +28,7 @@ public class MalfunctionServiceImpl implements MalfunctionService {
 
     @Override
     public void deleteMalfunction(Integer malfunctionId) {
+        LOGGER.info("SERVICE: delete application by id="+malfunctionId.toString());
         Assert.notNull(malfunctionId, "Id should not be null!");
         Assert.isTrue(malfunctionId > 0);
         malfunctionDao.deleteMalfunction(malfunctionId);
@@ -34,6 +36,7 @@ public class MalfunctionServiceImpl implements MalfunctionService {
 
     @Override
     public void updateMalfunction(Malfunction malfunction) {
+        LOGGER.info("SERVICE: update malfunction by id="+malfunction.getMalfunctionId());
         Assert.notNull(malfunction.getMalfunctionId(),"Id should not be null!");
         Assert.notNull(malfunction.getName(), "Name should not be null!");
         Assert.notNull(malfunction.getAuto(), "Auto should not be empty!");
@@ -43,12 +46,14 @@ public class MalfunctionServiceImpl implements MalfunctionService {
 
     @Override
     public Malfunction getMalfunctionById(Integer malfunctionId) {
+        LOGGER.info("SERVICE: get malfunction by id="+malfunctionId.toString());
         Assert.notNull(malfunctionId,"Id should not be null!");
         return malfunctionDao.getMalfunctionById(malfunctionId);
     }
 
     @Override
     public List<Malfunction> getAllMalfunctionsByIdApplication(Integer applicationId) {
+        LOGGER.info("SERVICE: get all malfunctions by application id="+applicationId.toString());
         Assert.notNull(applicationId,"Id should not be null");
         Assert.isTrue(applicationId>0);
         return malfunctionDao.getAllMalfunctionsByIdApplication(applicationId);
@@ -56,21 +61,25 @@ public class MalfunctionServiceImpl implements MalfunctionService {
 
     @Override
     public List<Malfunction> getAllMalfunctions() {
+        LOGGER.info("SERVICE: get all malfunctions");
         return malfunctionDao.getAllMalfunctions();
     }
 
     @Override
     public Integer getCostForMalfunctionById(Integer malfunctionId) {
-      return malfunctionDao.getCostForMalfunctionById(malfunctionId);
+        LOGGER.info("SERVICE: get cost for malfunction by id="+malfunctionId.toString());
+        return malfunctionDao.getCostForMalfunctionById(malfunctionId);
     }
 
     @Override
     public Integer getCostsForMalfunctionByApplicationId(Integer applicationId) {
+        LOGGER.info("SERVICE: get costs for malfunctions by application id="+applicationId.toString());
        return malfunctionDao.getCostForMalfunctionsByApplicationId(applicationId);
     }
 
     @Override
     public void addCostsToMalfunction(Integer malfunctionId, Integer costRepair, Integer costService, Integer additionalExpenses) {
+        LOGGER.info("SERVICE: add costs for malfunction");
         Assert.notNull(malfunctionId,"Id should not be null");
         Assert.notNull(costRepair,"Cost should not be null");
         Assert.notNull(costService,"Cost should not be null");

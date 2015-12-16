@@ -23,31 +23,36 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
     @Override
     public Integer addApplication(Application application) {
+        LOGGER.info("SERVICE: addApplication");
         Assert.isNull(application.getApplicationId(), "Id should be null!");
         return applicationDao.addApplication(application);
     }
 
     @Override
     public void deleteApplication(Integer applicationId) {
+        LOGGER.info("SERVICE: delete application by id="+applicationId.toString());
         Assert.notNull(applicationId,"Id should not be null!");
         applicationDao.deleteApplication(applicationId);
     }
 
     @Override
     public void updateApplication(Integer applicationId, Date updatedDate) {
+        LOGGER.info("SERVICE: updateApplication by id="+applicationId.toString());
         Assert.notNull(applicationId,"Id should not be null");
         applicationDao.updateApplication(applicationId,updatedDate);
     }
 
     @Override
     public Application getApplicationById(Integer applicationId) {
+        LOGGER.info("SERVICE: get application by id="+applicationId.toString());
         Assert.notNull(applicationId,"Id should not be null!");
         return applicationDao.getApplicationById(applicationId);
     }
 
     @Override
     public List<Application> getAllApplications() {
-       return applicationDao.getAllApplications();
+        LOGGER.info("getAllApplications");
+        return applicationDao.getAllApplications();
     }
 
     @Override

@@ -1,14 +1,14 @@
 // The root URL for the RESTful services
-var APPLICATIONS_URL = "http://localhost:8080/rest/applications";
-var MALFUNCTIONS_URL = "http://localhost:8080/rest/malfunctions/";
-var MALFUNCTION_DELETE = "http://localhost:8080/rest/malfunction/delete/";
-var MALFUNCTION_ADD = "http://localhost:8080/rest/malfunction";
-var MALFUNCTION_UPDATE = "http://localhost:8080/rest/malfunction/update";
-var APPLICATION_UPDATE = "http://localhost:8080/rest/application/update/";
-var APPLICATION_DELETE = "http://localhost:8080/rest/application/delete/";
-var APPLICATION_ADD = "http://localhost:8080/rest/application";
-var APPLICATIONS_BY_DATE = "http://localhost:8080/rest/applications/byDate/";
-var ADD_COSTS_TO_MALFUNCTIONS = "http://localhost:8080/rest/malfunction/";
+var APPLICATIONS_URL = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/applications2";
+var MALFUNCTIONS_URL = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunctions2/";
+var MALFUNCTION_DELETE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/delete/";
+var MALFUNCTION_ADD = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2";
+var MALFUNCTION_UPDATE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/update";
+var APPLICATION_UPDATE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/application2/update";
+var APPLICATION_DELETE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/application2/delete/";
+var APPLICATION_ADD = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/application2";
+var APPLICATIONS_BY_DATE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/applications2/byDate";
+var ADD_COSTS_TO_MALFUNCTIONS = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/setCosts";
 getAllApplications();
 // Register listeners
 
@@ -36,7 +36,7 @@ function getAllApplications() {
     var dateTo = Date.parse(b);
     var str;
     if(a=="" || b=="")  str = APPLICATIONS_URL;
-    else str = APPLICATIONS_BY_DATE + dateFrom + '/' + dateTo;
+    else str = APPLICATIONS_BY_DATE + '?minDateTime=' + dateFrom + '&maxDateTime=' + dateTo;
     console.log('get all applications');
     $.ajax({
         type: 'GET',
@@ -213,11 +213,12 @@ function addMalfunction(applicationId) {
 }
 
 function updateApplication(applicationId) {
+    var time = Date.now();
     console.log('updateApplication');
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
-        url: APPLICATION_UPDATE + applicationId.toString(),
+        url: APPLICATION_UPDATE + '?id=' + applicationId.toString() + '&time=' + time ,
         success: function () {
             alert("Application update success!");
             getAllApplications();
@@ -246,23 +247,35 @@ function createApplication(applicationId) {
     });
 }
 function addCosts(malfunctionId) {
-    var str = ADD_COSTS_TO_MALFUNCTIONS + malfunctionId + '/' +
-            $("#costRepair"+malfunctionId).val() + '/' +
-        $("#costService"+malfunctionId).val() + '/' +
-        $("#additionalExpenses"+malfunctionId).val();
-    console.log('updateApplication');
-    $.ajax({
-        type: 'PUT',
-        contentType: 'application/json',
-        url:str,
-        success: function () {
-            getAllApplications();
-            $('#addMalfunction tr').remove();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert('Application update error: ' + textStatus);
-        }
-    });
+    if(checkfields(malfunctionId)==true) {
+        var str = ADD_COSTS_TO_MALFUNCTIONS + '?id=' + malfunctionId +
+            '&costRepair=' + $("#costRepair" + malfunctionId).val() +
+            '&costService=' + $("#costService" + malfunctionId).val() +
+            '&additionalExpenses=' + $("#additionalExpenses" + malfunctionId).val();
+        console.log('updateApplication');
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: str,
+            success: function () {
+                getAllApplications();
+                $('#addMalfunction tr').remove();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Set costs error: ' + textStatus);
+            }
+        });
+    }
+    else alert("Please, set all costs!");
+}
+
+function checkfields(id) {
+    var i=0;
+    if(($("#costRepair"+id).val()=="")) i++;
+    if(($("#costService"+id).val()=="")) i++;
+    if(($("#additionalExpenses"+id).val()=="")) i++;
+    if(i==0) return true;
+    return false;
 }
 
 function updateMalfunction(malfunctionId,applicationId) {
