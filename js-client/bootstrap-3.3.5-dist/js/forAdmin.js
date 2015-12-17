@@ -107,7 +107,7 @@ function drawRow(dataApp,dataMal) {
     row.append($('<td id=\"createdDate' + dataApp.applicationId + '\">' + dataApp.createdDate + "</td>"));
     row.append($('<td id=\"updatedDate' + dataApp.applicationId + '\">' + dataApp.updatedDate + "</td>"));
     row.append($("<td></td>"));
-    row.append($("<td>" + '<button onclick="drawFormFOrNewMalfunction(' + dataApp.applicationId + ')">Add</button>' + "</td>"));
+    row.append($("<td></td>"));
     row.append($("<td>" + '<button onclick="deleteApplication(' + dataApp.applicationId + ')">Delete</button>' + "</td>"))
     $("#applicationList").append(rowForTh);
     rowForTh.append($("<td></td>"));
