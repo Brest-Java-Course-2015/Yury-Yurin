@@ -77,7 +77,7 @@ function getAllMalfunctionsByApplicationId(dataApp, id) {
             alert('getAllMalfunctionsById: ' + textStatus);
         },
         complete: function() {
-            if (newData.length == null) deleteApplication(dataApp.applicationId);
+            if (newData.length==0) deleteApplication(dataApp.applicationId);
             drawRow(dataApp,newData);
         }
     });

@@ -2,8 +2,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.epam.brest.course2015</groupId>
-    <artifactId>usermanagement</artifactId>
-    <name>Simple User Management</name>
+    <artifactId>simle-auto-service</artifactId>
+    <name>Simple-auto-service</name>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
         <module>app-core</module>
