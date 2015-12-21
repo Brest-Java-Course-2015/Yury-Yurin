@@ -48,6 +48,9 @@ public class MalfunctionDaoImpl implements MalfunctionDao {
     @Value("${malfunction.getCostById}")
     private String getCostById;
 
+    @Value("${malfunction.getCostByApplicationId}")
+    private String getCostByApplicationId;
+
     public MalfunctionDaoImpl(DataSource dataSource) {
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
@@ -123,13 +126,9 @@ public class MalfunctionDaoImpl implements MalfunctionDao {
     @Override
     public Integer getCostForMalfunctionsByApplicationId(Integer applicationId) {
         LOGGER.info("DAO:Get cost for malfunction by application id="+applicationId.toString());
-        List<Malfunction> malfunctionList = getAllMalfunctionsByIdApplication(applicationId);
-        Integer sum = 0;
-        for(Malfunction malfunction:malfunctionList) {
-            Integer s = getCostForMalfunctionById(malfunction.getMalfunctionId());
-           if(s!=null) sum+=s;
-        }
-        return sum;
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put(APPLICATION_ID.getValue(),applicationId);
+        return namedParameterJdbcTemplate.queryForObject(getCostByApplicationId, hashMap, Integer.TYPE);
     }
 
     private MapSqlParameterSource getParametersMap(Malfunction malfunction) {
