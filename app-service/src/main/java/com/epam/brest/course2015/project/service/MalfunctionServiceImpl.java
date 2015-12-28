@@ -1,5 +1,6 @@
 package com.epam.brest.course2015.project.service;
 
+import com.epam.brest.course2015.project.core.ApplicationCosts;
 import com.epam.brest.course2015.project.core.Malfunction;
 import com.epam.brest.course2015.project.dao.MalfunctionDao;
 import org.apache.logging.log4j.LogManager;
@@ -22,13 +23,13 @@ public class MalfunctionServiceImpl implements MalfunctionService {
         LOGGER.info("SERVICE: addMalfunction");
         Assert.hasText(malfunction.getName(), "Name should not be empty!");
         Assert.isNull(malfunction.getMalfunctionId(), "Id should be null!");
-        Assert.hasText(malfunction.getDescription(),"Description should not be empty!");
+        Assert.hasText(malfunction.getDescription(), "Description should not be empty!");
         return malfunctionDao.addMalfunction(malfunction);
     }
 
     @Override
     public void deleteMalfunction(Integer malfunctionId) {
-        LOGGER.info("SERVICE: delete application by id="+malfunctionId.toString());
+        LOGGER.info("SERVICE: delete application by id=" + malfunctionId.toString());
         Assert.notNull(malfunctionId, "Id should not be null!");
         Assert.isTrue(malfunctionId > 0);
         malfunctionDao.deleteMalfunction(malfunctionId);
@@ -46,8 +47,8 @@ public class MalfunctionServiceImpl implements MalfunctionService {
 
     @Override
     public Malfunction getMalfunctionById(Integer malfunctionId) {
-        LOGGER.info("SERVICE: get malfunction by id="+malfunctionId.toString());
-        Assert.notNull(malfunctionId,"Id should not be null!");
+        LOGGER.info("SERVICE: get malfunction by id=" + malfunctionId.toString());
+        Assert.notNull(malfunctionId, "Id should not be null!");
         return malfunctionDao.getMalfunctionById(malfunctionId);
     }
 
@@ -55,7 +56,7 @@ public class MalfunctionServiceImpl implements MalfunctionService {
     public List<Malfunction> getAllMalfunctionsByIdApplication(Integer applicationId) {
         LOGGER.info("SERVICE: get all malfunctions by application id="+applicationId.toString());
         Assert.notNull(applicationId,"Id should not be null");
-        Assert.isTrue(applicationId>0);
+        Assert.isTrue(applicationId > 0);
         return malfunctionDao.getAllMalfunctionsByIdApplication(applicationId);
     }
 
@@ -66,15 +67,15 @@ public class MalfunctionServiceImpl implements MalfunctionService {
     }
 
     @Override
-    public Integer getCostForMalfunctionById(Integer malfunctionId) {
-        LOGGER.info("SERVICE: get cost for malfunction by id="+malfunctionId.toString());
-        return malfunctionDao.getCostForMalfunctionById(malfunctionId);
+    public List<ApplicationCosts> getMalfunctionsCosts() {
+        LOGGER.info("SERVICE: get cost for malfunctions");
+        return malfunctionDao.getMalfunctionsCosts();
     }
 
     @Override
-    public Integer getCostsForMalfunctionByApplicationId(Integer applicationId) {
-        LOGGER.info("SERVICE: get costs for malfunctions by application id="+applicationId.toString());
-       return malfunctionDao.getCostForMalfunctionsByApplicationId(applicationId);
+    public List<ApplicationCosts> getApplicationsCosts() {
+        LOGGER.info("SERVICE: get costs for applications");
+       return malfunctionDao.getApplicationsCosts();
     }
 
     @Override

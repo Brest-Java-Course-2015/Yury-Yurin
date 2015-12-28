@@ -1,6 +1,7 @@
 package com.epam.brest.course2015.project.service;
 
 
+import com.epam.brest.course2015.project.core.ApplicationCosts;
 import com.epam.brest.course2015.project.core.Malfunction;
 import com.epam.brest.course2015.project.dao.MalfunctionDao;
 import org.junit.After;
@@ -87,17 +88,21 @@ public class MockMalfunctionServiceImplTest {
 
 
     @Test
-    public void TestGetCostByMalfunctionId() {
-        expect(mockMalfunctionDao.getCostForMalfunctionById(2)).andReturn(6000);
+    public void TestGetMalfunctionsCosts() {
+        List<ApplicationCosts> costs = new ArrayList<ApplicationCosts>();
+        costs.add(new ApplicationCosts(1,6000));
+        expect(mockMalfunctionDao.getMalfunctionsCosts()).andReturn(costs);
         replay(mockMalfunctionDao);
-        Assert.isTrue(malfunctionService.getCostForMalfunctionById(2).equals(6000));
+        Assert.isTrue(malfunctionService.getMalfunctionsCosts().get(0).getCost().equals(6000));
     }
 
     @Test
-    public void TestGetCostsMalfunctionByApplicationId() {
-        expect(mockMalfunctionDao.getCostForMalfunctionsByApplicationId(1)).andReturn(12000);
+    public void TestGetApplicationsCosts() {
+        List<ApplicationCosts> costs = new ArrayList<ApplicationCosts>();
+        costs.add(new ApplicationCosts(1,6000));
+        expect(mockMalfunctionDao.getApplicationsCosts()).andReturn(costs);
         replay(mockMalfunctionDao);
-        Assert.isTrue(malfunctionService.getCostsForMalfunctionByApplicationId(1) == 12000);
+        Assert.isTrue(malfunctionService.getApplicationsCosts().get(0).getCost().equals(6000));
     }
 
     @Test

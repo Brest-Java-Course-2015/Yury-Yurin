@@ -9,25 +9,20 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>app-rest-client</artifactId>
+    <artifactId>app-web</artifactId>
+    <name>app</name>
+    <packaging>war</packaging>
+
 
     <dependencies>
-        <dependency>
-            <groupId>com.epam.brest.course2015</groupId>
-            <artifactId>app-dao-api</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.epam.brest.course2015</groupId>
-            <artifactId>app-test</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -50,9 +45,12 @@
             <artifactId>junit</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.apple</groupId>
-            <artifactId>AppleJavaExtensions</artifactId>
-            <version>1.4</version>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest.course2015</groupId>
+            <artifactId>app-core</artifactId>
         </dependency>
     </dependencies>
 
@@ -79,5 +77,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

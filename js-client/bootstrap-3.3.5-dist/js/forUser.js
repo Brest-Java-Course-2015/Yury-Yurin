@@ -1,16 +1,17 @@
 // The root URL for the RESTful services
-var APPLICATIONS_URL = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/applications2";
-var MALFUNCTIONS_URL = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunctions2/";
-var MALFUNCTION_DELETE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/delete/";
-var MALFUNCTION_ADD = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2";
-var MALFUNCTION_UPDATE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/update";
-var APPLICATION_UPDATE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/application2/update/";
-var APPLICATION_DELETE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/application2/delete/";
-var APPLICATION_ADD = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/application2";
-var APPLICATIONS_BY_DATE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/applications2/byDate";
-var ALL_MALFUNCTIONS_URL = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunctions2";
-var MALFUNCTION_COST = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/getCost/";
-var APPLICATION_COST = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/getCostApplication/"
+var URL_PREFIX = "http://localhost:8080/app-rest-for-client-1.0.0-SNAPSHOT/";
+var APPLICATIONS_URL = URL_PREFIX + "applications2";
+var MALFUNCTIONS_URL = URL_PREFIX + "malfunctions2/";
+var MALFUNCTION_DELETE = URL_PREFIX + "malfunction2/delete/";
+var MALFUNCTION_ADD = URL_PREFIX + "malfunction2";
+var MALFUNCTION_UPDATE = URL_PREFIX + "malfunction2/update";
+var APPLICATION_UPDATE = URL_PREFIX + "application2/update/";
+var APPLICATION_DELETE = URL_PREFIX + "application2/delete/";
+var APPLICATION_ADD = URL_PREFIX + "application2";
+var APPLICATIONS_BY_DATE = URL_PREFIX + "applications2/byDate";
+var MALFUNCTION_COST = URL_PREFIX + "malfunction2/getCostsMalfunctions";
+var APPLICATION_COST = URL_PREFIX + "malfunction2/getCostsApplications"
+
 getAllApplications();
 // Register listeners
 function deleteMalfunction(malfunctionId,applicationId) {
@@ -54,9 +55,14 @@ function getAllApplications() {
                 $('#applicationList tr').remove();
                 $.each(newData, function(index,value) {
                     getAllMalfunctionsByApplicationId(value, value.applicationId);
-                })
+                });
             }
         });
+}
+
+function all() {
+    getCostsForMalfunctions();
+    getCostApplications();
 }
 function clearDate() {
     $("#dateSetFrom").val('');
@@ -134,18 +140,21 @@ function getAllMalfunctionsByApplicationId(dataApp, id) {
                     + dataApp.applicationId + ','
                     + dataMal[j].malfunctionId + ')">Update</button>' + "</td>"));
         }
-        for (var j = 0; j < dataMal.length; j++)
-            getCostForMalfunction(dataMal[j].malfunctionId);
-        getCostForApplication(dataApp.applicationId);
+        all();
     }
 
-function getCostForMalfunction(id) {
+function getCostsForMalfunctions() {
         console.log('get cost Malfunction ');
         $.ajax({
             type: 'GET',
-            url: MALFUNCTION_COST + id,
+            url: MALFUNCTION_COST,
+            dataType: 'json',
             success: function (data) {
-                $("#cost"+id).val(data.toString());
+                for(var i=0;i<data.length;i++)
+                {
+                    if(data[i].cost != null)
+                    $("#cost" + data[i].id).val(data[i].cost.toString());
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR, textStatus, errorThrown);
@@ -154,13 +163,17 @@ function getCostForMalfunction(id) {
         });
 }
 
-function getCostForApplication(id) {
+function getCostApplications() {
     console.log('get cost Application');
     $.ajax({
         type: 'GET',
-        url: APPLICATION_COST + id,
+        url: APPLICATION_COST,
+        dataType: 'json',
         success: function (data) {
-            $("#costApp"+id).val(data.toString());
+            for(var i=0;i<data.length;i++) {
+                if(data[i].cost != null)
+                $("#costApp" + data[i].id).val(data[i].cost.toString());
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR, textStatus, errorThrown);
@@ -232,7 +245,7 @@ function addMalfunction(applicationId) {
             $('#addMalfunction tr').remove();
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert('addMulfunction error: ' + textStatus);
+            alert('addMalfunction error: ' + textStatus);
         }
     });
    if(applicationId!=null) updateApplication(applicationId);

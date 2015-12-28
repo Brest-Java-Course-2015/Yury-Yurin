@@ -1,4 +1,5 @@
 package com.epam.brest.course2015.project.service;
+import com.epam.brest.course2015.project.core.ApplicationCosts;
 import com.epam.brest.course2015.project.core.Malfunction;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface MalfunctionService {
     Malfunction getMalfunctionById(Integer malfunctionId);
     List<Malfunction> getAllMalfunctionsByIdApplication(Integer applicationId);
     List<Malfunction> getAllMalfunctions();
-    Integer getCostForMalfunctionById(Integer malfunctionId);
-    Integer getCostsForMalfunctionByApplicationId(Integer applicationId);
+    List<ApplicationCosts> getMalfunctionsCosts();
+    List<ApplicationCosts> getApplicationsCosts();
     void addCostsToMalfunction(Integer malfunctionId, Integer costRepair, Integer costService, Integer additionalExpenses);
 }

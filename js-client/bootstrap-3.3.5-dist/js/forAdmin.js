@@ -1,14 +1,15 @@
 // The root URL for the RESTful services
-var APPLICATIONS_URL = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/applications2";
-var MALFUNCTIONS_URL = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunctions2/";
-var MALFUNCTION_DELETE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/delete/";
-var MALFUNCTION_ADD = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2";
-var MALFUNCTION_UPDATE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/update";
-var APPLICATION_UPDATE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/application2/update";
-var APPLICATION_DELETE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/application2/delete/";
-var APPLICATION_ADD = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/application2";
-var APPLICATIONS_BY_DATE = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/applications2/byDate";
-var ADD_COSTS_TO_MALFUNCTIONS = "http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/malfunction2/setCosts";
+var URL_PREFIX = "http://localhost:8080/app-rest-for-client-1.0.0-SNAPSHOT/";
+var APPLICATIONS_URL = URL_PREFIX + "applications2";
+var MALFUNCTIONS_URL = URL_PREFIX + "malfunctions2/";
+var MALFUNCTION_DELETE = URL_PREFIX + "malfunction2/delete/";
+var MALFUNCTION_ADD = URL_PREFIX + "malfunction2";
+var MALFUNCTION_UPDATE = URL_PREFIX + "malfunction2/update";
+var APPLICATION_UPDATE = URL_PREFIX + "application2/update/";
+var APPLICATION_DELETE = URL_PREFIX + "application2/delete/";
+var APPLICATION_ADD = URL_PREFIX + "application2";
+var APPLICATIONS_BY_DATE = URL_PREFIX + "applications2/byDate";
+var ADD_COSTS_TO_MALFUNCTIONS = URL_PREFIX + "malfunction2/setCosts";
 getAllApplications();
 // Register listeners
 

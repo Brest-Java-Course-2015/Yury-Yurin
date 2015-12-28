@@ -1,5 +1,6 @@
 package com.epam.brest.course2015.project.dao;
 
+import com.epam.brest.course2015.project.core.ApplicationCosts;
 import com.epam.brest.course2015.project.core.Malfunction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +21,7 @@ import static com.epam.brest.course2015.project.core.Malfunction.MalfunctionFiel
 
 public class MalfunctionDaoImpl implements MalfunctionDao {
     private RowMapper<Malfunction> malfunctionMapper = new BeanPropertyRowMapper<Malfunction>(Malfunction.class);
+    private RowMapper<ApplicationCosts> costMapper = new BeanPropertyRowMapper<ApplicationCosts>(ApplicationCosts.class);
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -45,11 +47,11 @@ public class MalfunctionDaoImpl implements MalfunctionDao {
     @Value("${malfunction.getAllMalfunctions}")
     private String getAllMalfunctions;
 
-    @Value("${malfunction.getCostById}")
-    private String getCostById;
+    @Value("${malfunction.getCostsMalfunctions}")
+    private String getCostsMalfunctions;
 
-    @Value("${malfunction.getCostByApplicationId}")
-    private String getCostByApplicationId;
+    @Value("${application.getApplicationsCosts}")
+    private String getApplicationsCost;
 
     public MalfunctionDaoImpl(DataSource dataSource) {
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -116,19 +118,15 @@ public class MalfunctionDaoImpl implements MalfunctionDao {
     }
 
     @Override
-    public Integer getCostForMalfunctionById(Integer malfunctionId) {
-        LOGGER.info("DAO:Get cost of malfunction by id="+malfunctionId.toString());
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put(MALFUNCTION_ID.getValue(),malfunctionId);
-        return namedParameterJdbcTemplate.queryForObject(getCostById, hashMap, Integer.TYPE);
+    public List<ApplicationCosts> getMalfunctionsCosts() {
+        LOGGER.info("DAO:Get costs of malfunctions");
+        return namedParameterJdbcTemplate.query(getCostsMalfunctions, costMapper);
     }
 
     @Override
-    public Integer getCostForMalfunctionsByApplicationId(Integer applicationId) {
-        LOGGER.info("DAO:Get cost for malfunction by application id="+applicationId.toString());
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put(APPLICATION_ID.getValue(),applicationId);
-        return namedParameterJdbcTemplate.queryForObject(getCostByApplicationId, hashMap, Integer.TYPE);
+    public List<ApplicationCosts> getApplicationsCosts() {
+        LOGGER.info("DAO:Get cost for applications");
+        return namedParameterJdbcTemplate.query(getApplicationsCost, costMapper);
     }
 
     private MapSqlParameterSource getParametersMap(Malfunction malfunction) {
