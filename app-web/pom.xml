@@ -16,6 +16,23 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.epam.brest.course2015</groupId>
+            <artifactId>app-dao-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest.course2015</groupId>
+            <artifactId>app-rest-client</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest.course2015</groupId>
+            <artifactId>app-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest.course2015</groupId>
+            <artifactId>app-service-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
@@ -52,6 +69,10 @@
             <groupId>com.epam.brest.course2015</groupId>
             <artifactId>app-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -64,7 +85,7 @@
                     <stopPort>9094</stopPort>
                     <stopKey>STOP</stopKey>
                     <webAppConfig>
-                        <contextPath>/web</contextPath>
+                        <contextPath>/</contextPath>
                         <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
                     </webAppConfig>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
