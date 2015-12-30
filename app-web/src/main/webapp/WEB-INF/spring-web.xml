@@ -49,4 +49,7 @@
         <property name="applicationDao" ref="applicationDao"/>
     </bean>
 
+    <mvc:resources mapping="/resources/css/**" location="/resources/css/" />
+    <mvc:resources mapping="/resources/js/**" location="/resources/js/" />
+
 </beans>
