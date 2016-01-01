@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,6 +57,7 @@ public class ApplicationRestClient implements ApplicationDao {
         String nDate = String.valueOf(minDate.getTime());
         String xDate = String.valueOf(maxDate.getTime());
         LOGGER.info("client request for all applications by set date");
-        return restTemplate.getForObject(prefix+"applications/byDate?minDateTime="+nDate+"&maxDateTime="+ xDate,List.class);
+        List<Application> applicationList = restTemplate.getForObject(prefix+"applications/byDate?minDateTime="+nDate+"&maxDateTime="+ xDate,ArrayList.class);
+        return applicationList;
     }
 }
