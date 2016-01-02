@@ -21,6 +21,9 @@
     <button id="btnSortDate" onclick="getApplicationsByDate()">Set</button>
     <button id="btnClear" onclick="clearDate()">Clear</button>
 </div>
+<div id="addApp" align="right">
+    <button id="btnAddApp" onclick="createApplication()">Add application</button>
+</div>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -85,6 +88,28 @@
        var dateMin = Date.parse($('#dateSetFrom').val());
        var dateMax = Date.parse($('#dateSetTo').val());
        window.location = '<c:url value="/applicationsByDate"/> ' + '?dateMin=' + dateMin + '&dateMax=' + dateMax;
+   }
+   function createApplication() {
+           $.ajax({
+               type: 'POST',
+               contentType: 'application/json',
+               url: '<c:url value="/application"/>',
+               data: addApplicationToJSON(),
+               success: function (data) {
+               },
+               error: function (jqXHR, textStatus, errorThrown) {
+                   alert('create application error: ' + textStatus);
+               }
+
+           });
+   }
+       function addApplicationToJSON() {
+       var date = Date.now();
+       return JSON.stringify({
+           "applicationId": null,
+           "createdDate": date,
+           "updatedDate": date
+       });
    }
 </script>
 </body>

@@ -14,6 +14,11 @@ var APPLICATION_COST = URL_PREFIX + "malfunction/getCostsApplications"
 
 getAllApplications();
 // Register listeners
+
+/*function setC(data) {
+    for(var i=0;i<data.size;i++) {
+        $("#costA${applicationsCosts.get(i).id}").val(${applicationsCosts.get(i).cost});
+    }*/
 function deleteMalfunction(malfunctionId,applicationId) {
     console.log('deleteMalfunctionById');
     $.ajax({

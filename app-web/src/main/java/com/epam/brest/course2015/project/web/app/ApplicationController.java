@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
@@ -28,6 +29,29 @@ public class ApplicationController  {
     @Autowired
     private MalfunctionService malfunctionService;
 
+    @RequestMapping("/applicationsByDate")
+    public ModelAndView getAppById(@RequestParam("dateMin") String dateMin,
+                                   @RequestParam("dateMax") String dateMax) {
+        List<Application> applicationList =applicationService.getAllApplicationsByDate(getDate(dateMin), getDate(dateMax));
+        ModelAndView modelAndView = new ModelAndView("userTableByDate","applications",applicationList);
+       /* if(applicationList.size()!=0) {
+            List<Malfunction> malfunctionList = new ArrayList<Malfunction>();
+            for (Application application:applicationList) {
+                List<Malfunction> malfunctionList1 = malfunctionService.getAllMalfunctionsByIdApplication(application.getApplicationId());
+                malfunctionList.addAll(malfunctionList1);
+            }
+            modelAndView.addObject("malfunctions", malfunctionList);
+        }*/
+        List<Malfunction> malfunctionList = malfunctionService.getAllMalfunctions();
+        modelAndView.addObject("malfunctions", malfunctionList);
+        List<ApplicationCosts> applicationCostsList = malfunctionService.getApplicationsCosts();
+        List<ApplicationCosts> malfunctionCostsList = malfunctionService.getMalfunctionsCosts();
+        modelAndView.addObject("malfunctionsCosts",malfunctionCostsList);
+        modelAndView.addObject("applicationsCosts", applicationCostsList);
+        LOGGER.debug("by date view");
+        return modelAndView;
+    }
+
     @RequestMapping("/applications")
     public ModelAndView launchApplicationForm() {
         List<Application> applicationList = applicationService.getAllApplications();
@@ -42,28 +66,37 @@ public class ApplicationController  {
         return modelAndView;
     }
 
-    @RequestMapping("/applicationsByDate")
-    public ModelAndView getAppById(@RequestParam("dateMin") String dateMin,
-                                              @RequestParam("dateMax") String dateMax) {
-        List<Application> applicationList =applicationService.getAllApplicationsByDate(getDate(dateMin), getDate(dateMax));
-        ModelAndView modelAndView = new ModelAndView("userTableByDate","applications",applicationList);
-       /* if(applicationList.size()!=0) {
-            List<Malfunction> malfunctionList = new ArrayList<Malfunction>();
-            for (Application application:applicationList) {
-                List<Malfunction> malfunctionList1 = malfunctionService.getAllMalfunctionsByIdApplication(application.getApplicationId());
-                malfunctionList.addAll(malfunctionList1);
-            }
-            modelAndView.addObject("malfunctions", malfunctionList);
-        }*/
-        List<Malfunction> malfunctionList = malfunctionService.getAllMalfunctions();
-        modelAndView.addObject("malfunctions",malfunctionList);
-        List<ApplicationCosts> applicationCostsList = malfunctionService.getApplicationsCosts();
-        List<ApplicationCosts> malfunctionCostsList = malfunctionService.getMalfunctionsCosts();
-        modelAndView.addObject("malfunctionsCosts",malfunctionCostsList);
-        modelAndView.addObject("applicationsCosts", applicationCostsList);
-        LOGGER.debug("by date view");
-        return modelAndView;
+    @RequestMapping("/application")
+    public String addApplication(@RequestBody Application application) {
+       Integer id = applicationService.addApplication(application);
+        String str = "redirect:applicationSubmit?id="+id;
+        return str;
     }
+
+    @RequestMapping("/applicationSubmit")
+    public ModelAndView addApplicationSubmit(@RequestParam("id") Integer id) {
+        return new ModelAndView("application","id",id);
+    }
+
+    @RequestMapping("/malfunctionSubmit")
+    public String addMalfunctionSubmit(@RequestBody Malfunction malfunction) {
+        malfunctionService.addMalfunction(malfunction);
+        return "forward:/indexForUserAll";
+    }
+
+    @RequestMapping("/updateApplication")
+    public void updateApplication(@RequestParam("id") Integer id,
+                                    @RequestParam("time") String time) {
+        applicationService.updateApplication(id,getDate(time));
+    }
+
+
+
+/*    @RequestMapping("/malfunction")
+    public ModelAndView addMalfunction() {
+        return new ModelAndView("application");
+    }*/
+
 
     private static Date getDate(String date) {
         Date newDate = new Date();
