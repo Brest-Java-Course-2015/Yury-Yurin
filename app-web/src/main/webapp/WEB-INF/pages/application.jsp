@@ -30,7 +30,7 @@
     </tr>
     <tr>
         <td><button onclick="goBack()">Отмена</button></td>
-        <td><button onclick="addMalfunction()">Добавить</button></td>
+        <td><button onclick="createApplication()">Добавить</button></td>
     </tr>
     </tbody>
 </table>
@@ -72,8 +72,10 @@
             }
         });
     }
-    function addMalfunctionFormToJSON(id) {
-        var a = '${id}';
+    function addMalfunctionFormToJSON() {
+       var a;
+       if(${id==null}) a=null;
+        else a='${id}';
         return JSON.stringify({
             "name": $('#name').val(),
             "auto": $('#auto').val(),
@@ -83,6 +85,29 @@
     }
     function goBack() {
         window.location = '<c:url value="/applications"/>';
+    }
+    function createApplication() {
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: '<c:url value="/applicationSubmit"/>',
+            data: addMalfunctionFormToJSON(),
+            success: function () {
+                window.location = '<c:url value="/applications"/>'
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('create application error: ' + textStatus);
+            }
+
+        });
+    }
+    function addApplicationToJSON() {
+        var date = Date.now();
+        return JSON.stringify({
+            "applicationId": null,
+            "createdDate": date,
+            "updatedDate": date
+        });
     }
 </script>
 </body>

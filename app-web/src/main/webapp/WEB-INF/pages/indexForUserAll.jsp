@@ -22,7 +22,7 @@
     <button id="btnClear" onclick="clearDate()">Clear</button>
 </div>
 <div id="addApp" align="right">
-    <button id="btnAddApp" onclick="createApplication()">Add application</button>
+    <button id="btnAddApp" onclick="goToAddApplication()">Add application</button>
 </div>
 <div class="table-responsive">
     <table class="table table-striped">
@@ -41,6 +41,7 @@
                 <td>${application.updatedDate}</td>
                 <td><output id="costA${application.applicationId}"></output></td>
                 <td></td>
+                <td></td>
             </tr>
             <tr>
                 <td></td>
@@ -48,15 +49,17 @@
                 <td><b>Автомобиль</b></td>
                 <td><b>Описание</b></td>
                 <td>Стоимость</td>
+                <td><button onclick="goToAddMalfunction(${application.applicationId})">Добавить</button></td>
             </tr>
             <c:forEach items="${malfunctions}" var="malfunction">
                 <c:if test="${malfunction.applicationId == application.applicationId}">
-                <tr>
+                <tr id="malfunctionId${malfunction.malfunctionId}">
                     <td></td>
                     <td>${malfunction.name}</td>
                     <td>${malfunction.auto}</td>
                     <td>${malfunction.description}</td>
                     <td><output id="costM${malfunction.malfunctionId}"></output></td>
+                    <td></td>
                 </tr>
                 </c:if>
             </c:forEach>
@@ -89,28 +92,12 @@
        var dateMax = Date.parse($('#dateSetTo').val());
        window.location = '<c:url value="/applicationsByDate"/> ' + '?dateMin=' + dateMin + '&dateMax=' + dateMax;
    }
-   function createApplication() {
-           $.ajax({
-               type: 'POST',
-               contentType: 'application/json',
-               url: '<c:url value="/application"/>',
-               data: addApplicationToJSON(),
-               success: function (data) {
-               },
-               error: function (jqXHR, textStatus, errorThrown) {
-                   alert('create application error: ' + textStatus);
-               }
-
-           });
-   }
-       function addApplicationToJSON() {
-       var date = Date.now();
-       return JSON.stringify({
-           "applicationId": null,
-           "createdDate": date,
-           "updatedDate": date
-       });
-   }
+    function goToAddApplication() {
+        window.location = '<c:url value="/application"/>' + '?id=';
+    }
+    function goToAddMalfunction(id) {
+        window.location = '<c:url value="/application"/>' + '?id=' + id.toString();
+    }
 </script>
 </body>
 </html>

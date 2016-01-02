@@ -66,14 +66,18 @@ public class ApplicationController  {
         return modelAndView;
     }
 
-    @RequestMapping("/application")
-    public String addApplication(@RequestBody Application application) {
-       Integer id = applicationService.addApplication(application);
-        String str = "redirect:applicationSubmit?id="+id;
-        return str;
+    @RequestMapping("/applicationSubmit")
+    public String addApplication(@RequestBody Malfunction malfunction) {
+        if(malfunction.getApplicationId()==null) {
+            Application application = new Application(null, new Date(), new Date());
+            Integer id = applicationService.addApplication(application);
+            malfunction.setApplicationId(id);
+        }
+        malfunctionService.addMalfunction(malfunction);
+       return "forward:/applications";
     }
 
-    @RequestMapping("/applicationSubmit")
+    @RequestMapping("/application")
     public ModelAndView addApplicationSubmit(@RequestParam("id") Integer id) {
         return new ModelAndView("application","id",id);
     }
@@ -87,7 +91,7 @@ public class ApplicationController  {
     @RequestMapping("/updateApplication")
     public void updateApplication(@RequestParam("id") Integer id,
                                     @RequestParam("time") String time) {
-        applicationService.updateApplication(id,getDate(time));
+        applicationService.updateApplication(id, getDate(time));
     }
 
 
