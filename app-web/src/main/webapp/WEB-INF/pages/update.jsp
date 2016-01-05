@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!-- Tell the JSP Page that please do not ignore Expression Language -->
-<%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +11,7 @@
 <header>
 </header>
 <body>
-<h1>Добавление неисправности</h1>
+<h1>Обновление неисправности</h1>
 
 <table align="center">
     <tbody id="addMalfunction">
@@ -30,7 +29,7 @@
     </tr>
     <tr>
         <td><button onclick="goBack()">Cancel</button></td>
-        <td><button onclick="createApplication()">Add</button></td>
+        <td><button onclick="updateMalfunction()">Update</button></td>
     </tr>
     </tbody>
 </table>
@@ -40,58 +39,37 @@
 <script src="resources/js/bootstrap.js"></script>
 
 <script>
-    function addMalfunction() {
+    $("#name").val('${malfunction.name}');
+    $("#auto").val('${malfunction.auto}');
+    $("#description").val('${malfunction.description}');
+    function updateMalfunction() {
         $.ajax({
-            type: 'POST',
+            type: 'PUT',
             contentType: 'application/json',
-            url: '<c:url value="/malfunctionSubmit"/>',
-            dataType: "json",
-            data: addMalfunctionFormToJSON(${id}),
+            url: '<c:url value="/updateMalfunctionSubmit"/>',
+            data: updateMalfunctionFormToJSON(),
             success: function () {
-                alert("Malfunction add success!");
+                alert("Malfunction update success!");
+                window.location = '<c:url value="/applications"/> '
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert('addMalfunction error: ' + textStatus);
             }
         });
     }
 
-    function addMalfunctionFormToJSON() {
-       var a;
-       if(${id==null}) a=null;
-        else a='${id}';
-        return JSON.stringify({
+    function updateMalfunctionFormToJSON() {
+        var a = JSON.stringify({
+            "malfunctionId": '${malfunction.malfunctionId}',
             "name": $('#name').val(),
             "auto": $('#auto').val(),
             "description": $('#description').val(),
-            "applicationId": a
+            "applicationId": '${malfunction.applicationId}'
         });
+        console.log(a.toString());
+        return a;
     }
     function goBack() {
         window.location = '<c:url value="/applications"/>';
-    }
-    function createApplication() {
-        $.ajax({
-            type: 'POST',
-            contentType: 'application/json',
-            url: '<c:url value="/applicationSubmit"/>',
-            data: addMalfunctionFormToJSON(),
-            success: function () {
-                window.location = '<c:url value="/applications"/>'
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert('create application error: ' + textStatus);
-            }
-
-        });
-    }
-    function addApplicationToJSON() {
-        var date = Date.now();
-        return JSON.stringify({
-            "applicationId": null,
-            "createdDate": date,
-            "updatedDate": date
-        });
     }
 </script>
 </body>

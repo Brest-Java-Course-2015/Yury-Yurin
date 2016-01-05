@@ -9,11 +9,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -53,7 +51,7 @@ public class ApplicationController  {
     }
 
     @RequestMapping("/applications")
-    public ModelAndView launchApplicationForm() {
+    public ModelAndView getMainDataForView() {
         List<Application> applicationList = applicationService.getAllApplications();
         List<Malfunction> malfunctionList = malfunctionService.getAllMalfunctions();
         List<ApplicationCosts> applicationCostsList = malfunctionService.getApplicationsCosts();
@@ -67,39 +65,48 @@ public class ApplicationController  {
     }
 
     @RequestMapping("/applicationSubmit")
-    public String addApplication(@RequestBody Malfunction malfunction) {
+    public String addApplicationSubmit(@RequestBody Malfunction malfunction) {
         if(malfunction.getApplicationId()==null) {
             Application application = new Application(null, new Date(), new Date());
             Integer id = applicationService.addApplication(application);
             malfunction.setApplicationId(id);
         }
         malfunctionService.addMalfunction(malfunction);
+        applicationService.updateApplication(malfunction.getApplicationId(), new Date());
        return "forward:/applications";
     }
 
     @RequestMapping("/application")
-    public ModelAndView addApplicationSubmit(@RequestParam("id") Integer id) {
+    public ModelAndView addApplication(@RequestParam("id") Integer id) {
         return new ModelAndView("application","id",id);
     }
 
-    @RequestMapping("/malfunctionSubmit")
-    public String addMalfunctionSubmit(@RequestBody Malfunction malfunction) {
-        malfunctionService.addMalfunction(malfunction);
-        return "forward:/indexForUserAll";
+    @RequestMapping("/deleteApplication")
+    public String deleteApplication(@RequestParam("id") Integer id) {
+        applicationService.deleteApplication(id);
+        return "redirect:/applications";
     }
 
-    @RequestMapping("/updateApplication")
-    public void updateApplication(@RequestParam("id") Integer id,
-                                    @RequestParam("time") String time) {
-        applicationService.updateApplication(id, getDate(time));
+    @RequestMapping("/deleteMalfunction")
+    public String deleteMalfunction(@RequestParam("malId") Integer malfunctionId,
+                                    @RequestParam("appId") Integer applicationId) {
+        malfunctionService.deleteMalfunction(malfunctionId);
+        applicationService.updateApplication(applicationId, new Date());
+        return "redirect:/applications";
     }
 
+    @RequestMapping("/updateMalfunctionSubmit")
+    public String updateMalfunctionSubmit(@RequestBody Malfunction malfunction) {
+        malfunctionService.updateMalfunction(malfunction);
+        applicationService.updateApplication(malfunction.getApplicationId(),new Date());
+        return "forward:/applications";
+    }
 
-
-/*    @RequestMapping("/malfunction")
-    public ModelAndView addMalfunction() {
-        return new ModelAndView("application");
-    }*/
+    @RequestMapping(value = "/updateMalfunction")
+    public ModelAndView updateMalfunction(@RequestParam("id") Integer id) {
+        Malfunction malfunction = malfunctionService.getMalfunctionById(id);
+        return new ModelAndView("update","malfunction",malfunction);
+    }
 
 
     private static Date getDate(String date) {

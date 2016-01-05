@@ -48,8 +48,9 @@
                 <td><b>Название</b></td>
                 <td><b>Автомобиль</b></td>
                 <td><b>Описание</b></td>
-                <td>Стоимость</td>
-                <td><button onclick="goToAddMalfunction(${application.applicationId})">Добавить</button></td>
+                <td><b>Стоимость</b></td>
+                <td><button onclick="goToAddMalfunction(${application.applicationId})">Add malfunction</button>
+                    <button onclick="deleteApplication(${application.applicationId})">Delete</button></td>
             </tr>
             <c:forEach items="${malfunctions}" var="malfunction">
                 <c:if test="${malfunction.applicationId == application.applicationId}">
@@ -59,7 +60,9 @@
                     <td>${malfunction.auto}</td>
                     <td>${malfunction.description}</td>
                     <td><output id="costM${malfunction.malfunctionId}"></output></td>
-                    <td></td>
+                    <td> <button onclick="updateMalfunction(${malfunction.malfunctionId})">Update</button>
+                        <button onclick="deleteMalfunction(${malfunction.malfunctionId},${application.applicationId})">Delete</button>
+                    </td>
                 </tr>
                 </c:if>
             </c:forEach>
@@ -97,6 +100,15 @@
     }
     function goToAddMalfunction(id) {
         window.location = '<c:url value="/application"/>' + '?id=' + id.toString();
+    }
+    function deleteMalfunction(id1, id2) {
+        window.location = '<c:url value="/deleteMalfunction"/>' + '?malId=' + id1.toString() + '&appId=' + id2.toString();
+    }
+    function updateMalfunction(id) {
+        window.location = '<c:url value="/updateMalfunction"/> ' + '?id=' + id.toString();
+    }
+    function deleteApplication(id) {
+        window.location = '<c:url value="/deleteApplication"/> ' + '?id=' + id.toString();
     }
 </script>
 </body>
