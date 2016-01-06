@@ -1,5 +1,3 @@
-<jsp:useBean id="applicationsCosts" scope="request" type="java.util.List"/>
-<jsp:useBean id="malfunctionsCosts" scope="request" type="java.util.List"/>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -19,10 +17,6 @@
     <input id="dateSetFrom" type="date">
     <input id="dateSetTo" type="date">
     <button id="btnSortDate" onclick="getApplicationsByDate()">Set</button>
-    <button id="btnClear" onclick="clearForm()">Clear</button>
-</div>
-<div id="addApp" align="right">
-    <button id="btnAddApp" onclick="goToAddApplication()">Add application</button>
 </div>
 <div class="table-responsive">
     <table class="table table-striped">
@@ -41,7 +35,7 @@
                 <td>${application.applicationId}</td>
                 <td>${application.createdDate}</td>
                 <td>${application.updatedDate}</td>
-                <td><output id="costA${application.applicationId}"></output></td>
+                <td></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -51,8 +45,7 @@
                 <td><b>Автомобиль</b></td>
                 <td><b>Описание</b></td>
                 <td><b>Стоимость</b></td>
-                <td><button onclick="goToAddMalfunction(${application.applicationId})">Add malfunction</button>
-                    <button onclick="deleteApplication(${application.applicationId})">Delete</button></td>
+                <td><button onclick="deleteApplication(${application.applicationId})">Delete</button></td>
             </tr>
             <c:forEach items="${malfunctions}" var="malfunction">
                 <c:if test="${malfunction.applicationId == application.applicationId}">
@@ -61,8 +54,16 @@
                         <td>${malfunction.name}</td>
                         <td>${malfunction.auto}</td>
                         <td>${malfunction.description}</td>
-                        <td><output id="costM${malfunction.malfunctionId}"></output></td>
-                        <td> <button onclick="updateMalfunction(${malfunction.malfunctionId})">Update</button>
+                        <td><input id="costRepair${malfunction.malfunctionId}"
+                                   type="number" value="${malfunction.costRepair}"
+                                   style="width: 100px;">
+                            <input id="costService${malfunction.malfunctionId}"
+                                   type="number" value="${malfunction.costService}"
+                                   style="width: 100px;">
+                            <input id="additionalExpenses${malfunction.malfunctionId}"
+                                   type="number" value="${malfunction.additionalExpenses}"
+                                   style="width: 100px;"></td>
+                        <td> <button onclick="setCostsForMalfunction(${malfunction.malfunctionId})">Set costs</button>
                             <button onclick="deleteMalfunction(${malfunction.malfunctionId},${application.applicationId})">Delete</button>
                         </td>
                     </tr>
@@ -92,28 +93,46 @@
 </c:forEach>
 
 <script>
-    function clearForm() {
-        window.location = '<c:url value="/applications"/>';
-    }
     function getApplicationsByDate() {
         var dateMin = Date.parse($('#dateSetFrom').val());
         var dateMax = Date.parse($('#dateSetTo').val());
-        window.location = '<c:url value="/applicationsByDate"/> ' + '?dateMin=' + dateMin + '&dateMax=' + dateMax;
-    }
-    function goToAddApplication() {
-        window.location = '<c:url value="/application"/>' + '?id=';
-    }
-    function goToAddMalfunction(id) {
-        window.location = '<c:url value="/application"/>' + '?id=' + id.toString();
+        window.location = '<c:url value="/adminApplicationsByDate"/> ' + '?dateMin=' + dateMin + '&dateMax=' + dateMax;
     }
     function deleteMalfunction(id1, id2) {
-        window.location = '<c:url value="/deleteMalfunction"/>' + '?malId=' + id1.toString() + '&appId=' + id2.toString() + '&adminPage=' + false;
-    }
-    function updateMalfunction(id) {
-        window.location = '<c:url value="/updateMalfunction"/> ' + '?id=' + id.toString();
+        window.location = '<c:url value="/deleteMalfunction"/>' + '?malId=' + id1.toString() + '&appId=' + id2.toString() + '&adminPage=' + true;
     }
     function deleteApplication(id) {
-        window.location = '<c:url value="/deleteApplication"/> ' + '?id=' + id.toString() + '&adminPage=' + false;
+        window.location = '<c:url value="/deleteApplication"/> ' + '?id=' + id.toString() + '&adminPage=' + true;
+    }
+    function setCostsForMalfunction(malfunctionId) {
+        if(checkFields(malfunctionId)==true) {
+            var str = '<c:url value="/setCosts"/>' + '?id=' + malfunctionId +
+                    '&costRepair=' + $("#costRepair" + malfunctionId).val() +
+                    '&costService=' + $("#costService" + malfunctionId).val() +
+                    '&additionalExpenses=' + $("#additionalExpenses" + malfunctionId).val();
+            console.log('updateApplication');
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: str,
+                success: function () {
+                    alert('All costs was set!');
+                    window.location = '<c:url value="/adminApplications"/>';
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Set costs error: ' + textStatus);
+                }
+            });
+        }
+        else alert("Please, set all costs!");
+    }
+    function checkFields(id) {
+        var i=0;
+        if(($("#costRepair"+id).val()=="")) i++;
+        if(($("#costService"+id).val()=="")) i++;
+        if(($("#additionalExpenses"+id).val()=="")) i++;
+        if(i==0) return true;
+        return false;
     }
 </script>
 </body>

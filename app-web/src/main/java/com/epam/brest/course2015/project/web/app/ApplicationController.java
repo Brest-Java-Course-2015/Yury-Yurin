@@ -28,24 +28,27 @@ public class ApplicationController  {
     private MalfunctionService malfunctionService;
 
     @RequestMapping("/applicationsByDate")
-    public ModelAndView getAppById(@RequestParam("dateMin") String dateMin,
+    public ModelAndView applicationsByDate(@RequestParam("dateMin") String dateMin,
                                    @RequestParam("dateMax") String dateMax) {
-        List<Application> applicationList =applicationService.getAllApplicationsByDate(getDate(dateMin), getDate(dateMax));
+        List<Application> applicationList=applicationService.getAllApplicationsByDate(getDate(dateMin), getDate(dateMax));
         ModelAndView modelAndView = new ModelAndView("userTableByDate","applications",applicationList);
-       /* if(applicationList.size()!=0) {
-            List<Malfunction> malfunctionList = new ArrayList<Malfunction>();
-            for (Application application:applicationList) {
-                List<Malfunction> malfunctionList1 = malfunctionService.getAllMalfunctionsByIdApplication(application.getApplicationId());
-                malfunctionList.addAll(malfunctionList1);
-            }
-            modelAndView.addObject("malfunctions", malfunctionList);
-        }*/
         List<Malfunction> malfunctionList = malfunctionService.getAllMalfunctions();
         modelAndView.addObject("malfunctions", malfunctionList);
         List<ApplicationCosts> applicationCostsList = malfunctionService.getApplicationsCosts();
         List<ApplicationCosts> malfunctionCostsList = malfunctionService.getMalfunctionsCosts();
         modelAndView.addObject("malfunctionsCosts",malfunctionCostsList);
         modelAndView.addObject("applicationsCosts", applicationCostsList);
+        LOGGER.debug("by date view");
+        return modelAndView;
+    }
+
+    @RequestMapping("/adminApplicationsByDate")
+    public ModelAndView adminApplicationsByDate(@RequestParam("dateMin") String dateMin,
+                                   @RequestParam("dateMax") String dateMax) {
+        List<Application> applicationList =applicationService.getAllApplicationsByDate(getDate(dateMin), getDate(dateMax));
+        ModelAndView modelAndView = new ModelAndView("adminTableByDate","applications",applicationList);
+        List<Malfunction> malfunctionList = malfunctionService.getAllMalfunctions();
+        modelAndView.addObject("malfunctions", malfunctionList);
         LOGGER.debug("by date view");
         return modelAndView;
     }
@@ -61,6 +64,16 @@ public class ApplicationController  {
         modelAndView.addObject("malfunctions",malfunctionList);
         modelAndView.addObject("malfunctionsCosts",malfunctionCostsList);
         modelAndView.addObject("applicationsCosts", applicationCostsList);
+        return modelAndView;
+    }
+
+    @RequestMapping("/adminApplications")
+    public ModelAndView getMainDataForViewAdmin() {
+        List<Application> applicationList = applicationService.getAllApplications();
+        List<Malfunction> malfunctionList = malfunctionService.getAllMalfunctions();
+        LOGGER.debug("main view");
+        ModelAndView modelAndView = new ModelAndView("indexForAdminAll","applications",applicationList);
+        modelAndView.addObject("malfunctions",malfunctionList);
         return modelAndView;
     }
 
@@ -82,16 +95,20 @@ public class ApplicationController  {
     }
 
     @RequestMapping("/deleteApplication")
-    public String deleteApplication(@RequestParam("id") Integer id) {
+    public String deleteApplication(@RequestParam("id") Integer id,
+                                    @RequestParam("adminPage") Boolean adminPage) {
         applicationService.deleteApplication(id);
+        if(adminPage==true) return "redirect:/adminApplications";
         return "redirect:/applications";
     }
 
     @RequestMapping("/deleteMalfunction")
     public String deleteMalfunction(@RequestParam("malId") Integer malfunctionId,
-                                    @RequestParam("appId") Integer applicationId) {
+                                    @RequestParam("appId") Integer applicationId,
+                                    @RequestParam("adminPage") Boolean adminPage) {
         malfunctionService.deleteMalfunction(malfunctionId);
         applicationService.updateApplication(applicationId, new Date());
+        if(adminPage==true) return "redirect:/adminApplications";
         return "redirect:/applications";
     }
 
@@ -106,6 +123,14 @@ public class ApplicationController  {
     public ModelAndView updateMalfunction(@RequestParam("id") Integer id) {
         Malfunction malfunction = malfunctionService.getMalfunctionById(id);
         return new ModelAndView("update","malfunction",malfunction);
+    }
+    @RequestMapping(value = "/setCosts")
+    public String setCostsForMalfunction(@RequestParam("id") Integer id,
+                                         @RequestParam("costRepair") Integer costRepair,
+                                         @RequestParam("costService") Integer costService,
+                                         @RequestParam("additionalExpenses") Integer additionalExpenses) {;
+        malfunctionService.addCostsToMalfunction(id,costRepair,costService,additionalExpenses);
+        return "redirect:/adminApplications";
     }
 
 

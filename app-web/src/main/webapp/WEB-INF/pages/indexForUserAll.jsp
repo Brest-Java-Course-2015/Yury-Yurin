@@ -1,5 +1,7 @@
 <jsp:useBean id="applicationsCosts" scope="request" type="java.util.List"/>
 <jsp:useBean id="malfunctionsCosts" scope="request" type="java.util.List"/>
+<jsp:useBean id="malfunctions" scope="request" type="java.util.List"/>
+<jsp:useBean id="applications" scope="request" type="java.util.List"/>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -19,7 +21,6 @@
     <input id="dateSetFrom" type="date">
     <input id="dateSetTo" type="date">
     <button id="btnSortDate" onclick="getApplicationsByDate()">Set</button>
-    <button id="btnClear" onclick="clearDate()">Clear</button>
 </div>
 <div id="addApp" align="right">
     <button id="btnAddApp" onclick="goToAddApplication()">Add application</button>
@@ -31,6 +32,8 @@
             <th>Номер заявки</th>
             <th>Дата создания</th>
             <th>Дата обновления</th>
+            <th></th>
+            <th></th>
             <th></th>
         </tr>
         </thead>
@@ -90,6 +93,7 @@
 </c:forEach>
 
 <script>
+    var i=0;
    function getApplicationsByDate() {
        var dateMin = Date.parse($('#dateSetFrom').val());
        var dateMax = Date.parse($('#dateSetTo').val());
@@ -102,13 +106,13 @@
         window.location = '<c:url value="/application"/>' + '?id=' + id.toString();
     }
     function deleteMalfunction(id1, id2) {
-        window.location = '<c:url value="/deleteMalfunction"/>' + '?malId=' + id1.toString() + '&appId=' + id2.toString();
+        window.location = '<c:url value="/deleteMalfunction"/>' + '?malId=' + id1.toString() + '&appId=' + id2.toString() + '&adminPage=' + false;
     }
     function updateMalfunction(id) {
         window.location = '<c:url value="/updateMalfunction"/> ' + '?id=' + id.toString();
     }
     function deleteApplication(id) {
-        window.location = '<c:url value="/deleteApplication"/> ' + '?id=' + id.toString();
+        window.location = '<c:url value="/deleteApplication"/> ' + '?id=' + id.toString() + '&adminPage=' + false;
     }
 </script>
 </body>

@@ -248,7 +248,7 @@ function createApplication(applicationId) {
     });
 }
 function addCosts(malfunctionId) {
-    if(checkfields(malfunctionId)==true) {
+    if(checkFields(malfunctionId)==true) {
         var str = ADD_COSTS_TO_MALFUNCTIONS + '?id=' + malfunctionId +
             '&costRepair=' + $("#costRepair" + malfunctionId).val() +
             '&costService=' + $("#costService" + malfunctionId).val() +
@@ -270,7 +270,7 @@ function addCosts(malfunctionId) {
     else alert("Please, set all costs!");
 }
 
-function checkfields(id) {
+function checkFields(id) {
     var i=0;
     if(($("#costRepair"+id).val()=="")) i++;
     if(($("#costService"+id).val()=="")) i++;
