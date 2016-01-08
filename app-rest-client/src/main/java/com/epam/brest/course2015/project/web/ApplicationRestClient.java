@@ -4,7 +4,9 @@ import com.epam.brest.course2015.project.core.Application;
 import com.epam.brest.course2015.project.dao.ApplicationDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -14,7 +16,9 @@ import java.util.List;
 public class ApplicationRestClient implements ApplicationDao {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    RestTemplate restTemplate = new RestTemplate();
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Value("${url.prefix}")
     private String prefix;

@@ -14,6 +14,10 @@
     <dependencies>
         <dependency>
             <groupId>com.epam.brest.course2015</groupId>
+            <artifactId>app-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.brest.course2015</groupId>
             <artifactId>app-dao-api</artifactId>
         </dependency>
         <dependency>
@@ -46,13 +50,16 @@
             <artifactId>jstl</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.apple</groupId>
-            <artifactId>AppleJavaExtensions</artifactId>
-            <version>1.4</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
         </dependency>
     </dependencies>
 

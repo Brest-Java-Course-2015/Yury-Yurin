@@ -43,6 +43,8 @@
         <property name="malfunctionDao" ref="malfunctionDao"/>
     </bean>
 
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+
     <bean id="applicationDao" class="com.epam.brest.course2015.project.web.ApplicationRestClient"/>
 
     <bean id="applicationService" class="com.epam.brest.course2015.project.service.ApplicationServiceImpl">
