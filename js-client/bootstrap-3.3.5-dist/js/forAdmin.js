@@ -1,5 +1,5 @@
 // The root URL for the RESTful services
-var URL_PREFIX = "http://localhost:8080/app-rest-for-client-1.0.0-SNAPSHOT/";
+var URL_PREFIX = "http://localhost:8080/app-rest-1.0.0-SNAPSHOT/";
 var APPLICATIONS_URL = URL_PREFIX + "applications2";
 var MALFUNCTIONS_URL = URL_PREFIX + "malfunctions2/";
 var MALFUNCTION_DELETE = URL_PREFIX + "malfunction2/delete/";

@@ -63,7 +63,7 @@
                             <input id="additionalExpenses${malfunction.malfunctionId}"
                                    type="number" value="${malfunction.additionalExpenses}"
                                    style="width: 100px;"></td>
-                        <td> <button onclick="setCostsForMalfunction(${malfunction.malfunctionId})">Set costs</button>
+                        <td> <button onclick="setCostsForMalfunction(${malfunction.malfunctionId},${malfunction.applicationId})">Set costs</button>
                             <button onclick="deleteMalfunction(${malfunction.malfunctionId},${application.applicationId})">Delete</button>
                         </td>
                     </tr>
@@ -104,12 +104,13 @@
     function deleteApplication(id) {
         window.location = '<c:url value="/deleteApplication"/> ' + '?id=' + id.toString() + '&adminPage=' + true;
     }
-    function setCostsForMalfunction(malfunctionId) {
+    function setCostsForMalfunction(malfunctionId,applicationId) {
         if(checkFields(malfunctionId)==true) {
             var str = '<c:url value="/setCosts"/>' + '?id=' + malfunctionId +
                     '&costRepair=' + $("#costRepair" + malfunctionId).val() +
                     '&costService=' + $("#costService" + malfunctionId).val() +
-                    '&additionalExpenses=' + $("#additionalExpenses" + malfunctionId).val();
+                    '&additionalExpenses=' + $("#additionalExpenses" + malfunctionId).val() +
+                    '&applicationId=' + applicationId;
             console.log('updateApplication');
             $.ajax({
                 type: 'POST',

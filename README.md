@@ -13,10 +13,13 @@ Application has a simple interface without help designers.
 7. browse to the folder: cd app-web/target and copy .WAR file to the CATALINA_HOME/webapps: cd app-web-1.0.0-SNAPSHOT.war /../../apache-tomcat/webapps
 8. Start your tomcat server
 9. You can use application by two methods:
-        - Browse to folder by name js-client, if you want create application and add malfunctions - open index.html, if you want fill administrator authority - open indexForAdmin.html
+
+        - Find and open files(js-client/bootstrap-3.3.5-dist/js/) forUser.js and forAdmin.js, change part of variable URL_PREFIX on string with your domain, browse to folder by name js-client, if you want create application and add malfunctions - open index.html, if you want fill administrator authority - open indexForAdmin.html
+
         - access your application by URL: http://youDomain/app-web-1.0.0-SNAPSHOT/applications - if you want create application and add malfunctions
+
                                           http://youDomain/app-web-1.0.0-SNAPSHOT/adminApplications - if you want fill administrator authority
-11. Enjoy!
+10. Enjoy!
 
 email: yhra@yandex.ru
 

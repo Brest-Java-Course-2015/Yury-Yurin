@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.*;
 
 @Controller
-public class ApplicationController  {
+public class SimpleAutoServiceController {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Autowired
@@ -125,8 +125,10 @@ public class ApplicationController  {
     public String setCostsForMalfunction(@RequestParam("id") Integer id,
                                          @RequestParam("costRepair") Integer costRepair,
                                          @RequestParam("costService") Integer costService,
-                                         @RequestParam("additionalExpenses") Integer additionalExpenses) {;
+                                         @RequestParam("additionalExpenses") Integer additionalExpenses,
+                                         @RequestParam("applicationId") Integer applicationId) {;
         malfunctionService.addCostsToMalfunction(id,costRepair,costService,additionalExpenses);
+        applicationService.updateApplication(applicationId,new Date());
         return "redirect:/adminApplications";
     }
 
