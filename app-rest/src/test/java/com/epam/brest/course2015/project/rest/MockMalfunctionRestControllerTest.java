@@ -164,6 +164,5 @@ public class MockMalfunctionRestControllerTest {
         mockMvc.perform(get("/malfunction/getCostsApplications"))
                 .andDo(print())
                 .andExpect(status().isOk());
-
     }
 }

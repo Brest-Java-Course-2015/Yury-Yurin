@@ -80,7 +80,7 @@ public class MalfunctionDaoImplTest {
     }
 
     @Test
-    public void TestGetCostById() {
+    public void TestGetCostsMalfunctions() {
         malfunctionDao.addCostsToMalfunction(1, 1000, 2000, 3000);
         malfunctionDao.addCostsToMalfunction(2, 1000, 2000, 3000);
         List<Costs> costs = malfunctionDao.getMalfunctionsCosts();
@@ -88,7 +88,7 @@ public class MalfunctionDaoImplTest {
     }
 
     @Test
-    public void TestGetCostByApplicationId() {
+    public void TestGetCostsApplicatons() {
         malfunctionDao.addCostsToMalfunction(2, 1000, 2000, 3000);
         malfunctionDao.addCostsToMalfunction(1, 1000, 2000, 3000);
         List<Costs> costs = malfunctionDao.getApplicationsCosts();
