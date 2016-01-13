@@ -7,13 +7,16 @@ Application has a simple interface without help designers.
 1. Download a repository with project to your local machine
 2. Install Apache Tomcat server on your local machine
 3. Cd to the root directory of a project: cd /../../Yury-Yurin
-4. Prompt maven install command: mvn clean install
-5. After all tests successfully passed browse to the folder: cd app-rest/target and copy .WAR file to the CATALINA_HOME/webapps: cd app-rest-1.0-SNAPSHOT.war /../../apache-tomcat/webapps
-6. browse to the folder: cd app-rest-for-rest-client/target and copy .WAR file to the CATALINA_HOME/webapps: cd app-rest-for-rest-client-1.0-SNAPSHOT.war /../../apache-tomcat/webapps
-7. Start your tomcat server
-8. Browse to folder by name js-client, if you want create application and add malfunctions - open index.html, if you want fill administrator authority - open indexForAdmin.html
-9. Acces your application by URL, e.g. http://localhost:8080/app-rest-for-rest-client-1.0.0-SNAPSHOT/
-10. Enjoy!
+4. Find and open file prefix.properties in folder app-rest-client/src/main/resources and change part of string with url prefix on string with your domain
+5. Prompt maven install command: mvn clean install
+6. After all tests successfully passed browse to the folder: cd app-rest/target and copy .WAR file to the CATALINA_HOME/webapps: cd app-rest-1.0.0-SNAPSHOT.war /../../apache-tomcat/webapps
+7. browse to the folder: cd app-web/target and copy .WAR file to the CATALINA_HOME/webapps: cd app-web-1.0.0-SNAPSHOT.war /../../apache-tomcat/webapps
+8. Start your tomcat server
+9. You can use application by two methods:
+        - Browse to folder by name js-client, if you want create application and add malfunctions - open index.html, if you want fill administrator authority - open indexForAdmin.html
+        - access your application by URL: http://youDomain/app-web-1.0.0-SNAPSHOT/applications - if you want create application and add malfunctions
+                                          http://youDomain/app-web-1.0.0-SNAPSHOT/adminApplications - if you want fill administrator authority
+11. Enjoy!
 
 email: yhra@yandex.ru
 

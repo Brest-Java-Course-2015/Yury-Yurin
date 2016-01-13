@@ -99,4 +99,22 @@ public class MalfunctionRestClientTest {
         replay(malfunctionRestClientDao);
         Assert.isTrue(malfunctionRestClientService.getMalfunctionsCosts().equals(costsList));
     }
+
+    @Test
+    public void addCostsToMalfunctionTest() {
+        malfunctionRestClientDao.addCostsToMalfunction(1, 1000, 2000, 3000);
+        expectLastCall();
+        replay(malfunctionRestClientDao);
+        malfunctionRestClientService.addCostsToMalfunction(1, 1000, 2000, 3000);
+    }
+
+    @Test
+    public void getMalfunctionsByIdApplicationTest() {
+        List<Malfunction> malfunctionList = new ArrayList<Malfunction>();
+        malfunctionList.add(malfunction);
+        expect(malfunctionRestClientDao.getAllMalfunctionsByIdApplication(1)).andReturn(malfunctionList);
+        replay(malfunctionRestClientDao);
+        Integer applicationId = malfunctionRestClientService.getAllMalfunctionsByIdApplication(1).get(0).getApplicationId();
+        Assert.isTrue(applicationId.equals(1));
+    }
 }
