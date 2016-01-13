@@ -25,5 +25,13 @@
         <property name="applicationDao" ref="applicationRestClientDao"/>
     </bean>
 
+    <bean id="malfunctionRestClientDao" class="org.easymock.EasyMock" factory-method="createMock">
+        <constructor-arg value="com.epam.brest.course2015.project.web.MalfunctionRestClient"/>
+    </bean>
+
+    <bean id="malfunctionRestClientService" class="com.epam.brest.course2015.project.service.MalfunctionServiceImpl">
+        <property name="malfunctionDao" ref="malfunctionRestClientDao"/>
+    </bean>
+
 
 </beans>

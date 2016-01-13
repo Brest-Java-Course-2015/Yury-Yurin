@@ -54,4 +54,8 @@
     <mvc:resources mapping="/resources/css/**" location="/resources/css/" />
     <mvc:resources mapping="/resources/js/**" location="/resources/js/" />
 
+    <mvc:cors>
+        <mvc:mapping path="/**"/>
+    </mvc:cors>
+
 </beans>

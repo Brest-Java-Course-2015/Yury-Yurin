@@ -1,6 +1,6 @@
 package com.epam.brest.course2015.project.rest;
 
-import com.epam.brest.course2015.project.core.ApplicationCosts;
+import com.epam.brest.course2015.project.core.Costs;
 import com.epam.brest.course2015.project.core.Malfunction;
 import com.epam.brest.course2015.project.service.MalfunctionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -145,8 +145,8 @@ public class MockMalfunctionRestControllerTest {
 
     @Test
     public void testGetCostMalfunction() throws Exception {
-        List<ApplicationCosts> costs = new ArrayList<ApplicationCosts>();
-        costs.add(new ApplicationCosts(1,12000));
+        List<Costs> costs = new ArrayList<Costs>();
+        costs.add(new Costs(1,12000));
         expect(malfunctionService.getMalfunctionsCosts()).andReturn(costs);
         replay(malfunctionService);
         mockMvc.perform(get("/malfunction/getCostsMalfunctions"))
@@ -157,8 +157,8 @@ public class MockMalfunctionRestControllerTest {
 
     @Test
     public void testGetCostForMalfunctionByApplicationId() throws Exception {
-        List<ApplicationCosts> costs = new ArrayList<ApplicationCosts>();
-        costs.add(new ApplicationCosts(1,12000));
+        List<Costs> costs = new ArrayList<Costs>();
+        costs.add(new Costs(1,12000));
         expect(malfunctionService.getApplicationsCosts()).andReturn(costs);
         replay(malfunctionService);
         mockMvc.perform(get("/malfunction/getCostsApplications"))

@@ -1,6 +1,6 @@
 package com.epam.brest.course2015.project.dao;
 
-import com.epam.brest.course2015.project.core.ApplicationCosts;
+import com.epam.brest.course2015.project.core.Costs;
 import com.epam.brest.course2015.project.core.Malfunction;
 
 import java.util.List;
@@ -13,6 +13,6 @@ public interface MalfunctionDao {
     void addCostsToMalfunction(Integer malfunctionId, Integer costRepair, Integer costService, Integer additionalExpenses);
     List<Malfunction> getAllMalfunctionsByIdApplication(Integer applicationId);
     List<Malfunction> getAllMalfunctions();
-    List<ApplicationCosts> getMalfunctionsCosts();
-    List<ApplicationCosts> getApplicationsCosts();
+    List<Costs> getMalfunctionsCosts();
+    List<Costs> getApplicationsCosts();
 }

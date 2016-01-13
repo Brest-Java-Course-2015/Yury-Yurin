@@ -1,6 +1,6 @@
 package com.epam.brest.course2015.project.dao;
 
-import com.epam.brest.course2015.project.core.ApplicationCosts;
+import com.epam.brest.course2015.project.core.Costs;
 import com.epam.brest.course2015.project.core.Malfunction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,15 +13,13 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import static com.epam.brest.course2015.project.core.Malfunction.MalfunctionFields.*;
 
 public class MalfunctionDaoImpl implements MalfunctionDao {
     private RowMapper<Malfunction> malfunctionMapper = new BeanPropertyRowMapper<Malfunction>(Malfunction.class);
-    private RowMapper<ApplicationCosts> costMapper = new BeanPropertyRowMapper<ApplicationCosts>(ApplicationCosts.class);
+    private RowMapper<Costs> costMapper = new BeanPropertyRowMapper<Costs>(Costs.class);
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -118,13 +116,13 @@ public class MalfunctionDaoImpl implements MalfunctionDao {
     }
 
     @Override
-    public List<ApplicationCosts> getMalfunctionsCosts() {
+    public List<Costs> getMalfunctionsCosts() {
         LOGGER.info("DAO:Get costs of malfunctions");
         return namedParameterJdbcTemplate.query(getCostsMalfunctions, costMapper);
     }
 
     @Override
-    public List<ApplicationCosts> getApplicationsCosts() {
+    public List<Costs> getApplicationsCosts() {
         LOGGER.info("DAO:Get cost for applications");
         return namedParameterJdbcTemplate.query(getApplicationsCost, costMapper);
     }

@@ -44,7 +44,7 @@
     $("#description").val('${malfunction.description}');
     function updateMalfunction() {
         $.ajax({
-            type: 'PUT',
+            type: 'POST',
             contentType: 'application/json',
             url: '<c:url value="/updateMalfunctionSubmit"/>',
             data: updateMalfunctionFormToJSON(),

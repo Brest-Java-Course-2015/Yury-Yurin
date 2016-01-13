@@ -1,7 +1,6 @@
 package com.epam.brest.course2015.project.rest;
 
-import com.epam.brest.course2015.project.core.Application;
-import com.epam.brest.course2015.project.core.ApplicationCosts;
+import com.epam.brest.course2015.project.core.Costs;
 import com.epam.brest.course2015.project.core.Malfunction;
 import com.epam.brest.course2015.project.service.MalfunctionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,13 +63,13 @@ public class MalfunctionRestController {
 
     @RequestMapping(value = "/malfunction/getCostsMalfunctions", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody List<ApplicationCosts> getCostsMalfunctions() {
+    public @ResponseBody List<Costs> getCostsMalfunctions() {
         return malfunctionService.getMalfunctionsCosts();
     }
 
     @RequestMapping(value = "/malfunction/getCostsApplications", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody List<ApplicationCosts> getApplicationsCosts() {
+    public @ResponseBody List<Costs> getApplicationsCosts() {
         return malfunctionService.getApplicationsCosts();
     }
 

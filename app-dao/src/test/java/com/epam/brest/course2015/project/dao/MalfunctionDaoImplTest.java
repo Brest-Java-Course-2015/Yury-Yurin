@@ -1,6 +1,6 @@
 package com.epam.brest.course2015.project.dao;
 
-import com.epam.brest.course2015.project.core.ApplicationCosts;
+import com.epam.brest.course2015.project.core.Costs;
 import com.epam.brest.course2015.project.core.Malfunction;
 import org.junit.Assert;
 import org.junit.Test;
@@ -83,7 +83,7 @@ public class MalfunctionDaoImplTest {
     public void TestGetCostById() {
         malfunctionDao.addCostsToMalfunction(1, 1000, 2000, 3000);
         malfunctionDao.addCostsToMalfunction(2, 1000, 2000, 3000);
-        List<ApplicationCosts> costs = malfunctionDao.getMalfunctionsCosts();
+        List<Costs> costs = malfunctionDao.getMalfunctionsCosts();
         Assert.assertTrue(costs.get(0).getCost() == 6000);
     }
 
@@ -91,7 +91,7 @@ public class MalfunctionDaoImplTest {
     public void TestGetCostByApplicationId() {
         malfunctionDao.addCostsToMalfunction(2, 1000, 2000, 3000);
         malfunctionDao.addCostsToMalfunction(1, 1000, 2000, 3000);
-        List<ApplicationCosts> costs = malfunctionDao.getApplicationsCosts();
+        List<Costs> costs = malfunctionDao.getApplicationsCosts();
         Assert.assertTrue(costs.get(0).getCost() == 12000);
     }
 }

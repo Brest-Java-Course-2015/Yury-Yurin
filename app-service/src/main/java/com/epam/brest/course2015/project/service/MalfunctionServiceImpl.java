@@ -1,6 +1,6 @@
 package com.epam.brest.course2015.project.service;
 
-import com.epam.brest.course2015.project.core.ApplicationCosts;
+import com.epam.brest.course2015.project.core.Costs;
 import com.epam.brest.course2015.project.core.Malfunction;
 import com.epam.brest.course2015.project.dao.MalfunctionDao;
 import org.apache.logging.log4j.LogManager;
@@ -67,13 +67,13 @@ public class MalfunctionServiceImpl implements MalfunctionService {
     }
 
     @Override
-    public List<ApplicationCosts> getMalfunctionsCosts() {
+    public List<Costs> getMalfunctionsCosts() {
         LOGGER.info("SERVICE: get cost for malfunctions");
         return malfunctionDao.getMalfunctionsCosts();
     }
 
     @Override
-    public List<ApplicationCosts> getApplicationsCosts() {
+    public List<Costs> getApplicationsCosts() {
         LOGGER.info("SERVICE: get costs for applications");
        return malfunctionDao.getApplicationsCosts();
     }

@@ -1,17 +1,17 @@
 package com.epam.brest.course2015.project.core;
 
-public class ApplicationCosts {
+public class Costs {
 
-    public ApplicationCosts(Integer id, Integer cost) {
+    public Costs(Integer id, Integer cost) {
         this.id = id;
         this.cost = cost;
     }
-    public ApplicationCosts() {
+    public Costs() {
     }
 
-    public ApplicationCosts(ApplicationCosts applicationCosts) {
-        this.id = applicationCosts.id;
-        this.cost = applicationCosts.cost;
+    public Costs(Costs costs) {
+        this.id = costs.id;
+        this.cost = costs.cost;
     }
     public Integer getId() {
         return id;

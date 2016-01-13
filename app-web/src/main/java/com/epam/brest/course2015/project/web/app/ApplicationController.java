@@ -1,18 +1,15 @@
 package com.epam.brest.course2015.project.web.app;
 
 import com.epam.brest.course2015.project.core.Application;
-import com.epam.brest.course2015.project.core.ApplicationCosts;
+import com.epam.brest.course2015.project.core.Costs;
 import com.epam.brest.course2015.project.core.Malfunction;
 import com.epam.brest.course2015.project.service.ApplicationService;
 import com.epam.brest.course2015.project.service.MalfunctionService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
@@ -34,8 +31,8 @@ public class ApplicationController  {
         ModelAndView modelAndView = new ModelAndView("userTableByDate","applications",applicationList);
         List<Malfunction> malfunctionList = malfunctionService.getAllMalfunctions();
         modelAndView.addObject("malfunctions", malfunctionList);
-        List<ApplicationCosts> applicationCostsList = malfunctionService.getApplicationsCosts();
-        List<ApplicationCosts> malfunctionCostsList = malfunctionService.getMalfunctionsCosts();
+        List<Costs> applicationCostsList = malfunctionService.getApplicationsCosts();
+        List<Costs> malfunctionCostsList = malfunctionService.getMalfunctionsCosts();
         modelAndView.addObject("malfunctionsCosts",malfunctionCostsList);
         modelAndView.addObject("applicationsCosts", applicationCostsList);
         LOGGER.debug("by date view");
@@ -57,13 +54,13 @@ public class ApplicationController  {
     public ModelAndView getMainDataForView() {
         List<Application> applicationList = applicationService.getAllApplications();
         List<Malfunction> malfunctionList = malfunctionService.getAllMalfunctions();
-        List<ApplicationCosts> applicationCostsList = malfunctionService.getApplicationsCosts();
-        List<ApplicationCosts> malfunctionCostsList = malfunctionService.getMalfunctionsCosts();
+        List<Costs> applicationsCostsList = malfunctionService.getApplicationsCosts();
+        List<Costs> malfunctionCostsList = malfunctionService.getMalfunctionsCosts();
         LOGGER.debug("main view");
         ModelAndView modelAndView = new ModelAndView("indexForUserAll","applications",applicationList);
         modelAndView.addObject("malfunctions",malfunctionList);
         modelAndView.addObject("malfunctionsCosts",malfunctionCostsList);
-        modelAndView.addObject("applicationsCosts", applicationCostsList);
+        modelAndView.addObject("applicationsCosts", applicationsCostsList);
         return modelAndView;
     }
 

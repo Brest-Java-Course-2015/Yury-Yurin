@@ -1,6 +1,6 @@
 package com.epam.brest.course2015.project.web;
 
-import com.epam.brest.course2015.project.core.ApplicationCosts;
+import com.epam.brest.course2015.project.core.Costs;
 import com.epam.brest.course2015.project.core.Malfunction;
 import com.epam.brest.course2015.project.dao.MalfunctionDao;
 import org.apache.logging.log4j.LogManager;
@@ -69,12 +69,12 @@ public class MalfunctionRestClient implements MalfunctionDao{
     }
 
     @Override
-    public List<ApplicationCosts> getMalfunctionsCosts() {
+    public List<Costs> getMalfunctionsCosts() {
         return restTemplate.getForObject(prefix+"malfunction/getCostsMalfunctions",List.class);
     }
 
     @Override
-    public List<ApplicationCosts> getApplicationsCosts() {
+    public List<Costs> getApplicationsCosts() {
         return  restTemplate.getForObject(prefix+"malfunction/getCostsApplications",List.class);
     }
 
