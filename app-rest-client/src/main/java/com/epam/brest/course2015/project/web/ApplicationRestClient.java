@@ -23,9 +23,6 @@ public class ApplicationRestClient implements ApplicationDao {
     @Value("${url.prefix}")
     private String prefix;
 
-    @Value("${app.prefix}")
-    private String appName;
-
     @Override
     public Integer addApplication(Application application) {
         Integer id = restTemplate.postForObject(prefix+"application",application,Integer.class);

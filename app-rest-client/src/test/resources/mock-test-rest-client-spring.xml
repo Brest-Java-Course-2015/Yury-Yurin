@@ -14,7 +14,6 @@
     <bean id="applicationRestClient" class="com.epam.brest.course2015.project.web.ApplicationRestClient">
         <constructor-arg ref="restTemplate"/>
     </bean>-->
-
     <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
 
     <bean id="applicationRestClientDao" class="org.easymock.EasyMock" factory-method="createMock">

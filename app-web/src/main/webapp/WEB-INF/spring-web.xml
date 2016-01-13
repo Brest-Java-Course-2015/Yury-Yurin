@@ -11,11 +11,10 @@
        http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="com.epam.brest.course2015.project"/>
-
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath*:prefix.properties</value>
+                <value>classpath:prefix.properties</value>
             </list>
         </property>
     </bean>
