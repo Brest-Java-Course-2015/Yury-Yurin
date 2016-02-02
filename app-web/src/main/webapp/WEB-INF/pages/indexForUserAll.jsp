@@ -31,7 +31,14 @@
     <input id="dateSetFrom" type="date">
     <input id="dateSetTo" type="date">
     <button id="btnSortDate" onclick="getApplicationsByDate()">Set</button>
-    <a href="#popupform" id="popupbutton"><button>Всплывающее окно</button></a>
+    <a href="#popupform" id="popupbutton"><button onclick="goToAddMalfunctionForm(1)">Всплывающее окно</button></a>
+   <div id="clickk">Нажми</div>
+   <%-- <script>
+        $('.clickk').click(function (event) {
+            event.preventDefault();
+            alert("sssssss");
+        });
+    </script>--%>
 </div>
 
 
@@ -40,11 +47,13 @@
     <h2>Обратная связь</h2>
     <div class="comment">Оставьте Ваши данные и мы свяжемся с Вами</div>
     <form id="form-feedback">
-        <input type="text" placeholder="Ваше имя" name="name" id="name" class="input_text"/>
+        <input type="text" placeholder="Название" name="name" id="name" class="input_text"/>
         <div id="bthrow_error_name"></div>
-        <input type="text" placeholder="Контактный телефон или электронная почта" name="phone" id="phone" class="input_text"/>
-        <div id="bthrow_error_phone"></div>
-        <input class="button" type="button" value="Отправить заявку"/>
+        <input type="text" placeholder="Авто" name="auto" id="auto" class="input_text"/>
+        <div id="bthrow_error_auto"></div>
+        <input type="text" placeholder="Описание" name="description" id="description" class="input_text"/>
+        <div id="bthrow_error_description"></div>
+        <input type="submit" value="Add"/>
         <div class="throw_error"></div>
     </form>
     <span class="under-form">Мы не занимаемся рассылкой рекламных сообщений, а так же не передаем контактные данные третьим лицам.</span>
@@ -82,9 +91,14 @@
                 <td><b>Автомобиль</b></td>
                 <td><b>Описание</b></td>
                 <td><b>Стоимость</b></td>
-                <td><button onclick="goToAddMalfunction(${application.applicationId})">Add malfunction</button>
+                <td>
+                    <a href="#popupform" id="popupbutton${application.applicationId}">
+                    <button onclick="goToAddMalfunctionForm(${application.applicationId})">Add malfunction</button>
+                        </a>
                     <button onclick="deleteApplication(${application.applicationId})">Delete</button></td>
             </tr>
+            <tbody id="applicationList${application.applicationId}">
+                <div id="malfunctionList${application.applicationId}">
             <c:forEach items="${malfunctions}" var="malfunction">
                 <c:if test="${malfunction.applicationId == application.applicationId}">
                 <tr id="malfunctionId${malfunction.malfunctionId}">
@@ -99,6 +113,8 @@
                 </tr>
                 </c:if>
             </c:forEach>
+                </div>
+            </tbody>
         </c:forEach>
     </table>
 </div>
@@ -121,29 +137,16 @@
     </script>
 </c:forEach>
 <script>
-    var i=0;
-   function getApplicationsByDate() {
-       var dateMin = Date.parse($('#dateSetFrom').val());
-       var dateMax = Date.parse($('#dateSetTo').val());
-       window.location = '<c:url value="/applicationsByDate"/> ' + '?dateMin=' + dateMin + '&dateMax=' + dateMax;
-   }
+    function getApplicationsByDate() {
+        var dateMin = Date.parse($('#dateSetFrom').val());
+        var dateMax = Date.parse($('#dateSetTo').val());
+        window.location = '<c:url value="/applicationsByDate"/> ' + '?dateMin=' + dateMin + '&dateMax=' + dateMax;
+    }
     function goToAddApplication() {
         window.location = '<c:url value="/application"/>' + '?id=';
     }
-    function goToAddMalfunction(id) {
-        window.location = '<c:url value="/application"/>' + '?id=' + id.toString();
-    }
-    function deleteMalfunction(id1, id2) {
-        window.location = '<c:url value="/deleteMalfunction"/>' + '?malId=' + id1.toString() + '&appId=' + id2.toString() + '&adminPage=' + false;
-    }
-    function updateMalfunction(id) {
-        window.location = '<c:url value="/updateMalfunction"/> ' + '?id=' + id.toString();
-    }
-    function deleteApplication(id) {
-        window.location = '<c:url value="/deleteApplication"/> ' + '?id=' + id.toString() + '&adminPage=' + false;
-    }
-        $('#popupbutton').fancybox({
-            'display': 'inline',
+    function goToAddMalfunctionForm(id) {
+        $('#popupbutton'+id.toString()).fancybox({
             'padding': 37,
             'overlayOpacity': 0.87,
             'overlayColor': '#fff',
@@ -154,7 +157,70 @@
             'maxWidth': 400,
             'minHeight': 310
         });
-
+        document.getElementById("form-feedback").setAttribute("onsubmit","AddMalfunction("+id.toString()+")");
+        $("#form-feedback").submit(function (e) {
+            e.preventDefault();
+            return false;
+        });
+    }
+    function AddMalfunction(id) {
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: '<c:url value="/applicationSubmit"/>',
+            dataType: "json",
+            data: addMalfunctionFormToJSON(id),
+            success: function (dataMal) {
+                $("#malfunctionList"+id.toString()).remove();
+                var rowM = $('<tbody id="malfunctionList' + id.toString() + '"/>');
+                $("#applicationList"+id.toString()).append(rowM);
+                alert("Malfunction add success!");
+                replaceRows(dataMal,id);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('addMalfunction error: ' + textStatus);
+            }
+        });
+    }
+    function addMalfunctionFormToJSON(id) {
+        var a;
+        if(id==null) a=null;
+        else a=id.toString();
+        return JSON.stringify({
+            "name": $('#name').val(),
+            "auto": $('#auto').val(),
+            "description": $('#description').val(),
+            "applicationId": a
+        });
+    }
+    function replaceRows(dataMal,id) {
+        for(var j=0;j<dataMal.length;j++) {
+            var rowM = $("<tr />");
+            $('#malfunctionList'+id).append(rowM);
+            console.log(dataMal[j].malfunctionId);
+            rowM.append($("<td id=\"malfunctionId" + dataMal[j].malfunctionId + "\"></td>"));
+            rowM.append($('<td id=\"name' + dataMal[j].malfunctionId + '\">' + dataMal[j].name + "</td>"));
+            rowM.append($('<td id=\"auto' + dataMal[j].malfunctionId + '\">' + dataMal[j].auto + "</td>"));
+            rowM.append($('<td id=\"description' + dataMal[j].malfunctionId + '\">' + dataMal[j].description + "</td>"));
+            rowM.append($("<td><output id=\"cost" + dataMal[j].malfunctionId + '\"></td>'));
+            //rowM.append($("<td></td>"));
+            rowM.append($("<td>" + '<button onclick="deleteMalfunction('
+            + dataMal[j].malfunctionId + ','
+            + dataMal[j].applicationId + ')">Delete</button>'
+            + '  <button onclick="drawFormFOrUpdateMalfunction('
+            + dataMal[j].applicationId + ','
+            + dataMal[j].malfunctionId + ')">Update</button>' + "</td>"));
+        }
+    }
+    function deleteMalfunction(id1, id2) {
+        window.location = '<c:url value="/deleteMalfunction"/>' + '?malId=' + id1.toString() + '&appId=' + id2.toString() + '&adminPage=' + false;
+    }
+    function updateMalfunction(id) {
+        window.location = '<c:url value="/updateMalfunction"/> ' + '?id=' + id.toString();
+    }
+    function deleteApplication(id) {
+        window.location = '<c:url value="/deleteApplication"/> ' + '?id=' + id.toString() + '&adminPage=' + false;
+    }
 </script>
 </body>
 </html>

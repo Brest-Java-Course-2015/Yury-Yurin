@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -75,22 +76,11 @@ public class SimpleAutoServiceController {
         return modelAndView;
     }
 
-    @RequestMapping("/applicationSubmit")
-    public String addApplicationSubmit(@RequestBody Malfunction malfunction) {
-        if(malfunction.getApplicationId()==null) {
-            Application application = new Application(null, new Date(), new Date());
-            Integer id = applicationService.addApplication(application);
-            malfunction.setApplicationId(id);
-        }
-        malfunctionService.addMalfunction(malfunction);
-        applicationService.updateApplication(malfunction.getApplicationId(), new Date());
-       return "forward:/applications";
-    }
-
     @RequestMapping("/application")
     public ModelAndView addApplication(@RequestParam("id") Integer id) {
         return new ModelAndView("application","id",id);
     }
+
 
     @RequestMapping("/deleteApplication")
     public String deleteApplication(@RequestParam("id") Integer id,
@@ -133,6 +123,11 @@ public class SimpleAutoServiceController {
         return "redirect:/adminApplications";
     }
 
+    @RequestMapping(value = "/getMalfunctions")
+    public List<Malfunction> setCostsForMalfunction(@RequestParam("id") Integer id){
+        List<Malfunction> malfunctionList = malfunctionService.getAllMalfunctionsByIdApplication(id);
+        return malfunctionList;
+    }
 
     private static Date getDate(String date) {
         Date newDate = new Date();
