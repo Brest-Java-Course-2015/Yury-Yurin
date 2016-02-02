@@ -12,6 +12,16 @@
 <html lang="en">
 <head>
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+    <script src="resources/js/jquery.js"></script>
+    <script type="text/javascript" src="resources/js/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript" src="resources/js/jquery.mousewheel-3.0.6.pack.js"></script>
+    <link rel="stylesheet" href="resources/js/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+    <link rel="stylesheet" href="resources/css/popup.css" type="text/css" media="screen" />
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".fancybox").fancybox();
+        });
+    </script>
 </head>
 <header>
 </header>
@@ -21,7 +31,27 @@
     <input id="dateSetFrom" type="date">
     <input id="dateSetTo" type="date">
     <button id="btnSortDate" onclick="getApplicationsByDate()">Set</button>
+    <a href="#popupform" id="popupbutton"><button>Всплывающее окно</button></a>
 </div>
+
+
+
+<div id="popupform">
+    <h2>Обратная связь</h2>
+    <div class="comment">Оставьте Ваши данные и мы свяжемся с Вами</div>
+    <form id="form-feedback">
+        <input type="text" placeholder="Ваше имя" name="name" id="name" class="input_text"/>
+        <div id="bthrow_error_name"></div>
+        <input type="text" placeholder="Контактный телефон или электронная почта" name="phone" id="phone" class="input_text"/>
+        <div id="bthrow_error_phone"></div>
+        <input class="button" type="button" value="Отправить заявку"/>
+        <div class="throw_error"></div>
+    </form>
+    <span class="under-form">Мы не занимаемся рассылкой рекламных сообщений, а так же не передаем контактные данные третьим лицам.</span>
+</div>
+
+
+
 <div id="addApp" align="right">
     <button id="btnAddApp" onclick="goToAddApplication()">Add application</button>
 </div>
@@ -74,7 +104,6 @@
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="resources/js/jquery.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="resources/js/bootstrap.js"></script>
 
@@ -91,7 +120,6 @@
         $("#costM${costItem.id}").val("${costItem.cost == null ? 0 : costItem.cost}");
     </script>
 </c:forEach>
-
 <script>
     var i=0;
    function getApplicationsByDate() {
@@ -114,6 +142,19 @@
     function deleteApplication(id) {
         window.location = '<c:url value="/deleteApplication"/> ' + '?id=' + id.toString() + '&adminPage=' + false;
     }
+        $('#popupbutton').fancybox({
+            'display': 'inline',
+            'padding': 37,
+            'overlayOpacity': 0.87,
+            'overlayColor': '#fff',
+            'transitionIn': 'none',
+            'transitionOut': 'none',
+            'titlePosition': 'inside',
+            'centerOnScroll': true,
+            'maxWidth': 400,
+            'minHeight': 310
+        });
+
 </script>
 </body>
 </html>

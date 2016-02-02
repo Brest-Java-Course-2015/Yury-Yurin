@@ -52,11 +52,11 @@ public class SimpleAutoServiceController {
 
     @RequestMapping("/applications")
     public ModelAndView getMainDataForView() {
+        LOGGER.debug("main view");
         List<Application> applicationList = applicationService.getAllApplications();
         List<Malfunction> malfunctionList = malfunctionService.getAllMalfunctions();
         List<Costs> applicationsCostsList = malfunctionService.getApplicationsCosts();
         List<Costs> malfunctionCostsList = malfunctionService.getMalfunctionsCosts();
-        LOGGER.debug("main view");
         ModelAndView modelAndView = new ModelAndView("indexForUserAll","applications",applicationList);
         modelAndView.addObject("malfunctions",malfunctionList);
         modelAndView.addObject("malfunctionsCosts",malfunctionCostsList);
@@ -66,6 +66,7 @@ public class SimpleAutoServiceController {
 
     @RequestMapping("/adminApplications")
     public ModelAndView getMainDataForViewAdmin() {
+        LOGGER.debug("admin main view");
         List<Application> applicationList = applicationService.getAllApplications();
         List<Malfunction> malfunctionList = malfunctionService.getAllMalfunctions();
         LOGGER.debug("main view");
