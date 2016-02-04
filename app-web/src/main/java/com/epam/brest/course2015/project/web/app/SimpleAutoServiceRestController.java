@@ -32,4 +32,11 @@ public class SimpleAutoServiceRestController {
         applicationService.updateApplication(malfunction.getApplicationId(), new Date());
         return malfunctionService.getAllMalfunctionsByIdApplication(malfunction.getApplicationId());
     }
+
+    @RequestMapping("/updateMalfunctionSubmit")
+    public List<Malfunction> updateMalfunctionSubmit(@RequestBody Malfunction malfunction) {
+        malfunctionService.updateMalfunction(malfunction);
+        applicationService.updateApplication(malfunction.getApplicationId(),new Date());
+        return malfunctionService.getAllMalfunctionsByIdApplication(malfunction.getApplicationId());
+    }
 }

@@ -100,12 +100,7 @@ public class SimpleAutoServiceController {
         return "redirect:/applications";
     }
 
-    @RequestMapping("/updateMalfunctionSubmit")
-    public String updateMalfunctionSubmit(@RequestBody Malfunction malfunction) {
-        malfunctionService.updateMalfunction(malfunction);
-        applicationService.updateApplication(malfunction.getApplicationId(),new Date());
-        return "forward:/applications";
-    }
+
 
     @RequestMapping(value = "/updateMalfunction")
     public ModelAndView updateMalfunction(@RequestParam("id") Integer id) {
