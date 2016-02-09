@@ -5,11 +5,16 @@ import com.epam.brest.course2015.project.service.ApplicationService;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonParser.NumberType;
+import org.apache.camel.CamelContext;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.DateFormatter;
@@ -19,11 +24,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@CrossOrigin
-@RestController
-public class ApplicationRestController {
+@Component(value = "camel")
+public class ApplicationRestController extends RouteBuilder {
 
-    @Autowired
+   /* @Autowired
     private ApplicationService applicationService;
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -78,5 +82,12 @@ public class ApplicationRestController {
             newDate.setTime(Long.valueOf(date));
             LOGGER.info(newDate.toString());
             return newDate;
+    }
+*/
+    @Override
+    public void configure() throws Exception {
+        rest("/rest").
+                get("/applications").outType(List.class).
+                to("bean:applicationService?method=getAllApplications");
     }
 }

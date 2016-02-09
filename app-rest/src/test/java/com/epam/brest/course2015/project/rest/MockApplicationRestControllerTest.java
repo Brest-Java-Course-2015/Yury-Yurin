@@ -1,8 +1,16 @@
+/*
 package com.epam.brest.course2015.project.rest;
 
 import com.epam.brest.course2015.project.core.Application;
 import com.epam.brest.course2015.project.service.ApplicationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.camel.EndpointInject;
+import org.apache.camel.Produce;
+import org.apache.camel.Producer;
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.mock.MockEndpoint;
+import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,19 +36,45 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(value = "classpath*:mock-test-spring-rest.xml")
-public class MockApplicationRestControllerTest {
+public class MockApplicationRestControllerTest extends CamelTestSupport {
     @Autowired
     private ApplicationService applicationService;
 
-    @Resource
-    private ApplicationRestController applicationRestController;
+    @Override
+    public boolean isDumpRouteCoverage() {
+        return true;
+    }
+
+    @Override
+    protected RouteBuilder createRouteBuilder() throws Exception {
+        return new RouteBuilder() {
+            @Override
+            public void configure() throws Exception {
+              rest("/application").get().outType(List.class).to("bean:applicationService?method=getAllApplications");
+            }
+        };
+    }
+
+    @EndpointInject(uri = "mock:result")
+    private MockEndpoint resultEndPoint;
+
+    @Produce(uri = "direct:start")
+    private ProducerTemplate producerTemplate;
 
     private Application application = new Application(null, new Date(), new Date());
 
     private MockMvc mockMvc;
 
-
-    @Before
+    @Test
+    public void firstTest() throws Exception {
+        List<Application> applicationList = new ArrayList<Application>();
+        applicationList.add(application);
+        resultEndPoint.expectedBodiesReceived(applicationList);
+        producerTemplate.sendBody(applicationList);
+        resultEndPoint.assertIsSatisfied();
+    }
+  */
+/*  @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(applicationRestController)
                 .setMessageConverters(new MappingJackson2HttpMessageConverter()).build();
@@ -50,8 +84,10 @@ public class MockApplicationRestControllerTest {
     public void tearDown() {
         verify(applicationService);
         reset(applicationService);
-    }
+    }*//*
 
+*/
+/*
     @Test
     public void TestAddApplication() throws Exception {
         expect(applicationService.addApplication(anyObject(Application.class))).andReturn(1);
@@ -89,7 +125,8 @@ public class MockApplicationRestControllerTest {
 
     }
 
-    @Test
+   *//*
+ @Test
     public void getAllApplications() throws Exception {
         List<Application> applicationList = new ArrayList<Application>();
         applicationList.add(application);
@@ -100,3 +137,4 @@ public class MockApplicationRestControllerTest {
     }
 
 }
+*/

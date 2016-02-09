@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
-@RestController
 public class MalfunctionRestController {
 
-    @Autowired
+   /* @Autowired
     private MalfunctionService malfunctionService;
 
     @RequestMapping(value = "/malfunctions/{id}", method = RequestMethod.GET)
@@ -72,5 +70,5 @@ public class MalfunctionRestController {
     public @ResponseBody List<Costs> getApplicationsCosts() {
         return malfunctionService.getApplicationsCosts();
     }
-
+*/
 }

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:camel="http://camel.apache.org/schema/spring"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+    <context:component-scan base-package="com.epam.brest.course2015.project.rest"/>
     <bean id="applicationService" class="org.easymock.EasyMock" factory-method="createMock">
         <constructor-arg value="com.epam.brest.course2015.project.service.ApplicationService"/>
     </bean>
@@ -13,6 +14,8 @@
         <constructor-arg value="com.epam.brest.course2015.project.service.MalfunctionService"/>
     </bean>
 
-    <context:component-scan base-package="com.epam.brest.course2015.project.rest"/>
-
+    <camel:camelContext id="camel">
+        <camel:contextScan/>
+        <camel:restConfiguration component="restlet" bindingMode="auto" port="8080" host="localhost"/>
+    </camel:camelContext>
 </beans>

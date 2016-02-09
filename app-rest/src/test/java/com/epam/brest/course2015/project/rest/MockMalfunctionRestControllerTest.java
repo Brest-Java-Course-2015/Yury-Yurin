@@ -28,10 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(value = "classpath*:mock-test-spring-rest.xml")
+/*@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(value = "classpath*:mock-test-spring-rest.xml")*/
 public class MockMalfunctionRestControllerTest {
-
+/*
     @Autowired
     private MalfunctionService malfunctionService;
 
@@ -164,5 +164,5 @@ public class MockMalfunctionRestControllerTest {
         mockMvc.perform(get("/malfunction/getCostsApplications"))
                 .andDo(print())
                 .andExpect(status().isOk());
-    }
+    }*/
 }
