@@ -8,13 +8,16 @@ import com.fasterxml.jackson.core.JsonParser.NumberType;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.DateFormatter;
@@ -24,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@Component(value = "camel")
+
 public class ApplicationRestController extends RouteBuilder {
 
    /* @Autowired
@@ -86,8 +89,8 @@ public class ApplicationRestController extends RouteBuilder {
 */
     @Override
     public void configure() throws Exception {
-        rest("/rest").
-                get("/applications").outType(List.class).
+        rest("/applications").
+                get().outType(List.class).
                 to("bean:applicationService?method=getAllApplications");
     }
 }

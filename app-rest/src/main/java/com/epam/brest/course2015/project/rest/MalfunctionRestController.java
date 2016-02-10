@@ -3,11 +3,14 @@ package com.epam.brest.course2015.project.rest;
 import com.epam.brest.course2015.project.core.Costs;
 import com.epam.brest.course2015.project.core.Malfunction;
 import com.epam.brest.course2015.project.service.MalfunctionService;
+import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 public class MalfunctionRestController {
 

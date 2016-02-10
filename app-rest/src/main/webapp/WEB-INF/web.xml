@@ -1,17 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-         http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/camel.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
 
     <servlet>
-        <servlet-name>restDispatcherServlet</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <servlet-name>RestletServlet</servlet-name>
+        <servlet-class>org.restlet.ext.spring.SpringServerServlet</servlet-class>
         <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/rest-spring.xml</param-value>
+            <param-name>org.restlet.component</param-name>
+            <param-value>RestletComponent</param-value>
         </init-param>
-        <load-on-startup>1</load-on-startup>
     </servlet>
 
     <filter>
@@ -25,7 +32,7 @@
 
 
     <servlet-mapping>
-        <servlet-name>restDispatcherServlet</servlet-name>
+        <servlet-name>RestletServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
