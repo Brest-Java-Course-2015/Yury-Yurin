@@ -14,10 +14,24 @@
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:app.properties</value>
+                <value>classpath:new-app.properties</value>
                 <value>classpath:database.properties</value>
             </list>
         </property>
+    </bean>
+
+    <bean id="properties" class="org.apache.camel.component.properties.PropertiesComponent">
+        <property name="location" value="classpath:new-app.properties"/>
+    </bean>
+
+    <camel:camelContext id="defaultCamelContext">
+        <camel:routeBuilder ref="myRouteConfig"/>
+    </camel:camelContext>
+
+    <bean id="RestletComponent" class="org.restlet.Component"/>
+
+    <bean id="RestletComponentService" class="org.apache.camel.component.restlet.RestletComponent">
+        <constructor-arg ref="RestletComponent" />
     </bean>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -37,16 +51,6 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
     <bean id="myRouteConfig" class="com.epam.brest.course2015.project.rest.ApplicationRestController" />
-
-    <camel:camelContext id="defaultCamelContext">
-        <camel:routeBuilder ref="myRouteConfig"/>
-    </camel:camelContext>
-
-    <bean id="RestletComponent" class="org.restlet.Component"/>
-
-    <bean id="RestletComponentService" class="org.apache.camel.component.restlet.RestletComponent">
-        <constructor-arg ref="RestletComponent" />
-    </bean>
 
     <bean id="malfunctionDao" class="com.epam.brest.course2015.project.dao.MalfunctionDaoImpl">
         <constructor-arg ref="dataSource"/>

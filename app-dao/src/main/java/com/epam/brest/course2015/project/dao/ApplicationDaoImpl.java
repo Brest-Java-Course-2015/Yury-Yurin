@@ -1,16 +1,15 @@
 package com.epam.brest.course2015.project.dao;
 
 import com.epam.brest.course2015.project.core.Application;
-import com.epam.brest.course2015.project.core.Malfunction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -18,6 +17,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
 import static com.epam.brest.course2015.project.core.Application.ApplicationFields.*;
 public class ApplicationDaoImpl implements ApplicationDao {
 
