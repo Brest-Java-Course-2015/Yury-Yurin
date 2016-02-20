@@ -12,15 +12,16 @@
     </listener>
 
 
-    <servlet>
-        <servlet-name>RestletServlet</servlet-name>
-        <servlet-class>org.restlet.ext.spring.SpringServerServlet</servlet-class>
-        <init-param>
-            <param-name>org.restlet.component</param-name>
-            <param-value>RestletComponent</param-value>
-        </init-param>
-    </servlet>
 
+    <servlet>
+        <servlet-name>CamelServlet</servlet-name>
+        <servlet-class>org.apache.camel.component.servlet.CamelHttpTransportServlet</servlet-class>
+        <init-param>
+            <param-name>matchOnUriPrefix</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <filter>
         <filter-name>optionsFilter</filter-name>
         <filter-class>com.epam.brest.course2015.project.rest.OptionsFilter</filter-class>
@@ -32,7 +33,7 @@
 
 
     <servlet-mapping>
-        <servlet-name>RestletServlet</servlet-name>
+        <servlet-name>CamelServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 

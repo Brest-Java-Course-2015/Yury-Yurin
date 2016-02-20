@@ -1,19 +1,11 @@
 package com.epam.brest.course2015.project.core;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class Application {
 
-    SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-
     private Integer applicationId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss", timezone = "GMT")
     private Date createdDate = new Date();
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss",timezone = "GMT")
     private Date updatedDate;
 
     public Integer getApplicationId() {
@@ -57,20 +49,14 @@ public class Application {
         this.updatedDate = application.updatedDate;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Application : {applicationId:" + applicationId + ", createdDate: " +
-                DATE_FORMAT.format(createdDate) + ", updatedDate: " +
-                DATE_FORMAT.format(updatedDate) + "}");
-    }
 
-    public static enum ApplicationFields {
+    public enum ApplicationFields {
 
         APPLICATION_ID ("applicationId"),
         CREATED_DATE ("createdDate"),
         UPDATED_DATE ("updatedDate");
 
-        private ApplicationFields(String value){
+        ApplicationFields( String value ){
             this.value = value;
         }
 
