@@ -1,15 +1,15 @@
 // The root URL for the RESTful services
-var URL_PREFIX = "http://localhost:8080/app-rest-1.0.0-SNAPSHOT/";
-var APPLICATIONS_URL = URL_PREFIX + "applications2";
-var MALFUNCTIONS_URL = URL_PREFIX + "malfunctions2/";
-var MALFUNCTION_DELETE = URL_PREFIX + "malfunction2/delete/";
-var MALFUNCTION_ADD = URL_PREFIX + "malfunction2";
-var MALFUNCTION_UPDATE = URL_PREFIX + "malfunction2/update";
-var APPLICATION_UPDATE = URL_PREFIX + "application2/update/";
-var APPLICATION_DELETE = URL_PREFIX + "application2/delete/";
-var APPLICATION_ADD = URL_PREFIX + "application2";
-var APPLICATIONS_BY_DATE = URL_PREFIX + "applications2/byDate";
-var ADD_COSTS_TO_MALFUNCTIONS = URL_PREFIX + "malfunction2/setCosts";
+var URL_PREFIX = "http://localhost:8282/";
+var APPLICATIONS_URL = URL_PREFIX + "applications";
+var MALFUNCTIONS_URL = URL_PREFIX + "malfunctions/";
+var MALFUNCTION_DELETE = URL_PREFIX + "malfunction/delete/";
+var MALFUNCTION_ADD = URL_PREFIX + "malfunction";
+var MALFUNCTION_UPDATE = URL_PREFIX + "malfunction/update";
+var APPLICATION_UPDATE = URL_PREFIX + "application/update/";
+var APPLICATION_DELETE = URL_PREFIX + "application/delete/";
+var APPLICATION_ADD = URL_PREFIX + "application";
+var APPLICATIONS_BY_DATE = URL_PREFIX + "applications/byDate";
+var ADD_COSTS_TO_MALFUNCTIONS = URL_PREFIX + "malfunction/setCosts";
 getAllApplications();
 // Register listeners
 
@@ -256,7 +256,6 @@ function addCosts(malfunctionId) {
         console.log('updateApplication');
         $.ajax({
             type: 'POST',
-            contentType: 'application/json',
             url: str,
             success: function () {
                 getAllApplications();

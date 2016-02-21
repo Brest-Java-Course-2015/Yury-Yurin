@@ -16,6 +16,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
+import org.apache.camel.model.rest.RestParamType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,50 +103,37 @@ public class ApplicationRestController extends RouteBuilder {
 */
     @Override
     public void configure() throws Exception {
-        restConfiguration().component("restlet").port("8282").host("0.0.0.0").enableCORS(true);
-        rest("/applications").
-                get().route()
-          .log( LoggingLevel.INFO,"before bean" ).bean(applicationService,"getAllApplications").process(
-                new Processor() {
-                    @Override
-                    public void process(Exchange exchange)
-                            throws Exception {
-                        exchange.setOut(exchange.getIn());
-                    }
-                }).
-          marshal().json(
-                JsonLibrary.Gson, List.class).log(LoggingLevel.INFO, "after json").process(
-                new Processor() {
-                    @Override
-                    public void process(Exchange exchange)
-                            throws Exception {
-                        exchange.setOut(exchange.getIn());
-                    }
-                });
+        restConfiguration().component("restlet").port("8282")
+                .contextPath("/")
+                .host("0.0.0.0")
+                .enableCORS(true);
+        rest("/applications")
+                .get()
+                .route()
+                .log(LoggingLevel.INFO, "before bean")
+                .bean(applicationService, "getAllApplications")
+                .marshal().
+                json(JsonLibrary.Gson, List.class).log(LoggingLevel.INFO, "after json");
 
 
-        rest("/malfunctions").
-                get("/{id}").route()
-                .log(LoggingLevel.INFO, "before bean").
-                toD("bean:malfunctionService?method=getAllMalfunctionsByIdApplication(${header.id})")
-               /* .bean(malfunctionService, "getMalfunctions(${header.id})")*/
-                .process(
-                        new Processor() {
-                            @Override
-                            public void process(Exchange exchange)
-                                    throws Exception {
-                                exchange.setOut(exchange.getIn());
-                            }
-                        } ).
-                marshal().json(
-                JsonLibrary.Gson, List.class ).log(LoggingLevel.INFO, "after json").process(
-                new Processor() {
-                    @Override
-                    public void process(Exchange exchange)
-                            throws Exception {
-                        exchange.setOut(exchange.getIn());
-                    }
-                });
+        rest("/malfunctions")
+                .get("/{id}").route()
+                .log(LoggingLevel.INFO, "before bean")
+                .toD("bean:malfunctionService?method=getAllMalfunctionsByIdApplication(${header.id})")
+                .marshal()
+                .json(
+                        JsonLibrary.Gson, List.class).log(LoggingLevel.INFO, "after json");
+
+        rest("/malfunction")
+                .post("/setCosts")
+                .param().name("id").type(RestParamType.path).dataType("int").endParam()
+                .param().name("costRepair").type(RestParamType.path).dataType("int").endParam()
+                .param().name("costService").type(RestParamType.path).dataType("int").endParam()
+                .param().name("additionalExpenses").type(RestParamType.path).dataType("int").endParam().route()
+                .log(LoggingLevel.INFO, "before bean")
+                .toD("bean:malfunctionService?method=addCostsToMalfunction(${header.id}," +
+                        "${header.costRepair},${header.costService},${header.additionalExpenses})");
+
 
       }
 }

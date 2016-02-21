@@ -4,12 +4,10 @@ package com.epam.brest.course2015.project.rest;
 import com.epam.brest.course2015.project.core.Application;
 import com.epam.brest.course2015.project.service.ApplicationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.camel.EndpointInject;
-import org.apache.camel.Produce;
-import org.apache.camel.Producer;
-import org.apache.camel.ProducerTemplate;
+import org.apache.camel.*;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.After;
 import org.junit.Before;
@@ -34,11 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(value = "classpath*:mock-test-spring-rest.xml")
 public class MockApplicationRestControllerTest extends CamelTestSupport {
-    @Autowired
-    private ApplicationService applicationService;
 
     @Override
     public boolean isDumpRouteCoverage() {
@@ -50,7 +44,7 @@ public class MockApplicationRestControllerTest extends CamelTestSupport {
         return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
-              rest("/application").get().outType(List.class).to("bean:applicationService?method=getAllApplications");
+                from("direct:start").to("mock:result");
             }
         };
     }
@@ -73,7 +67,7 @@ public class MockApplicationRestControllerTest extends CamelTestSupport {
         producerTemplate.sendBody(applicationList);
         resultEndPoint.assertIsSatisfied();
     }
-  */
+*/
 /*  @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(applicationRestController)
@@ -84,10 +78,8 @@ public class MockApplicationRestControllerTest extends CamelTestSupport {
     public void tearDown() {
         verify(applicationService);
         reset(applicationService);
-    }*//*
+    }
 
-*/
-/*
     @Test
     public void TestAddApplication() throws Exception {
         expect(applicationService.addApplication(anyObject(Application.class))).andReturn(1);
@@ -125,7 +117,7 @@ public class MockApplicationRestControllerTest extends CamelTestSupport {
 
     }
 
-   *//*
+
  @Test
     public void getAllApplications() throws Exception {
         List<Application> applicationList = new ArrayList<Application>();
@@ -134,7 +126,8 @@ public class MockApplicationRestControllerTest extends CamelTestSupport {
         replay(applicationService);
         mockMvc.perform(get("/applications").accept(MediaType.APPLICATION_JSON))
                 .andDo(print()).andExpect(status().isOk());
-    }
+    }*//*
+
 
 }
 */
