@@ -1,11 +1,11 @@
 // The root URL for the RESTful services
 var URL_PREFIX = "http://localhost:8282/";
 var APPLICATIONS_URL = URL_PREFIX + "applications";
-var MALFUNCTIONS_URL = URL_PREFIX + "malfunctions/";
-var MALFUNCTION_DELETE = URL_PREFIX + "malfunction/delete/";
+var MALFUNCTIONS_URL = URL_PREFIX + "malfunctions";
+var MALFUNCTION_DELETE = URL_PREFIX + "malfunction/delete";
 var MALFUNCTION_ADD = URL_PREFIX + "malfunction";
 var MALFUNCTION_UPDATE = URL_PREFIX + "malfunction/update";
-var APPLICATION_UPDATE = URL_PREFIX + "application/update/";
+var APPLICATION_UPDATE = URL_PREFIX + "application/update";
 var APPLICATION_DELETE = URL_PREFIX + "application/delete/";
 var APPLICATION_ADD = URL_PREFIX + "application";
 var APPLICATIONS_BY_DATE = URL_PREFIX + "applications/byDate";
@@ -16,8 +16,8 @@ getAllApplications();
 function deleteMalfunction(malfunctionId,applicationId) {
     console.log('deleteMalfunctionById');
     $.ajax({
-        type: 'DELETE',
-        url: MALFUNCTION_DELETE + malfunctionId,
+        type: 'POST',
+        url: MALFUNCTION_DELETE + '?id=' + malfunctionId,
         success: function(data) {
             alert('Malfunction successfully deleted!');
             updateApplication(applicationId);
@@ -68,7 +68,7 @@ function getAllMalfunctionsByApplicationId(dataApp, id) {
     console.log('get all malfunctions by id applications ');
     $.ajax({
         type: 'GET',
-        url: MALFUNCTIONS_URL + id.toString(),
+        url: MALFUNCTIONS_URL + '?id=' + id.toString(),
         dataType: 'json',// data type of response
         success: function (data) {
             newData = data;
@@ -131,7 +131,7 @@ function drawRow(dataApp,dataMal) {
         + dataMal[j].malfunctionId + ','
         + dataApp.applicationId + ')">Delete</button>'
         + '  <button onclick="addCosts('
-        + dataMal[j].malfunctionId + ')">Set costs</button>' + "</td>"));
+        + dataMal[j].malfunctionId + ',' + dataMal[j].applicationId + ')">Set costs</button>' + "</td>"));
        setCosts(dataMal[j]);
        // $.("#costService"+dataMal.malfunctionId).val(dataMal.costService);
        // $.("#additionalExpenses"+dataMal.malfunctionId).val(dataMal.additionalExpenses);
@@ -144,81 +144,12 @@ function setCosts(dataMal) {
     document.getElementById('additionalExpenses'+dataMal.malfunctionId).setAttribute('value',dataMal.additionalExpenses);
 }
 
-function drawFormFOrNewMalfunction(applicationId) {
-    var rowName = $("<tr />");
-    var rowAuto = $("<tr />");
-    var rowDescription = $("<tr />");
-    var rowButton = $("<tr />");
-    var rowCost = $("<tr />");
-    $("#addMalfunction").append(rowName);
-    rowName.append($("<td>" + 'Наименование' + "</td>"));
-    rowName.append($("<td>" + '<input id="name" type="text">' + "</td>"));
-    $("#addMalfunction").append(rowAuto);
-    rowAuto.append($("<td>" + 'Авто' + "</td>"));
-    rowAuto.append($("<td>" + '<input id="auto" type="text">' + "</td>"));
-    $("#addMalfunction").append(rowDescription);
-    rowDescription.append($("<td>" + 'Описание' + "</td>"));
-    rowDescription.append($("<td>" + '<input id="description" type="text">' + "</td>"));
-    $("#addMalfunction").append(rowButton);
-    rowButton.append($("<td></td>"));
-    if(applicationId==null)
-        rowButton.append($("<td>" + '<button onclick="createApplication(' + applicationId +')">Add</button>'+
-        '<button onclick="clearForm()">Cancel</button>' + "</td>"));
-    else rowButton.append($("<td>" + '<button onclick="addMalfunction(' + applicationId +')">Add</button>'+
-    '<button onclick="clearForm()">Cancel</button>' + "</td>"));
-
-}
-
-
-function drawFormFOrUpdateMalfunction(applicationId,malfunctionId) {
-    var rowName = $("<tr />");
-    var rowAuto = $("<tr />");
-    var rowDescription = $("<tr />");
-    var rowButton = $("<tr />");
-    var rowCost = $("<tr />");
-    $("#addMalfunction").append(rowName);
-    rowName.append($("<td>" + 'Наименование' + "</td>"));
-    rowName.append($("<td>" + '<input id="name" type="text" value=' + document.getElementById("name"+malfunctionId).innerText.toString() + '>' + "</td>"));
-    $("#addMalfunction").append(rowAuto);
-    rowAuto.append($("<td>" + 'Авто' + "</td>"));
-    rowAuto.append($("<td>" + '<input id="auto" type="text" value=' + document.getElementById("auto"+malfunctionId).innerText.toString() + '>'+ "</td>"));
-    $("#addMalfunction").append(rowDescription);
-    rowDescription.append($("<td>" + 'Описание' + "</td>"));
-    rowDescription.append($("<td>" + '<input id="description" type="text" value=' + document.getElementById("description"+malfunctionId).innerText.toString() + '>' + "</td>"));
-    $("#addMalfunction").append(rowButton);
-    rowButton.append($("<td></td>"));
-    rowButton.append($("<td>" + '<button onclick="updateMalfunction('+ malfunctionId + ','+ applicationId +')">Update</button>'+
-    '<button onclick="clearForm()">Cancel</button>' + "</td>"));
-}
-
-function clearForm() {
-    $('#addMalfunction tr').remove();
-}
-
-function addMalfunction(applicationId) {
-    $.ajax({
-        type: 'POST',
-        contentType: 'application/json',
-        url: MALFUNCTION_ADD,
-        dataType: "json",
-        data: addMalfunctionFormToJSON(applicationId),
-        success: function () {
-            alert("Malfunction add success!");
-            $('#addMalfunction tr').remove();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert('addMulfunction error: ' + textStatus);
-        }
-    });
-    if(applicationId!=null) updateApplication(applicationId);
-}
 
 function updateApplication(applicationId) {
     var time = Date.now();
     console.log('updateApplication');
     $.ajax({
-        type: 'PUT',
-        contentType: 'application/json',
+        type: 'POST',
         url: APPLICATION_UPDATE + '?id=' + applicationId.toString() + '&time=' + time ,
         success: function () {
             alert("Application update success!");
@@ -231,23 +162,7 @@ function updateApplication(applicationId) {
     });
 }
 
-function createApplication(applicationId) {
-    $.ajax({
-        type: 'POST',
-        contentType: 'application/json',
-        url: APPLICATION_ADD,
-        data: addApplicationFormToJSON(applicationId),
-        success: function (data) {
-            alert("Application created success");
-            addMalfunction(data)
-            $('#addMalfunction tr').remove();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert('create application error: ' + textStatus);
-        }
-    });
-}
-function addCosts(malfunctionId) {
+function addCosts(malfunctionId,applicationId) {
     if(checkFields(malfunctionId)==true) {
         var str = ADD_COSTS_TO_MALFUNCTIONS + '?id=' + malfunctionId +
             '&costRepair=' + $("#costRepair" + malfunctionId).val() +
@@ -258,6 +173,7 @@ function addCosts(malfunctionId) {
             type: 'POST',
             url: str,
             success: function () {
+                updateApplication(applicationId);
                 getAllApplications();
                 $('#addMalfunction tr').remove();
             },
@@ -276,49 +192,4 @@ function checkFields(id) {
     if(($("#additionalExpenses"+id).val()=="")) i++;
     if(i==0) return true;
     return false;
-}
-
-function updateMalfunction(malfunctionId,applicationId) {
-    console.log('updateMalfunction');
-    $.ajax({
-        type: 'PUT',
-        contentType: 'application/json',
-        url: MALFUNCTION_UPDATE,
-        data: updateMalfunctionFormToJSON(malfunctionId,applicationId),
-        success: function () {
-            updateApplication(applicationId);
-            $('#addMalfunction tr').remove();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR, textStatus, errorThrown);
-            alert('Update malfunction error: ' + textStatus);
-        }
-    });
-}
-
-function updateMalfunctionFormToJSON(malfunctionId,applicationId) {
-    return JSON.stringify({
-        "malfunctionId": malfunctionId,
-        "name": $('#name').val(),
-        "auto": $('#auto').val(),
-        "description": $('#description').val()
-    });
-}
-
-function addMalfunctionFormToJSON(id) {
-    return JSON.stringify({
-        "name": $('#name').val(),
-        "auto": $('#auto').val(),
-        "description": $('#description').val(),
-        "applicationId": id
-    });
-}
-
-function addApplicationFormToJSON(id) {
-    var datee = Date.now();
-    return JSON.stringify({
-        "applicationId": null,
-        "createdDate" : datee,
-        "updatedDate" : datee
-    });
 }

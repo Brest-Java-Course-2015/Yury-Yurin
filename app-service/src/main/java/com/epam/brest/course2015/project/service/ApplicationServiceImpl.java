@@ -36,10 +36,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public void updateApplication(Integer applicationId, Date updatedDate) {
+    public void updateApplication(Integer applicationId, String updatedDate) {
         LOGGER.info("SERVICE: updateApplication by id="+applicationId.toString());
         Assert.notNull(applicationId,"Id should not be null");
-        applicationDao.updateApplication(applicationId,updatedDate);
+        applicationDao.updateApplication(applicationId,getDate(updatedDate));
     }
 
     @Override
@@ -59,5 +59,12 @@ public class ApplicationServiceImpl implements ApplicationService {
     public List<Application> getAllApplicationsByDate(Date minDate, Date maxDate) {
         LOGGER.info("getAllApplicationsBydate from: " + minDate.toString() + " To: " + maxDate.toString());
         return applicationDao.getApplicationsBySetDate(minDate,maxDate);
+    }
+
+    private static Date getDate(String date) {
+        Date newDate = new Date();
+        newDate.setTime(Long.valueOf(date));
+        LOGGER.info(newDate.toString());
+        return newDate;
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 public interface ApplicationService {
     Integer addApplication(Application application);
     void deleteApplication(Integer applicationId);
-    void updateApplication(Integer applicationId,Date updatedDate);
+    void updateApplication(Integer applicationId,String updatedDate);
     Application getApplicationById(Integer applicationId);
     List<Application> getAllApplications();
     List<Application> getAllApplicationsByDate(Date minDate,Date maxDate);

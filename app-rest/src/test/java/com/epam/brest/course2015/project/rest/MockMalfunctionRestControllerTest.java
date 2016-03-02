@@ -1,36 +1,73 @@
 package com.epam.brest.course2015.project.rest;
 
+import com.epam.brest.course2015.project.core.Application;
 import com.epam.brest.course2015.project.core.Costs;
 import com.epam.brest.course2015.project.core.Malfunction;
+import com.epam.brest.course2015.project.service.ApplicationService;
 import com.epam.brest.course2015.project.service.MalfunctionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.camel.*;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.mock.MockEndpoint;
+import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.restlet.Request;
+import org.restlet.resource.Get;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.client.RestTemplate;
 
 
 import javax.annotation.Resource;
+import javax.ws.rs.GET;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import static junit.framework.Assert.assertTrue;
 import static org.easymock.EasyMock.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/*@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(value = "classpath*:mock-test-spring-rest.xml")*/
-public class MockMalfunctionRestControllerTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(value = "classpath*:/camel.xml")
+public class MockMalfunctionRestControllerTest extends CamelTestSupport {
+
+    @EndpointInject(uri = "mock:getAllApplication")
+    protected MockEndpoint resultEndpoint;
+
+    @Produce(uri = "rest:get:applications")
+    protected ProducerTemplate template;
+
+    @Test
+    public void checkContext() throws InterruptedException {
+        List<Route> routes = context().getRoutes();
+        Thread.sleep(3600000L);
+    }
+
+    @DirtiesContext
+    @Test
+    public void firstTestForRoute() throws Exception {
+        List<Route> routes = context().getRoutes();
+        resultEndpoint.expectedMessageCount(1);
+        template.sendBody(resultEndpoint, "Hello");
+        resultEndpoint.assertIsSatisfied();
+        //template.sendBody(resultEndpoint,"111");
+    }
+}
 /*
     @Autowired
     private MalfunctionService malfunctionService;
@@ -90,7 +127,25 @@ public class MockMalfunctionRestControllerTest {
         expectLastCall();
         replay(malfunctionService);
         mockMvc.perform(delete("/malfunction/delete/1"))
-                .andDo(print())
+                .andDo(print())  MockEndpoint mockEndpoint = getMockEndpoint("mock:applicationService?method=getAllApplications");
+        mockEndpoint.expectedBodiesReceived("HelloWorld");
+        template.sendBody("mock:applicationService?method=getAllApplications","HelloWorld");
+        assertMockEndpointsSatisfied();
+    }
+/*
+    @Autowired
+    private MalfunctionService malfunctionService;
+
+    @Resource
+    private MalfunctionRestController malfunctionRestController;
+
+    private Malfunction malfunction = new Malfunction(null,"name","auto","description",1);
+
+    private MockMvc mockMvc;
+
+
+    @Before
+    public void setUp() {
                 .andExpect(status().isOk());
 
     }
@@ -165,4 +220,3 @@ public class MockMalfunctionRestControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
     }*/
-}

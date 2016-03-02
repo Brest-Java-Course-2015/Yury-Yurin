@@ -59,6 +59,8 @@
     <bean id="applicationService" class="com.epam.brest.course2015.project.service.ApplicationServiceImpl">
         <property name="applicationDao" ref="applicationDao"/>
     </bean>
+
+
     <mvc:cors>
         <mvc:mapping path="/**"/>
     </mvc:cors>

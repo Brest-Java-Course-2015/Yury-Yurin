@@ -64,7 +64,7 @@ public class MockApplicationServiceImplTest {
         mockApplicationDao.updateApplication(3,application.getUpdatedDate());
         expectLastCall();
         replay(mockApplicationDao);
-        applicationService.updateApplication(3,application.getUpdatedDate());
+        applicationService.updateApplication(3,application.getUpdatedDate().toString());
     }
 
     @Test

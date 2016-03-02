@@ -8,6 +8,7 @@ import com.epam.brest.course2015.project.service.MalfunctionService;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonParser.NumberType;
+import io.swagger.util.Json;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
@@ -103,13 +104,21 @@ public class ApplicationRestController extends RouteBuilder {
 */
     @Override
     public void configure() throws Exception {
-        restConfiguration().component("restlet").port("8282")
+        restConfiguration().component("jetty").port("8282")
                 .contextPath("/")
                 .host("0.0.0.0")
                 .enableCORS(true);
+
         rest("/applications")
                 .get()
-                .route()
+                .route().setHeader("Content-Type", constant("application/json")).to("direct:getAllApplication");
+
+        from("direct:getAllApplication").process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                exchange.setOut(exchange.getIn());
+            }
+        })
                 .log(LoggingLevel.INFO, "before bean")
                 .bean(applicationService, "getAllApplications")
                 .marshal().
@@ -117,22 +126,29 @@ public class ApplicationRestController extends RouteBuilder {
 
 
         rest("/malfunctions")
-                .get("/{id}").route()
+                .get()
+                .route()
+                .setHeader("Content-Type", constant("application/json"))
                 .log(LoggingLevel.INFO, "before bean")
                 .toD("bean:malfunctionService?method=getAllMalfunctionsByIdApplication(${header.id})")
                 .marshal()
-                .json(
-                        JsonLibrary.Gson, List.class).log(LoggingLevel.INFO, "after json");
+                .json(JsonLibrary.Gson, List.class).log(LoggingLevel.INFO, "after json");
 
         rest("/malfunction")
                 .post("/setCosts")
-                .param().name("id").type(RestParamType.path).dataType("int").endParam()
-                .param().name("costRepair").type(RestParamType.path).dataType("int").endParam()
-                .param().name("costService").type(RestParamType.path).dataType("int").endParam()
-                .param().name("additionalExpenses").type(RestParamType.path).dataType("int").endParam().route()
+                .route()
                 .log(LoggingLevel.INFO, "before bean")
                 .toD("bean:malfunctionService?method=addCostsToMalfunction(${header.id}," +
                         "${header.costRepair},${header.costService},${header.additionalExpenses})");
+
+        rest("/malfunction/delete")
+                .post().route()
+                .toD("bean:malfunctionService?method=deleteMalfunction(${header.id})");
+
+        rest("application/update")
+                .post().route()
+                .toD("bean:applicationService?method=updateApplication(${header.id}," +
+                        "${header.time})");
 
 
       }

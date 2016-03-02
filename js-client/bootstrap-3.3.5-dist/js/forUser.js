@@ -1,7 +1,7 @@
 // The root URL for the RESTful services
 var URL_PREFIX = "http://localhost:8282/";
 var APPLICATIONS_URL = URL_PREFIX + "applications";
-var MALFUNCTIONS_URL = URL_PREFIX + "malfunctions/";
+var MALFUNCTIONS_URL = URL_PREFIX + "malfunctions";
 var MALFUNCTION_DELETE = URL_PREFIX + "malfunction/delete/";
 var MALFUNCTION_ADD = URL_PREFIX + "malfunction";
 var MALFUNCTION_UPDATE = URL_PREFIX + "malfunction/update";
@@ -80,7 +80,7 @@ function getAllMalfunctionsByApplicationId(dataApp, id) {
     console.log('get all malfunctions by id applications ');
     $.ajax({
         type: 'GET',
-        url: MALFUNCTIONS_URL + id.toString(),
+        url: MALFUNCTIONS_URL + '?id=' + id.toString(),
         dataType: 'json',// data type of response
         success: function (data) {
             newData = data;
