@@ -29,14 +29,14 @@ public class SimpleAutoServiceRestController {
             malfunction.setApplicationId(id);
         }
         malfunctionService.addMalfunction(malfunction);
-        applicationService.updateApplication(malfunction.getApplicationId(), new Date());
+        applicationService.updateApplication(malfunction.getApplicationId(), String.valueOf((new Date()).getTime()));
         return malfunctionService.getAllMalfunctionsByIdApplication(malfunction.getApplicationId());
     }
 
     @RequestMapping("/updateMalfunctionSubmit")
     public List<Malfunction> updateMalfunctionSubmit(@RequestBody Malfunction malfunction) {
         malfunctionService.updateMalfunction(malfunction);
-        applicationService.updateApplication(malfunction.getApplicationId(),new Date());
+        applicationService.updateApplication(malfunction.getApplicationId(), String.valueOf((new Date()).getTime()));
         return malfunctionService.getAllMalfunctionsByIdApplication(malfunction.getApplicationId());
     }
 }

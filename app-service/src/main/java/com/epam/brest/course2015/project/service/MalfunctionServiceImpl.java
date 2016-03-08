@@ -5,10 +5,12 @@ import com.epam.brest.course2015.project.core.Malfunction;
 import com.epam.brest.course2015.project.dao.MalfunctionDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
 
+@Transactional
 public class MalfunctionServiceImpl implements MalfunctionService {
 
     private static final Logger LOGGER = LogManager.getLogger();

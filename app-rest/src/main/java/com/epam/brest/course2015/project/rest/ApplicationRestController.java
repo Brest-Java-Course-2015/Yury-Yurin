@@ -142,7 +142,7 @@ public class ApplicationRestController extends RouteBuilder {
                         "${header.costRepair},${header.costService},${header.additionalExpenses})");
 
         rest("/malfunction/delete")
-                .post().route()
+                .delete().route()
                 .toD("bean:malfunctionService?method=deleteMalfunction(${header.id})");
 
         rest("application/update")

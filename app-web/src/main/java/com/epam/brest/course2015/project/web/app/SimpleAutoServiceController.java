@@ -95,7 +95,7 @@ public class SimpleAutoServiceController {
                                     @RequestParam("appId") Integer applicationId,
                                     @RequestParam("adminPage") Boolean adminPage) {
         malfunctionService.deleteMalfunction(malfunctionId);
-        applicationService.updateApplication(applicationId, new Date());
+        applicationService.updateApplication(applicationId, String.valueOf((new Date()).getTime()));
         if(adminPage==true) return "redirect:/adminApplications";
         return "redirect:/applications";
     }
@@ -113,8 +113,8 @@ public class SimpleAutoServiceController {
                                          @RequestParam("costService") Integer costService,
                                          @RequestParam("additionalExpenses") Integer additionalExpenses,
                                          @RequestParam("applicationId") Integer applicationId) {;
-        malfunctionService.addCostsToMalfunction(id,costRepair,costService,additionalExpenses);
-        applicationService.updateApplication(applicationId,new Date());
+        malfunctionService.addCostsToMalfunction(id, costRepair, costService, additionalExpenses);
+        applicationService.updateApplication(applicationId, String.valueOf((new Date()).getTime()));
         return "redirect:/adminApplications";
     }
 

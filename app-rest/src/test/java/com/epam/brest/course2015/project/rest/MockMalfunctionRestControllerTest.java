@@ -1,72 +1,58 @@
 package com.epam.brest.course2015.project.rest;
 
 import com.epam.brest.course2015.project.core.Application;
-import com.epam.brest.course2015.project.core.Costs;
 import com.epam.brest.course2015.project.core.Malfunction;
-import com.epam.brest.course2015.project.service.ApplicationService;
-import com.epam.brest.course2015.project.service.MalfunctionService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.camel.*;
-import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.EndpointInject;
+import org.apache.camel.Produce;
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.Route;
 import org.apache.camel.component.mock.MockEndpoint;
-import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.test.junit4.CamelTestSupport;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.restlet.Request;
-import org.restlet.resource.Get;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
-
-import javax.annotation.Resource;
-import javax.ws.rs.GET;
-
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
-import static org.easymock.EasyMock.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(value = "classpath*:/camel.xml")
-public class MockMalfunctionRestControllerTest extends CamelTestSupport {
+@Transactional
+public class MockMalfunctionRestControllerTest {
 
-    @EndpointInject(uri = "mock:getAllApplication")
-    protected MockEndpoint resultEndpoint;
+   RestTemplate restTemplate = new RestTemplate();
 
-    @Produce(uri = "rest:get:applications")
-    protected ProducerTemplate template;
-
-    @Test
+   /* @Test
     public void checkContext() throws InterruptedException {
-        List<Route> routes = context().getRoutes();
         Thread.sleep(3600000L);
+    }*/
+
+    @Test
+    public void getApplicationsTest() {
+        List<Application> list = restTemplate.getForObject("http://localhost:8282/applications",List.class);
+        assertTrue(list.size()==2);
     }
 
-    @DirtiesContext
     @Test
-    public void firstTestForRoute() throws Exception {
-        List<Route> routes = context().getRoutes();
-        resultEndpoint.expectedMessageCount(1);
-        template.sendBody(resultEndpoint, "Hello");
-        resultEndpoint.assertIsSatisfied();
-        //template.sendBody(resultEndpoint,"111");
+    public void getMalfunctionsByIdApplicationTest() {
+        List<Malfunction> list = restTemplate.getForObject("http://localhost:8282/malfunctions?id=2",List.class);
+        assertTrue(list.size()==2);
     }
+
+    @Test
+    public void deleteMalfunction() {
+        restTemplate.delete("http://localhost:8282/malfunction/delete?id=1");
+       // restTemplate.postForObject("http://localhost:8282/malfunction/delete?id=1", null, Integer.class);*/
+        List<Malfunction> list = restTemplate.getForObject("http://localhost:8282/malfunctions?id=1",List.class);
+        assertTrue(list.size()==1);
+    }
+
 }
 /*
     @Autowired
