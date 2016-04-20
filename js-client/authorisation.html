@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Sample javascript client</title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<p>
+<div align="center">
+    <p>
+    Логин: <input id="login" type="text">
+    <p>
+    Пароль: <input id="password" type="password" onkeyup="checkPass()">
+    <div id="check"></div>
+    <p>
+    <button id="authorisation" onclick="checkUser()">Sign up!</button>
+    <button id="registration" onclick="addUser()">Registration</button>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="bootstrap-3.3.5-dist/js/jquery.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="bootstrap-3.3.5-dist/js/bootstrap.js"></script>
+<script src="bootstrap-3.3.5-dist/js/md5.js"></script>
+<script src="bootstrap-3.3.5-dist/js/forAuthorisation.js"></script>
+
+<script>
+    var URL_PREFIX = "http://localhost:8282/";
+    var USER_ADD = URL_PREFIX + 'user/add';
+    var USER_CHECK = URL_PREFIX + 'user/check';
+    var USER_GET_N = URL_PREFIX + 'user/getN';
+    var USER_GET_R = URL_PREFIX + 'user/getR';
+    var USER_GET_NEW_R = URL_PREFIX + 'user/getGenerateR';
+    var USER_GET_NEW_N = URL_PREFIX + 'user/getNewN';
+    var R = 0;
+    var N = 0;
+    var hash = null;
+    function addUser() {
+        hash = null;
+        if (checkLogin() == 0) alert('Поле "Логин" не может быть пустым!');
+        else {
+            regCheck(1);
+            $("#login").val("");
+            $("#password").val("");
+            $("#ss1").remove();
+            $("#ss2").remove();
+        }
+    }
+
+    function regCheck(s) {
+        hash = null;
+        var login = $("#login").val();
+        var pass = $("#password").val();
+    var str1;
+    var str2;
+        var str3;
+        if (s==1) {
+            str1 = USER_GET_NEW_N;
+            str2 = USER_GET_NEW_R;
+        }
+    else {
+            str1 = USER_GET_N + '?login=' + login.toString();
+            str2 = USER_GET_R + '?login=' + login.toString();
+        }
+        $.ajax({
+            type: 'GET',
+            url: str1,
+            success: function (data) {
+                if(data==-1) {
+                    alert("Такого пользователя не существует!")
+                }
+                else {
+                    setN(data);
+                    $.ajax({
+                        type: 'GET',
+                        url: str2,
+                        success: function (data) {
+                            setR(data);
+                            hash = hex_md5(pass + R.toString());
+                            for(var i=0;i<N-1;i++) {
+                                hash = hex_md5(hash);
+                            }
+                            if(s==1) str3 =  USER_ADD + '?login=' + login.toString() + '&hash=' + hash.toString();
+                            else str3 = USER_CHECK + '?login=' + login.toString() + '&hash=' + hash.toString();
+                            $.ajax({
+                                type: 'GET',
+                                url: str3,
+                                success: function (data) {
+                                    if(s==1) {
+                                        if (data == -1) alert('Пользователь с таким логином уже существует! Придумайте другой.');
+                                        else alert('Пользователь успешно добавлен!');
+                                    }
+                                    else {
+                                        if(data=='true') alert("Авторизация прошла успешно");
+                                        else alert("Ошибка авторизации");
+                                    }
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log(jqXHR, textStatus, errorThrown);
+                                    alert('delete: ' + textStatus);
+                                }
+                            });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(jqXHR, textStatus, errorThrown);
+                            alert('delete: ' + textStatus);
+                        }
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown);
+                alert('delete: ' + textStatus);
+            }
+        });
+
+    }
+
+    function setR(r) {
+        R = r;
+    }
+
+    function setN(n) {
+        N = n;
+    }
+
+    function setHash(pass) {
+
+    }
+    function checkUser() {
+        regCheck(2);
+        $("#login").val("");
+        $("#password").val("");
+        $("#ss1").remove();
+        $("#ss2").remove();
+    }
+
+
+    function checkPass() {
+        var err;
+        var pass = $("#password").val();
+        var p = /^[a-zA-Z0-9]+$/;
+        if(pass.length>=8 && pass.length<=20) {
+            err = "<font id=\"ss1\" color='green'>OK.</font>";
+        }
+        else {
+            err = "<font id=\"ss2\" color='red'>Пароль неверной длины. Пароль должен быть не менее 8 и не более 20 символов!</font>";
+        }
+        if (p.test(pass))
+        {
+            err += "";
+        } else {
+            err += "<font color='red'> Введены недопустимые символы! Разрешены только латинские буквы и цифры!</font>";
+        }
+        document.getElementById("check").innerHTML = err;
+    }
+
+    function checkLogin() {
+        var login = $("#login").val();
+        if(login=='' || login==null) return 0;
+        return 1;
+    }
+</script>
+</body>
+</html>

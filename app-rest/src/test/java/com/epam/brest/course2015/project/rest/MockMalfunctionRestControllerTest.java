@@ -2,12 +2,14 @@ package com.epam.brest.course2015.project.rest;
 
 import com.epam.brest.course2015.project.core.Application;
 import com.epam.brest.course2015.project.core.Malfunction;
+import io.swagger.util.Json;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.Route;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit4.CamelTestSupport;
+import org.apache.camel.test.junit4.TestSupport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.annotation.DirtiesContext;
@@ -16,41 +18,54 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
+import sun.org.mozilla.javascript.internal.json.JsonParser;
 
+import java.util.Date;
 import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(value = "classpath*:/camel.xml")
-@Transactional
-public class MockMalfunctionRestControllerTest {
+public class MockMalfunctionRestControllerTest extends CamelTestSupport {
 
    RestTemplate restTemplate = new RestTemplate();
 
-   /* @Test
+    @Test
     public void checkContext() throws InterruptedException {
         Thread.sleep(3600000L);
-    }*/
+    }
 
+    @DirtiesContext
     @Test
     public void getApplicationsTest() {
         List<Application> list = restTemplate.getForObject("http://localhost:8282/applications",List.class);
-        assertTrue(list.size()==2);
+        assertTrue(list.size() == 2);
     }
 
+    @DirtiesContext
     @Test
     public void getMalfunctionsByIdApplicationTest() {
         List<Malfunction> list = restTemplate.getForObject("http://localhost:8282/malfunctions?id=2",List.class);
         assertTrue(list.size()==2);
     }
 
+    @DirtiesContext
     @Test
     public void deleteMalfunction() {
         restTemplate.delete("http://localhost:8282/malfunction/delete?id=1");
        // restTemplate.postForObject("http://localhost:8282/malfunction/delete?id=1", null, Integer.class);*/
         List<Malfunction> list = restTemplate.getForObject("http://localhost:8282/malfunctions?id=1",List.class);
         assertTrue(list.size()==1);
+    }
+
+    @DirtiesContext
+    @Test
+    public void addApplication() {
+        Application application = new Application(3,new Date(), new Date());
+        int id = restTemplate.postForObject("http://localhost:8282/application", application,Integer.class);
+        List<Application> list = restTemplate.getForObject("http://localhost:8282/applications",List.class);
+        assertTrue(list.size() == 2);
     }
 
 }

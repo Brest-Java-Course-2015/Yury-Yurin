@@ -16,7 +16,7 @@ getAllApplications();
 function deleteMalfunction(malfunctionId,applicationId) {
     console.log('deleteMalfunctionById');
     $.ajax({
-        type: 'DELETE',
+        type: 'GET',
         url: MALFUNCTION_DELETE + '?id=' + malfunctionId,
         success: function() {
             alert('Malfunction successfully deleted!');

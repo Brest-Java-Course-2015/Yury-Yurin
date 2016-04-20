@@ -11,23 +11,14 @@
     <!-- Bootstrap -->
     <link href="bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<h1>Список неисправностей</h1>
-<div align="center">
-    <input id="dateSetFrom" type="date">
-    <input id="dateSetTo" type="date">
-    <button id="btnSortDate" onclick="getAllApplications()">Set</button>
-    <button id="btnClear" onclick="clearDate()">Clear</button>
-    </div>
-<div id="addApp" align="right">
-    <button id="btnAddApp" onclick="drawFormFOrNewMalfunction(null)">Add application</button>
-</div>
+<h1>Список пользователей</h1>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Номер заявки</th>
-            <th>Дата создания</th>
-            <th>Дата обновления</th>
+            <th>Логин</th>
+            <th>Хэш</th>
+            <th>Соль</th>
         </tr>
         </thead>
         <tbody id="applicationList">
@@ -35,20 +26,14 @@
     </table>
 </div>
 
-<div align="center">
-<table>
-    <tbody id="addMalfunction">
-    </tbody>
-</table>
-</div>
-<hr />
-
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="bootstrap-3.3.5-dist/js/jquery.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="bootstrap-3.3.5-dist/js/bootstrap.js"></script>
+<script src="bootstrap-3.3.5-dist/js/md5.js"></script>
+<script src="bootstrap-3.3.5-dist/js/forAuthorisation.js"></script>
 
-<script src="bootstrap-3.3.5-dist/js/forUser.js"></script>
-
+<script>
+</script>
 </body>
 </html>

@@ -5,12 +5,14 @@ import com.epam.brest.course2015.project.dao.ApplicationDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
+@Transactional
 @Service(value = "applicationService")
 public class ApplicationServiceImpl implements ApplicationService {
 
@@ -56,9 +58,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<Application> getAllApplicationsByDate(Date minDate, Date maxDate) {
-        LOGGER.info("getAllApplicationsBydate from: " + minDate.toString() + " To: " + maxDate.toString());
-        return applicationDao.getApplicationsBySetDate(minDate,maxDate);
+    public List<Application> getAllApplicationsByDate(String minDate, String maxDate) {
+        LOGGER.info("getAllApplicationsBydate from: " + minDate + " To: " + maxDate);
+        return applicationDao.getApplicationsBySetDate(getDate(minDate),getDate(maxDate));
     }
 
     private static Date getDate(String date) {

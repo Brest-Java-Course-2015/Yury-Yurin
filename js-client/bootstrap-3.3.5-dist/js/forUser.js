@@ -5,9 +5,9 @@ var MALFUNCTIONS_URL = URL_PREFIX + "malfunctions";
 var MALFUNCTION_DELETE = URL_PREFIX + "malfunction/delete/";
 var MALFUNCTION_ADD = URL_PREFIX + "malfunction";
 var MALFUNCTION_UPDATE = URL_PREFIX + "malfunction/update";
-var APPLICATION_UPDATE = URL_PREFIX + "application/update/";
+var APPLICATION_UPDATE = URL_PREFIX + "application/update";
 var APPLICATION_DELETE = URL_PREFIX + "application/delete/";
-var APPLICATION_ADD = URL_PREFIX + "application";
+var APPLICATION_ADD = URL_PREFIX + "app/new";
 var APPLICATIONS_BY_DATE = URL_PREFIX + "applications/byDate";
 var MALFUNCTION_COST = URL_PREFIX + "malfunction/getCostsMalfunctions";
 var APPLICATION_COST = URL_PREFIX + "malfunction/getCostsApplications"
@@ -22,8 +22,8 @@ getAllApplications();
 function deleteMalfunction(malfunctionId,applicationId) {
     console.log('deleteMalfunctionById');
     $.ajax({
-        type: 'DELETE',
-        url: MALFUNCTION_DELETE + malfunctionId,
+        type: 'GET',
+        url: MALFUNCTION_DELETE + '?id=' + malfunctionId.toString(),
         success: function(data) {
             alert('Malfunction succesfully deleted!');
             updateApplication(applicationId);
@@ -99,7 +99,7 @@ function getAllMalfunctionsByApplicationId(dataApp, id) {
     function deleteApplication(applicationId) {
     console.log('deleteApplication');
     $.ajax({
-        type: 'DELETE',
+        type: 'GET',
         url: APPLICATION_DELETE + applicationId,
         success: function() {
           alert("List of malfunction by id=" + applicationId + " is empty, application deleted!")
@@ -243,7 +243,6 @@ function addMalfunction(applicationId) {
         type: 'POST',
         contentType: 'application/json',
         url: MALFUNCTION_ADD,
-        dataType: "json",
         data: addMalfunctionFormToJSON(applicationId),
         success: function () {
             alert("Malfunction add success!");
@@ -276,8 +275,7 @@ function updateApplication(applicationId) {
     var time = Date.now();
     console.log('updateApplication');
     $.ajax({
-        type: 'PUT',
-        contentType: 'application/json',
+        type: 'POST',
         url: APPLICATION_UPDATE + '?id=' + applicationId.toString() + '&time=' + time ,
         success: function () {
             alert("Application update success!");

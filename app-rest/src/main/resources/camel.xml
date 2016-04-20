@@ -38,6 +38,7 @@
         <jdbc:script location="classpath*:create-table-applications.sql"/>
         <jdbc:script location="classpath*:create-table-mailfunctions.sql"/>
         <jdbc:script location="classpath*:data-script.sql"/>
+        <jdbc:script location="classpath*:users.sql"/>
     </jdbc:initialize-database>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -60,6 +61,13 @@
         <property name="applicationDao" ref="applicationDao"/>
     </bean>
 
+    <bean id="usersDao" class="com.epam.brest.course2015.project.dao.UsersDaoImpl">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <bean id="usersService" class="com.epam.brest.course2015.project.service.UsersServiceImpl">
+        <property name="usersDao" ref="usersDao"/>
+    </bean>
 
     <mvc:cors>
         <mvc:mapping path="/**"/>
